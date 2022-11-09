@@ -7,4 +7,4 @@
 [Trello](https://www.trello.com) - Allows us to post, share, and organize tasks that need doing and issues that need resolving.<br/>
 [LibGDX](https://www.libgdx.com) - It allows us to create something that fits the project specifications.<br/>
 [LibGDX Wiki](https://libgdx.com/wiki/) - Comprehensive documentation on the libGDX API and features
-[UML](https://tallyfy.com/uml-diagram/) - It allows us to visualize how a project is or will be working.
+[UML](https://tallyfy.com/uml-diagram/) - A way to visualize how a project is or will be working.
