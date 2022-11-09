@@ -8,4 +8,4 @@
 [LibGDX](https://www.libgdx.com) - It allows us to create something that fits the project specifications.<br/>
 [LibGDX Wiki](https://libgdx.com/wiki/) - Comprehensive documentation on the libGDX API and features.<br/>
 [UML](https://tallyfy.com/uml-diagram/) - A way to visualize how a project is or will be working.<br/>
-[Software Lifecycles](https://www.roberthalf.co.uk/advice/industry-insights/6-basic-sdlc-methodologies-which-one-best) - They allow us to approach devleopment in an organised way.
+[Development Lifecycles](https://www.roberthalf.co.uk/advice/industry-insights/6-basic-sdlc-methodologies-which-one-best) - They allow us to approach devleopment in an organised way.
