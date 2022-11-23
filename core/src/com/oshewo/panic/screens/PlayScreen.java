@@ -80,18 +80,25 @@ public class PlayScreen implements Screen {
 
 
     public void handleInput(float dt){
+        float x = 0;
+        float y = 0;
         if(Gdx.input.isKeyPressed(32)){
-            player.b2body.applyLinearImpulse(new Vector2(4f,0),player.b2body.getWorldCenter(),true);
+            //player.b2body.applyLinearImpulse(new Vector2(4f,0),player.b2body.getWorldCenter(),true);
+            x += 200f;
         }
         if(Gdx.input.isKeyPressed(29)){
-            player.b2body.applyLinearImpulse(new Vector2(-4f,0),player.b2body.getWorldCenter(),true);
+            //player.b2body.applyLinearImpulse(new Vector2(-4f,0),player.b2body.getWorldCenter(),true);
+            x -= 200f;
         }
         if(Gdx.input.isKeyPressed(47)){
-            player.b2body.applyLinearImpulse(new Vector2(0,-4f),player.b2body.getWorldCenter(),true);
+            y -= 200f;
+            //player.b2body.applyLinearImpulse(new Vector2(0,-4f),player.b2body.getWorldCenter(),true);
         }
         if(Gdx.input.isKeyPressed(51)){
-            player.b2body.applyLinearImpulse(new Vector2(0,4f),player.b2body.getWorldCenter(),true);
+            y += 200f;
+            //player.b2body.applyLinearImpulse(new Vector2(0,4f),player.b2body.getWorldCenter(),true);
         }
+        player.b2body.setLinearVelocity(new Vector2(x,y));
     }
 
     public void update(float dt){
