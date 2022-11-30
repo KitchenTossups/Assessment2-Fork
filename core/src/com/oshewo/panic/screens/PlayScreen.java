@@ -1,10 +1,10 @@
 package com.oshewo.panic.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -29,7 +29,9 @@ public class PlayScreen implements Screen {
     private OrthoCachedTiledMapRenderer renderer;
     private World world;
     private Box2DDebugRenderer b2dr;
-    private Chef player;
+    private Chef activePlayer;
+    private Chef player0;
+    private Chef player1;
 
 
 
@@ -44,7 +46,9 @@ public class PlayScreen implements Screen {
         gameCam.position.set(gamePort.getWorldWidth()/2,gamePort.getWorldHeight()/2,0);
         world = new World(new Vector2(0,0),true);
         b2dr = new Box2DDebugRenderer();
-        player = new Chef(world);
+        player0 = new Chef(world, 0);
+        player1 = new Chef(world, 1);
+        activePlayer = player0;
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -82,23 +86,29 @@ public class PlayScreen implements Screen {
     public void handleInput(float dt){
         float x = 0;
         float y = 0;
-        if(Gdx.input.isKeyPressed(32)){
-            //player.b2body.applyLinearImpulse(new Vector2(4f,0),player.b2body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.D)){
             x += 200f;
         }
-        if(Gdx.input.isKeyPressed(29)){
-            //player.b2body.applyLinearImpulse(new Vector2(-4f,0),player.b2body.getWorldCenter(),true);
+        if(Gdx.input.isKeyPressed(Input.Keys.A)){
             x -= 200f;
         }
-        if(Gdx.input.isKeyPressed(47)){
+        if(Gdx.input.isKeyPressed(Input.Keys.S)){
             y -= 200f;
-            //player.b2body.applyLinearImpulse(new Vector2(0,-4f),player.b2body.getWorldCenter(),true);
         }
-        if(Gdx.input.isKeyPressed(51)){
+        if(Gdx.input.isKeyPressed(Input.Keys.W)){
             y += 200f;
-            //player.b2body.applyLinearImpulse(new Vector2(0,4f),player.b2body.getWorldCenter(),true);
         }
-        player.b2body.setLinearVelocity(new Vector2(x,y));
+        if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
+            if(activePlayer == player0){
+                activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
+                activePlayer = player1;
+            }
+            else{
+                activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
+                activePlayer = player0;
+            }
+        }
+        activePlayer.b2body.setLinearVelocity(new Vector2(x,y));
     }
 
     public void update(float dt){
@@ -106,8 +116,8 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f,6,2);
 
-        gameCam.position.x = player.b2body.getPosition().x;
-        gameCam.position.y = player.b2body.getPosition().y;
+        gameCam.position.x = activePlayer.b2body.getPosition().x;
+        gameCam.position.y = activePlayer.b2body.getPosition().y;
 
         gameCam.update();
         renderer.setView(gameCam);

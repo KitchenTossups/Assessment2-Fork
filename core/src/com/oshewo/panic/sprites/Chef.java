@@ -7,14 +7,14 @@ public class Chef extends Sprite {
     public World world;
     public Body b2body;
 
-    public Chef(World world){
+    public Chef(World world, int id){
         this.world = world;
-        defineChef();
+        defineChef(id);
     }
 
-    public void defineChef(){
+    public void defineChef(int id){
         BodyDef bdef = new BodyDef();
-        bdef.position.set(32,32);
+        bdef.position.set(32*(id+1),32*(id+1));
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
