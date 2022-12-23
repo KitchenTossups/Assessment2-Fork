@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -18,6 +19,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.scenes.Hud;
 import com.oshewo.panic.sprites.Chef;
+import com.oshewo.panic.tools.B2WolrdCreator;
 
 public class PlayScreen implements Screen {
     private  PiazzaPanic game;
@@ -32,10 +34,13 @@ public class PlayScreen implements Screen {
     private Chef activePlayer;
     private Chef player0;
     private Chef player1;
+    private TextureAtlas atlas;
 
 
 
     public PlayScreen(PiazzaPanic game){
+        atlas = new TextureAtlas("sprites.txt");
+
         this.game = game;
         hud = new Hud(game.batch);
         gameCam = new OrthographicCamera();
@@ -46,44 +51,23 @@ public class PlayScreen implements Screen {
         gameCam.position.set(gamePort.getWorldWidth()/2,gamePort.getWorldHeight()/2,0);
         world = new World(new Vector2(0,0),true);
         b2dr = new Box2DDebugRenderer();
-        player0 = new Chef(world, 0);
-        player1 = new Chef(world, 1);
+
+        new B2WolrdCreator(world,map);
+
+        player0 = new Chef(world, 0,this);
+        player1 = new Chef(world, 1,this);
         activePlayer = player0;
 
-        BodyDef bdef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
-        Body body;
 
-        for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+    }
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rectangle.getWidth()/2,rectangle.getHeight()/2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
-
-        for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rectangle.getWidth()/2,rectangle.getHeight()/2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
-        }
+    public TextureAtlas getAtlas(){
+        return atlas;
     }
 
 
     public void handleInput(float dt){
+        // Cancel momentum then handle new inputs
         float x = 0;
         float y = 0;
         if(Gdx.input.isKeyPressed(Input.Keys.D)){
@@ -99,6 +83,7 @@ public class PlayScreen implements Screen {
             y += 200f;
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
+            // stop old chef then switch control of chef to the other
             if(activePlayer == player0){
                 activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
                 activePlayer = player1;
@@ -108,6 +93,7 @@ public class PlayScreen implements Screen {
                 activePlayer = player0;
             }
         }
+        // apply moves from all input keys
         activePlayer.b2body.setLinearVelocity(new Vector2(x,y));
     }
 
@@ -119,6 +105,8 @@ public class PlayScreen implements Screen {
         gameCam.position.x = activePlayer.b2body.getPosition().x;
         gameCam.position.y = activePlayer.b2body.getPosition().y;
 
+        player0.update(dt);
+        player1.update(dt);
         gameCam.update();
         renderer.setView(gameCam);
     }
@@ -141,6 +129,12 @@ public class PlayScreen implements Screen {
         renderer.render();
 
         b2dr.render(world,gameCam.combined);
+
+        game.batch.setProjectionMatrix(gameCam.combined);
+        game.batch.begin();
+        player0.draw(game.batch);
+        player1.draw(game.batch);
+        game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         hud.stage.draw();
@@ -169,6 +163,11 @@ public class PlayScreen implements Screen {
 
     @Override
     public void dispose() {
+        map.dispose();
+        renderer.dispose();
+        world.dispose();
+        b2dr.dispose();
+        hud.dispose();
 
     }
 }
