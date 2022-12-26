@@ -105,8 +105,11 @@ public class PlayScreen implements Screen {
         gameCam.position.x = activePlayer.b2body.getPosition().x;
         gameCam.position.y = activePlayer.b2body.getPosition().y;
 
+        System.out.print(player0.b2body.getPosition().y-player1.b2body.getPosition().y);
+
         player0.update(dt);
         player1.update(dt);
+
         gameCam.update();
         renderer.setView(gameCam);
     }
@@ -132,8 +135,17 @@ public class PlayScreen implements Screen {
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
-        player0.draw(game.batch);
-        player1.draw(game.batch);
+
+        // ensures the chef in front is drawn over the other
+        if(player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
+            player0.draw(game.batch);
+            player1.draw(game.batch);
+        }
+        else{
+            player1.draw(game.batch);
+            player0.draw(game.batch);
+        }
+
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
