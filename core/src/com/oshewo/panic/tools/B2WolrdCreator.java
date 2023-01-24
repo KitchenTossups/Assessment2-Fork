@@ -15,7 +15,9 @@ public class B2WolrdCreator {
         FixtureDef fdef = new FixtureDef();
         Body body;
 
-       for(MapObject object : map.getLayers().get(2).getObjects().getByType(RectangleMapObject.class)){
+        // object collision detector
+        // walls
+       for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
@@ -28,7 +30,35 @@ public class B2WolrdCreator {
             body.createFixture(fdef);
         }
 
-        for(MapObject object : map.getLayers().get(3).getObjects().getByType(RectangleMapObject.class)){
+       // stoves
+        for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rectangle.getWidth()/2,rectangle.getHeight()/2);
+            fdef.shape = shape;
+            body.createFixture(fdef);
+        }
+
+        // counters
+        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+
+            bdef.type = BodyDef.BodyType.StaticBody;
+            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
+
+            body = world.createBody(bdef);
+
+            shape.setAsBox(rectangle.getWidth()/2,rectangle.getHeight()/2);
+            fdef.shape = shape;
+            body.createFixture(fdef);
+        }
+
+        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
             new Station(world, map, rectangle);
         }
