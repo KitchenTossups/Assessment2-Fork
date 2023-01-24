@@ -13,6 +13,8 @@ public class Chef extends Sprite {
     public Body b2body;
     private TextureRegion chefStand;
 
+    public boolean isHolding = false;
+
     public Chef(World world, int id, PlayScreen screen){
         super(screen.getAtlas().findRegion("chef0"));
         this.world = world;
@@ -39,4 +41,5 @@ public class Chef extends Sprite {
         fdef.shape = shape;
         b2body.createFixture(fdef);
     }
+
 }

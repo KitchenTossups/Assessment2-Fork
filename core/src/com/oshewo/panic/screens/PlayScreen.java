@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.scenes.Hud;
 import com.oshewo.panic.sprites.Chef;
+import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.tools.B2WolrdCreator;
 
 public class PlayScreen implements Screen {
@@ -31,10 +33,11 @@ public class PlayScreen implements Screen {
     private OrthoCachedTiledMapRenderer renderer;
     private World world;
     private Box2DDebugRenderer b2dr;
-    private Chef activePlayer;
+    public static Chef activePlayer;
     private Chef player0;
     private Chef player1;
     private TextureAtlas atlas;
+    private Food testFood;
 
 
 
@@ -56,6 +59,8 @@ public class PlayScreen implements Screen {
 
         player0 = new Chef(world, 0,this);
         player1 = new Chef(world, 1,this);
+
+        testFood = new Food(new Texture("lettuce.png"), 0);
         activePlayer = player0;
 
 
@@ -67,6 +72,9 @@ public class PlayScreen implements Screen {
 
 
     public void handleInput(float dt){
+
+        // * * * * M O V E M E N T * * * * //
+
         // Cancel momentum then handle new inputs
         float x = 0;
         float y = 0;
@@ -82,6 +90,7 @@ public class PlayScreen implements Screen {
         if(Gdx.input.isKeyPressed(Input.Keys.W)){
             y += 200f;
         }
+
         if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
             // stop old chef then switch control of chef to the other
             if(activePlayer == player0){
@@ -93,6 +102,7 @@ public class PlayScreen implements Screen {
                 activePlayer = player0;
             }
         }
+
         // apply moves from all input keys
         activePlayer.b2body.setLinearVelocity(new Vector2(x,y));
     }
@@ -105,10 +115,9 @@ public class PlayScreen implements Screen {
         gameCam.position.x = activePlayer.b2body.getPosition().x;
         gameCam.position.y = activePlayer.b2body.getPosition().y;
 
-        System.out.print(player0.b2body.getPosition().y-player1.b2body.getPosition().y);
-
         player0.update(dt);
         player1.update(dt);
+        testFood.update(dt);
 
         gameCam.update();
         renderer.setView(gameCam);
@@ -145,7 +154,7 @@ public class PlayScreen implements Screen {
             player1.draw(game.batch);
             player0.draw(game.batch);
         }
-
+        testFood.draw(game.batch);
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
