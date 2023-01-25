@@ -1,19 +1,11 @@
 package com.oshewo.panic.sprites;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
+;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.oshewo.panic.interfaces.IInteractable;
-import com.oshewo.panic.screens.PlayScreen;
 
-import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 
 public class Food extends Sprite implements IInteractable {
     private int id;
@@ -21,27 +13,34 @@ public class Food extends Sprite implements IInteractable {
     private boolean grillable;
     private boolean followingChef = false;
     private Chef chefToFollow;
+    public static Array<Food> foodArray;
 
-    public Food(Texture texture, int id, boolean choppable, boolean grillable){
+
+
+    public Food(Texture texture, int id, boolean choppable, boolean grillable, Array<Food> foodArray){
         super(texture);
         this.id = id;
         this.choppable = choppable;
         this.grillable = grillable;
+        foodArray.add(this);
+    }
+    public Food(Texture texture, int id, boolean choppable, boolean grillable){
+        this(texture, id, choppable, grillable, foodArray);
     }
 
-    public Food(Texture texture, int id){
-        this(texture, id, false, false);
+    public Food(Texture texture, int id){ this(texture, id, false, false, foodArray);
     }
+
 
     public void update(float dt) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            this.onUse(activePlayer);
-        }
-
         if (followingChef){
             this.setX(chefToFollow.getX()+chefToFollow.getWidth()/4);
             this.setY(chefToFollow.getY());
         }
+    }
+
+    public Vector2 getPosition(){
+        return(new Vector2(this.getX(),this.getY()));
     }
 
 

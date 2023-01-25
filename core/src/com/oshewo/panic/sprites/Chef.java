@@ -1,12 +1,13 @@
 package com.oshewo.panic.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.oshewo.panic.screens.PlayScreen;
+
+import static com.oshewo.panic.screens.PlayScreen.activePlayer;
+import static com.oshewo.panic.sprites.Food.foodArray;
 
 public class Chef extends Sprite {
     public World world;
@@ -41,5 +42,29 @@ public class Chef extends Sprite {
         fdef.shape = shape;
         b2body.createFixture(fdef);
     }
+
+    public Food nearestFood(float distance){
+        Food nearestFood = null;
+        float nearestDistance = Float.MAX_VALUE;
+        for (Food food : foodArray){
+            float currentDistance = this.getPosition().dst(food.getPosition());
+            if( currentDistance <= distance && currentDistance < nearestDistance){
+                nearestDistance = currentDistance;
+                nearestFood = food;
+            }
+        }
+        return nearestFood;
+    }
+
+
+    public Food nearestFood(){
+        return this.nearestFood(32);
+    }
+
+    public Vector2 getPosition(){
+        return new Vector2(this.getX(),this.getY());
+    }
+
+
 
 }
