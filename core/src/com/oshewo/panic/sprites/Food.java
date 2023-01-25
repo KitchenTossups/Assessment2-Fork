@@ -10,10 +10,11 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 import com.oshewo.panic.interfaces.IInteractable;
 import com.oshewo.panic.screens.PlayScreen;
+import com.oshewo.panic.tools.InputHandler;
 
 import java.util.HashSet;
 import java.util.Set;
-
+import static com.oshewo.panic.tools.InputHandler.lastMove;
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 
 public class Food extends Sprite implements IInteractable {
@@ -51,15 +52,33 @@ public class Food extends Sprite implements IInteractable {
 
     @Override
     public void onUse(Chef chefInUse) {
+        float offsetX;
+        float offsetY;
+
+        // put down
         if(followingChef && chefToFollow == chefInUse){
             chefInUse.isHolding = false;
             followingChef = false;
-            this.setX(chefToFollow.getX()+chefToFollow.getWidth()/4);
-            this.setY(chefToFollow.getY()-10);
+            if(lastMove== Input.Keys.S){
+                offsetX = chefToFollow.getWidth()/4;
+                offsetY = -10;
+            } else if (lastMove == Input.Keys.W) {
+                offsetX = chefToFollow.getWidth()/4;
+                offsetY = 10+chefToFollow.getHeight()/2;
+            } else if (lastMove == Input.Keys.A){
+                offsetX = -10;
+                offsetY = 2;
+            } else{
+                offsetX = 10+chefToFollow.getWidth()/2;
+                offsetY = 2;
+            }
+            this.setX(chefToFollow.getX()+offsetX);
+            this.setY(chefToFollow.getY()+offsetY);
             chefToFollow = null;
         }
+        // pickup
         else{
-            if(chefInUse.isHolding == false && chefToFollow == null) {
+            if(chefInUse.isHolding == false && chefToFollow == null && this != null) {
                 chefToFollow = chefInUse;
                 chefInUse.isHolding = true;
                 followingChef = true;

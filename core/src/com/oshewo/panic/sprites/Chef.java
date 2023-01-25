@@ -59,7 +59,7 @@ public class Chef extends Sprite {
 
 
     public Food nearestFood(){
-        return this.nearestFood(32);
+        return this.nearestFood(Float.MAX_VALUE);
     }
 
     public Vector2 getPosition(){

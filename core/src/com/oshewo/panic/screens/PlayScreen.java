@@ -24,6 +24,7 @@ import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.tools.B2WolrdCreator;
 import com.oshewo.panic.tools.InputHandler;
+import static com.oshewo.panic.sprites.Food.foodArray;
 
 public class PlayScreen implements Screen {
     private  PiazzaPanic game;
@@ -39,7 +40,6 @@ public class PlayScreen implements Screen {
     private static Chef player0;
     private static Chef player1;
     private TextureAtlas atlas;
-    private Food testFood;
 
 
 
@@ -61,8 +61,6 @@ public class PlayScreen implements Screen {
 
         player0 = new Chef(world, 0,this);
         player1 = new Chef(world, 1,this);
-
-        testFood = new Food(new Texture("lettuce.png"), 0);
         activePlayer = player0;
 
 
@@ -96,7 +94,9 @@ public class PlayScreen implements Screen {
 
         player0.update(dt);
         player1.update(dt);
-        testFood.update(dt);
+        for(Food food : foodArray){
+            food.update(dt);
+        }
 
         gameCam.update();
         renderer.setView(gameCam);
@@ -133,7 +133,9 @@ public class PlayScreen implements Screen {
             player1.draw(game.batch);
             player0.draw(game.batch);
         }
-        testFood.draw(game.batch);
+        for (Food food : foodArray ) {
+            food.draw(game.batch);
+        }
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
