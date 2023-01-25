@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="14" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="22" nextobjectid="33">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="14" height="10" tilewidth="32" tileheight="32" infinite="0" nextlayerid="22" nextobjectid="40">
  <tileset firstgid="1" source="Room.tsx"/>
  <tileset firstgid="392" source="piazza_assets.tsx"/>
- <tileset firstgid="492" source="piazza_assets.tsx"/>
- <tileset firstgid="592" source="piazza_assets.tsx"/>
- <tileset firstgid="692" source="piazza_assets.tsx"/>
  <layer id="6" name="Ground" width="14" height="10" locked="1">
   <data encoding="csv">
 0,396,396,396,395,395,395,395,395,395,395,395,395,0,
@@ -14,7 +11,7 @@
 0,396,396,396,395,395,395,395,395,395,395,395,395,0,
 0,396,396,396,395,395,395,395,395,395,395,395,395,0,
 0,396,396,396,395,395,395,395,395,395,395,395,395,0,
-0,396,396,396,395,395,395,395,395,395,395,395,395,0,
+0,396,396,396,396,396,396,396,396,396,396,396,396,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -36,13 +33,13 @@
  <layer id="8" name="Counters" width="14" height="10" locked="1">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,492,393,493,493,498,393,393,393,394,0,
-0,0,0,0,502,503,503,503,508,503,503,503,404,0,
-0,0,0,0,512,0,0,0,518,0,0,0,514,0,
-0,0,0,0,512,0,0,0,0,0,0,0,514,0,
-0,0,0,0,512,0,0,0,518,0,0,0,514,0,
-0,0,0,0,512,0,0,0,718,0,0,0,514,0,
-0,0,0,0,722,723,723,723,723,723,723,723,724,0,
+0,0,0,0,392,393,393,393,398,393,393,393,394,0,
+0,0,0,0,402,403,403,403,408,403,403,403,404,0,
+0,0,0,0,412,0,0,0,418,0,0,0,414,0,
+0,0,0,0,412,0,0,0,419,0,0,0,414,0,
+0,0,0,0,412,0,0,0,409,0,0,0,414,0,
+0,0,0,0,412,0,0,0,418,0,0,0,414,0,
+0,0,0,0,422,423,423,423,423,423,423,423,424,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -50,60 +47,53 @@
  <layer id="10" name="Cooking Objects" width="14" height="10" locked="1" offsetx="0" offsety="1.33333">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,734,0,735,0,735,0,735,0,0,
-0,0,0,0,0,744,0,745,0,745,0,745,0,0,
-0,0,0,0,0,0,0,0,752,0,0,0,752,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,752,0,0,0,752,0,
-0,0,0,0,0,753,754,756,0,755,0,0,0,0,
-0,0,0,0,0,763,764,766,0,765,0,767,0,0,
-0,0,0,0,0,0,0,0,776,0,0,0,0,0,
+0,0,0,0,0,434,0,435,0,435,0,435,0,0,
+0,0,0,0,3221225888,444,0,445,0,445,0,445,0,0,
+0,0,0,0,3221225888,0,0,0,452,0,0,0,452,0,
+0,0,0,0,3221225888,0,0,0,0,0,0,0,0,0,
+0,0,0,0,3221225888,0,0,0,452,0,0,0,452,0,
+0,0,0,0,3221225888,453,454,456,0,455,0,0,0,0,
+0,0,0,0,0,463,464,466,0,465,0,467,0,0,
+0,0,0,0,0,0,0,0,476,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
  <objectgroup id="11" name="walls">
-  <object id="5" name="walls" x="19.3333" y="0.666667" width="409.333" height="40.6667"/>
-  <object id="6" name="walls" x="20" y="64.3333" width="10" height="201.333"/>
-  <object id="7" name="walls" x="30.6667" y="256" width="386.667" height="10.6667"/>
-  <object id="8" name="walls" x="419" y="64.6668" width="10" height="201.333"/>
-  <object id="15" name="walls" x="19.3333" y="41.3333" width="111.333" height="22.6667"/>
+  <object id="33" x="128" y="40" width="288" height="24"/>
+  <object id="34" x="128" y="64" width="25" height="161"/>
+  <object id="35" x="128" y="224" width="288" height="32"/>
+  <object id="37" x="390.5" y="64" width="25.5" height="165"/>
+  <object id="38" x="261.5" y="64.5" width="21" height="73"/>
+  <object id="39" x="261.5" y="160.5" width="20" height="64.5"/>
  </objectgroup>
- <objectgroup id="12" name="stoves">
+ <objectgroup id="12" name="stoves" visible="0">
   <object id="9" name="stoves" x="168" y="39.6667" width="17" height="28.3333"/>
   <object id="11" name="stoves" x="231.833" y="40.8333" width="17" height="28.3333"/>
   <object id="12" name="stoves" x="295.5" y="39.8334" width="17" height="28.3333"/>
   <object id="13" name="stoves" x="359.5" y="40.1667" width="17" height="28.3333"/>
  </objectgroup>
- <objectgroup id="14" name="counters">
-  <object id="26" name="counters" x="132" y="42.5" width="21" height="212.5"/>
-  <object id="28" name="counters" x="261.5" y="162.75" width="21" height="57"/>
-  <object id="29" name="counters" x="391.5" y="42.25" width="21" height="212.5"/>
-  <object id="30" name="counters" x="131.5" y="42.5" width="280.5" height="26"/>
-  <object id="31" name="counters" x="200.25" y="219.75" width="280.5" height="33.5"/>
-  <object id="32" name="counters" x="262" y="69" width="21" height="58.5"/>
- </objectgroup>
- <objectgroup id="15" name="chopping_board">
-  <object id="21" name="chopping_board" x="265.333" y="166.333" width="16" height="23.3333"/>
+ <objectgroup id="15" name="chopping_board" visible="0">
+  <object id="21" name="chopping_board" x="265.333" y="166.208" width="16" height="23.4583"/>
   <object id="22" name="chopping_board" x="265.333" y="102.333" width="16" height="23.3333"/>
   <object id="23" name="chopping_board" x="392.667" y="101.667" width="16" height="23.3333"/>
   <object id="24" name="chopping_board" x="392.667" y="166" width="16" height="23.3333"/>
  </objectgroup>
- <objectgroup id="21" name="serving_station">
+ <objectgroup id="21" name="serving_station" visible="0">
   <object id="25" name="serving_station" x="131" y="67" width="19.5" height="156"/>
  </objectgroup>
- <objectgroup id="16" name="tomato">
+ <objectgroup id="16" name="tomato" visible="0">
   <object id="20" name="tomato" x="175.667" y="229.667"/>
  </objectgroup>
- <objectgroup id="17" name="lettuce">
+ <objectgroup id="17" name="lettuce" visible="0">
   <object id="19" name="lettuce" x="207.667" y="231.667"/>
  </objectgroup>
- <objectgroup id="18" name="onion">
+ <objectgroup id="18" name="onion" visible="0">
   <object id="18" name="onion" x="239" y="230.667"/>
  </objectgroup>
- <objectgroup id="19" name="buns">
+ <objectgroup id="19" name="buns" visible="0">
   <object id="17" name="buns" x="303.667" y="230"/>
  </objectgroup>
- <objectgroup id="20" name="patty">
+ <objectgroup id="20" name="patty" visible="0">
   <object id="16" name="patty" x="368" y="233.667"/>
  </objectgroup>
 </map>
