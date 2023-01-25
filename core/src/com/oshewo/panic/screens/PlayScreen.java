@@ -49,7 +49,7 @@ public class PlayScreen implements Screen {
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(PiazzaPanic.V_WIDTH,PiazzaPanic.V_HEIGHT, gameCam);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("piazza.tmx");
+        map = mapLoader.load("piazza2.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
         gameCam.position.set(gamePort.getWorldWidth()/2,gamePort.getWorldHeight()/2,0);
         world = new World(new Vector2(0,0),true);
