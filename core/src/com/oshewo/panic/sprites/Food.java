@@ -6,12 +6,13 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.FixtureDef;
-import com.badlogic.gdx.physics.box2d.PolygonShape;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.utils.Array;
 import com.oshewo.panic.interfaces.IInteractable;
 import com.oshewo.panic.screens.PlayScreen;
+
+import java.util.HashSet;
+import java.util.Set;
 
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 
@@ -22,11 +23,14 @@ public class Food extends Sprite implements IInteractable {
     private boolean followingChef = false;
     private Chef chefToFollow;
 
+    public static Set<Food> foodArray = new HashSet<>();
+
     public Food(Texture texture, int id, boolean choppable, boolean grillable){
         super(texture);
         this.id = id;
         this.choppable = choppable;
         this.grillable = grillable;
+        foodArray.add(this);
     }
 
     public Food(Texture texture, int id){
@@ -34,14 +38,14 @@ public class Food extends Sprite implements IInteractable {
     }
 
     public void update(float dt) {
-        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            this.onUse(activePlayer);
-        }
-
         if (followingChef){
             this.setX(chefToFollow.getX()+chefToFollow.getWidth()/4);
             this.setY(chefToFollow.getY());
         }
+    }
+
+    public Vector2 getPosition(){
+        return new Vector2(this.getX(),this.getY());
     }
 
 

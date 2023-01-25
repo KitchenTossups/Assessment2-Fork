@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
@@ -22,6 +23,7 @@ import com.oshewo.panic.scenes.Hud;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.tools.B2WolrdCreator;
+import com.oshewo.panic.tools.InputHandler;
 
 public class PlayScreen implements Screen {
     private  PiazzaPanic game;
@@ -34,8 +36,8 @@ public class PlayScreen implements Screen {
     private World world;
     private Box2DDebugRenderer b2dr;
     public static Chef activePlayer;
-    private Chef player0;
-    private Chef player1;
+    private static Chef player0;
+    private static Chef player1;
     private TextureAtlas atlas;
     private Food testFood;
 
@@ -70,45 +72,22 @@ public class PlayScreen implements Screen {
         return atlas;
     }
 
-
-    public void handleInput(float dt){
-
-        // * * * * M O V E M E N T * * * * //
-
-        // Cancel momentum then handle new inputs
-        float x = 0;
-        float y = 0;
-        if(Gdx.input.isKeyPressed(Input.Keys.D)){
-            x += 200f;
+    public static void swapChef(){
+        if(activePlayer == player0){
+            activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
+            activePlayer = player1;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.A)){
-            x -= 200f;
+        else{
+            activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
+            activePlayer = player0;
         }
-        if(Gdx.input.isKeyPressed(Input.Keys.S)){
-            y -= 200f;
-        }
-        if(Gdx.input.isKeyPressed(Input.Keys.W)){
-            y += 200f;
-        }
-
-        if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
-            // stop old chef then switch control of chef to the other
-            if(activePlayer == player0){
-                activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
-                activePlayer = player1;
-            }
-            else{
-                activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
-                activePlayer = player0;
-            }
-        }
-
-        // apply moves from all input keys
-        activePlayer.b2body.setLinearVelocity(new Vector2(x,y));
     }
 
+
+
+
     public void update(float dt){
-        handleInput(dt);
+        InputHandler.handleInput(dt);
 
         world.step(1/60f,6,2);
 
