@@ -1,12 +1,13 @@
 package com.oshewo.panic.sprites;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.oshewo.panic.screens.PlayScreen;
 
-import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 import static com.oshewo.panic.sprites.Food.foodArray;
 
 public class Chef extends Sprite {
@@ -64,6 +65,8 @@ public class Chef extends Sprite {
     public Vector2 getPosition(){
         return new Vector2(this.getX(),this.getY());
     }
+
+
 
 
 

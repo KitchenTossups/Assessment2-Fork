@@ -3,16 +3,23 @@ package com.oshewo.panic.tools;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
-import com.oshewo.panic.screens.PlayScreen;
 
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
+import static com.oshewo.panic.screens.PlayScreen.swapChef;
 
 public class InputHandler {
+
     public static void handleInput(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             activePlayer.nearestFood().onUse(activePlayer);
         }
 
+        handleMovement(dt);
+
+
+    }
+
+    public static void handleMovement(float dt){
 
         // * * * * M O V E M E N T * * * * //
 
@@ -33,11 +40,11 @@ public class InputHandler {
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
-            // stop old chef then switch control of chef to the other
-            PlayScreen.swapChef();
+            swapChef();
         }
 
         // apply moves from all input keys
         activePlayer.b2body.setLinearVelocity(new Vector2(x,y));
     }
+
 }

@@ -15,6 +15,7 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
@@ -71,11 +72,6 @@ public class PlayScreen implements Screen {
         return atlas;
     }
 
-
-    public void handleInput(float dt){
-
-    }
-
     public static void swapChef(){
         if(activePlayer == player0){
             activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
@@ -87,8 +83,10 @@ public class PlayScreen implements Screen {
         }
     }
 
+
+
+
     public void update(float dt){
-        handleInput(dt);
         InputHandler.handleInput(dt);
 
         world.step(1/60f,6,2);
