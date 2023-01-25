@@ -25,6 +25,7 @@ import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.tools.B2WolrdCreator;
 import com.oshewo.panic.tools.InputHandler;
 import static com.oshewo.panic.sprites.Food.foodArray;
+import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
 
 public class PlayScreen implements Screen {
     private  PiazzaPanic game;
@@ -49,13 +50,14 @@ public class PlayScreen implements Screen {
         this.game = game;
         hud = new Hud(game.batch);
         gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(PiazzaPanic.V_WIDTH,PiazzaPanic.V_HEIGHT, gameCam);
+        gamePort = new FitViewport(PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM, gameCam);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("piazza2.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
-        gameCam.position.set(gamePort.getWorldWidth()/2,gamePort.getWorldHeight()/2,0);
+        gameCam.position.set(gamePort.getWorldWidth()/(4*V_ZOOM),gamePort.getWorldHeight()/(2.2f*V_ZOOM),0);
         world = new World(new Vector2(0,0),true);
         b2dr = new Box2DDebugRenderer();
+
 
         new B2WolrdCreator(world,map);
 
@@ -89,8 +91,6 @@ public class PlayScreen implements Screen {
 
         world.step(1/60f,6,2);
 
-        gameCam.position.x = activePlayer.b2body.getPosition().x;
-        gameCam.position.y = activePlayer.b2body.getPosition().y;
 
         player0.update(dt);
         player1.update(dt);
@@ -98,7 +98,7 @@ public class PlayScreen implements Screen {
             food.update(dt);
         }
 
-        gameCam.update();
+
         renderer.setView(gameCam);
     }
 
@@ -119,7 +119,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        b2dr.render(world,gameCam.combined);
+        //b2dr.render(world,gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
