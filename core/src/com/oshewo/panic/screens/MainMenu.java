@@ -20,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.oshewo.panic.PiazzaPanic;
 
 import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
@@ -44,7 +45,7 @@ public class MainMenu implements Screen {
     public SpriteBatch batch;
 
     private static final int buttonWidth = 125;
-    private static final int buttonHeight = 100;
+    private static final int buttonHeight = 50;
 
     public MainMenu (final PiazzaPanic game) {
         this.game = game;
@@ -64,7 +65,7 @@ public class MainMenu implements Screen {
     @Override
     public void show() {
         // set stage for actors
-        stage = new Stage();
+        stage = new Stage(viewport);
 
         // set background
         background = new Texture(Gdx.files.internal("piazza_panic_main_menu_bckgrnd.png"));
@@ -75,8 +76,8 @@ public class MainMenu implements Screen {
 
         // create table
         table = new Table(skin);
-        table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/2);
-        table.setBounds(0,0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight()/2);
+        table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        table.setBounds(-40,-140, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(table);
 
         // create Play button
@@ -88,7 +89,7 @@ public class MainMenu implements Screen {
         button.down = skin.getDrawable("play_button_active");
 
         buttonPlay = new TextButton("", button);
-        table.add(buttonPlay).pad(10).center().width(buttonWidth).height(buttonHeight);
+        table.add(buttonPlay).center().size(buttonWidth,buttonHeight).pad(10);
         table.row();
 
         // button event handler for Play button
@@ -110,11 +111,10 @@ public class MainMenu implements Screen {
         button2.down = skin.getDrawable("exit_button_active");
 
         buttonExit = new TextButton("", button2);
-        table.add(buttonExit).pad(10).center().width(buttonWidth).height(buttonHeight);
+        table.add(buttonExit).center().size(buttonWidth,buttonHeight).pad(10);
 
         // button event handler for Exit button
         // exit when button clicked
-        Gdx.input.setInputProcessor(stage);
 
         buttonExit.addListener(new ClickListener() {
             @Override
@@ -130,17 +130,16 @@ public class MainMenu implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         stage.getBatch().begin();
-        stage.getBatch().draw(background, -100, 0,PiazzaPanic.V_WIDTH,PiazzaPanic.V_HEIGHT);
+        stage.getBatch().draw(background, 0, 0, PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM);
         stage.getBatch().end();
 
-        stage.act(Gdx.graphics.getDeltaTime());
+        stage.act(delta);
         stage.draw();
     }
 
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
-        viewport.update(width, height);
     }
 
     @Override
