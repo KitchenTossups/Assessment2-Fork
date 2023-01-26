@@ -14,7 +14,10 @@ public class InputHandler {
 
     public static void handleInput(float dt){
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            activePlayer.nearestFood(32).onUse(activePlayer);
+            if (activePlayer.nearestFood(32) == null) {
+            } else {
+                activePlayer.nearestFood(32).onUse(activePlayer);
+            }
         }
 
         handleMovement(dt);
