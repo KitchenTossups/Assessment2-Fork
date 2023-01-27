@@ -24,11 +24,13 @@ public class CountdownTimer {
             if (TimeUtils.timeSinceMillis(startTime) >= (seconds * 1000)) {
                 isCounting = false;
             }
-        }else{isComplete();}
+        }else{
+            timerArray.remove(this);
+            isComplete();
+        }
     }
 
     public boolean isComplete(){
-        timerArray.remove(this);
         return !isCounting;
     }
 }
