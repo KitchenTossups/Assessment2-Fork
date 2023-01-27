@@ -7,8 +7,15 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.oshewo.panic.sprites.Station;
 
-public class B2WolrdCreator {
-    public B2WolrdCreator(World world, TiledMap map){
+import java.util.HashSet;
+import java.util.Set;
+
+public class WolrdCreator {
+    public static Set<Station> stoveArray = new HashSet<>();
+    public static Set<Station> boardArray = new HashSet<>();
+    public static Set<Station> servingArray = new HashSet<>();
+
+    public WolrdCreator(World world, TiledMap map){
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -31,36 +38,30 @@ public class B2WolrdCreator {
         }
 
        // stoves
+        int id = 0;
         for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+            stoveArray.add(new Station("stove",id,rectangle));
+            id++;
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rectangle.getWidth()/2,rectangle.getHeight()/2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
         }
 
-        // counters
+        // chopping counter
+        id = 0;
         for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
-
-            body = world.createBody(bdef);
-
-            shape.setAsBox(rectangle.getWidth()/2,rectangle.getHeight()/2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+            boardArray.add(new Station("board",id,rectangle));
+            id++;
         }
 
-        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
+        // Service Station
+        id = 0;
+        for(MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            new Station(world, map, rectangle);
+            servingArray.add(new Station("service",id,rectangle));
+            id++;
         }
+
+        //
     }
 }

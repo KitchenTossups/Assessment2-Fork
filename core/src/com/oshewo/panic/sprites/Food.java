@@ -21,7 +21,7 @@ public class Food extends Sprite implements IInteractable {
     private int id;
     private boolean choppable;
     private boolean grillable;
-    private boolean followingChef = false;
+    public boolean followingChef = false;
     private Chef chefToFollow;
 
     public static Set<Food> foodArray = new HashSet<>();
@@ -64,12 +64,12 @@ public class Food extends Sprite implements IInteractable {
                 offsetY = -10;
             } else if (lastMove == Input.Keys.W) {
                 offsetX = chefToFollow.getWidth()/4;
-                offsetY = 10+chefToFollow.getHeight()/2;
+                offsetY = chefToFollow.getHeight();
             } else if (lastMove == Input.Keys.A){
                 offsetX = -10;
                 offsetY = 2;
             } else{
-                offsetX = 10+chefToFollow.getWidth()/2;
+                offsetX = chefToFollow.getWidth();
                 offsetY = 2;
             }
             this.setX(chefToFollow.getX()+offsetX);
@@ -78,11 +78,14 @@ public class Food extends Sprite implements IInteractable {
         }
         // pickup
         else{
-            if(chefInUse.isHolding == false && chefToFollow == null && this != null) {
+            if(!chefInUse.isHolding && chefToFollow == null ) {
                 chefToFollow = chefInUse;
                 chefInUse.isHolding = true;
                 followingChef = true;
             }
         }
+    }
+    public int getId(){
+        return id;
     }
 }

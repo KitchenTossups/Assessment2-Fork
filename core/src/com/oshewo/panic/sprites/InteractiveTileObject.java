@@ -8,7 +8,7 @@ import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 
-public abstract class InteractiveTileObject {
+public abstract class  InteractiveTileObject {
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;

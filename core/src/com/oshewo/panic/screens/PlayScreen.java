@@ -1,31 +1,29 @@
 package com.oshewo.panic.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
-import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.scenes.Hud;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
-import com.oshewo.panic.tools.B2WolrdCreator;
+import com.oshewo.panic.sprites.Station;
+import com.oshewo.panic.tools.CountdownTimer;
+import com.oshewo.panic.tools.WolrdCreator;
 import com.oshewo.panic.tools.InputHandler;
 import static com.oshewo.panic.sprites.Food.foodArray;
 import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
+import static com.oshewo.panic.tools.CountdownTimer.timerArray;
+import static com.oshewo.panic.tools.WolrdCreator.*;
 
 public class PlayScreen implements Screen {
     private  PiazzaPanic game;
@@ -59,7 +57,7 @@ public class PlayScreen implements Screen {
         b2dr = new Box2DDebugRenderer();
 
 
-        new B2WolrdCreator(world,map);
+        new WolrdCreator(world,map);
 
         player0 = new Chef(world, 0,this);
         player1 = new Chef(world, 1,this);
@@ -94,9 +92,24 @@ public class PlayScreen implements Screen {
 
         player0.update(dt);
         player1.update(dt);
+
+        for(CountdownTimer timer : timerArray){
+            timer.update();
+        }
         for(Food food : foodArray){
             food.update(dt);
         }
+        for(Station stove : stoveArray){
+            stove.update();
+        }
+        for(Station board : boardArray){
+            board.update();
+        }
+        for(Station servery : servingArray){
+            servery.update();
+        }
+
+
 
 
         renderer.setView(gameCam);
@@ -119,7 +132,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        //b2dr.render(world,gameCam.combined);
+        b2dr.render(world,gameCam.combined);
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();
