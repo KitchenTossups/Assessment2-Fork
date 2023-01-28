@@ -13,6 +13,7 @@ public class InputHandler {
     public static int lastMove;
 
     public static void handleInput(float dt){
+        // pickup item
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
             if (activePlayer.nearestFood(32) == null) {
             } else {
@@ -47,7 +48,7 @@ public class InputHandler {
             y += 200f;
             lastMove = Input.Keys.W;
         }
-
+        // swap Chefs
         if(Gdx.input.isKeyJustPressed(Input.Keys.TAB)){
             swapChef();
         }
@@ -57,6 +58,7 @@ public class InputHandler {
     }
 
     public static void debugControls(){
+        // spawn lettuce
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
             Food gen = new Food(new Texture("lettuce.png"), 0);
             gen.setX(activePlayer.getX());

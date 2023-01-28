@@ -4,16 +4,27 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
+
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
+
+import com.oshewo.panic.Order;
+import com.oshewo.panic.OrderSystem;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.scenes.Hud;
+import com.oshewo.panic.scenes.OrderHud;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.sprites.Station;
@@ -30,6 +41,7 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
+    private OrderHud orderHud;
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthoCachedTiledMapRenderer renderer;
@@ -39,14 +51,22 @@ public class PlayScreen implements Screen {
     private static Chef player0;
     private static Chef player1;
     private TextureAtlas atlas;
-
-
+    private OrderSystem orderSystem;
+    private Order currentOrder;
+    private BitmapFont font;
+    private SpriteBatch batch;
+    private Timer timer;
 
     public PlayScreen(PiazzaPanic game){
         atlas = new TextureAtlas("sprites.txt");
 
         this.game = game;
+
+        // HUD
         hud = new Hud(game.batch);
+        orderHud = new OrderHud(game.batch);
+
+        // game setup
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM, gameCam);
         mapLoader = new TmxMapLoader();
@@ -63,6 +83,10 @@ public class PlayScreen implements Screen {
         player1 = new Chef(world, 1,this);
         activePlayer = player0;
 
+        // order
+        orderSystem = new OrderSystem();
+        font = new BitmapFont();
+        batch = new SpriteBatch();
 
     }
 
@@ -109,15 +133,39 @@ public class PlayScreen implements Screen {
             servery.update();
         }
 
-
-
+        currentOrder = orderSystem.generateOrder();
 
         renderer.setView(gameCam);
     }
 
     @Override
     public void show() {
+        timer = new Timer();
+        final Label recipeLabel = orderHud.getRecipeLabel();
+        final Label ingredient1Label = orderHud.getIngredient1Label();
+        final Label ingredient2Label = orderHud.getIngredient2Label();
+        final Label ingredient3Label = orderHud.getIngredient3Label();
 
+        timer.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                recipeLabel.setText(currentOrder.getRecipeType().toString());;
+
+                switch (currentOrder.getRecipeType()) {
+                    case "Burger":
+                        ingredient1Label.setText("bun");
+                        ingredient2Label.setText("patty");
+                        ingredient3Label.setText("bun");
+                        break;
+                    case "Salad":
+                        ingredient1Label.setText("lettuce");
+                        ingredient2Label.setText("tomato");
+                        ingredient3Label.setText("onion");
+                        break;
+                }
+            }
+        }, 0);
     }
 
     @Override
@@ -149,10 +197,13 @@ public class PlayScreen implements Screen {
         for (Food food : foodArray ) {
             food.draw(game.batch);
         }
+
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+        game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
         hud.stage.draw();
+        orderHud.stage.draw();
 
     }
 
@@ -183,6 +234,7 @@ public class PlayScreen implements Screen {
         world.dispose();
         b2dr.dispose();
         hud.dispose();
+        orderHud.dispose();
 
     }
 }

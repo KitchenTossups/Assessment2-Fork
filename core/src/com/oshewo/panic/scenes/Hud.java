@@ -1,12 +1,12 @@
 package com.oshewo.panic.scenes;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -20,7 +20,6 @@ public class Hud implements Disposable
     private int worldTimer;
     private float timeCount;
     private int score;
-
 
     // HUD labels will be split into static labels and dynamic labels that will be combined into the hud in a way such as STATIC : DYNAMIC or Time: (S) 12 (D)
     // Static labels (e.g. "Time:")
@@ -38,18 +37,19 @@ public class Hud implements Disposable
         viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_WIDTH, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
+        // score and time HUD
         Table table = new Table();
         table.top();
         table.setFillParent(true);
 
-        countdownLabel = new Label(String.format("%02d", worldTimer), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        pointsLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
-        scoreLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(), Color.YELLOW));
+        countdownLabel = new Label(String.format("%02d", worldTimer), new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
+        pointsLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
+        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
+        scoreLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
 
         table.add(scoreLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
-        table.row();
+        table.row().pad(10);
         table.add(pointsLabel).expandX();
         table.add(countdownLabel).expandX();
 

@@ -1,7 +1,6 @@
 package com.oshewo.panic.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -10,24 +9,20 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Event;
-import com.badlogic.gdx.scenes.scene2d.EventListener;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
-import com.badlogic.gdx.utils.Scaling;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.oshewo.panic.PiazzaPanic;
 
 import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
 
 public class MainMenu implements Screen {
 
-    PiazzaPanic game;
+    private PiazzaPanic game;
     private OrthographicCamera camera;
     private FitViewport viewport;
 
@@ -37,12 +32,9 @@ public class MainMenu implements Screen {
     private Skin skin;
     private Table table;
 
-    private TextureRegion myTextureRegion;
-    private TextureRegionDrawable myTexRegionDrawable;
     private TextButton buttonPlay, buttonExit;
     private Texture background;
     private BitmapFont font;
-    public SpriteBatch batch;
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;
@@ -76,8 +68,7 @@ public class MainMenu implements Screen {
 
         // create table
         table = new Table(skin);
-        table.setSize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        table.setBounds(-40,-140, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        table.setBounds(-30,-150, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(table);
 
         // create Play button
