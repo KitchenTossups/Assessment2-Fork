@@ -11,13 +11,15 @@ import static com.oshewo.panic.screens.PlayScreen.swapChef;
 
 public class InputHandler {
     public static int lastMove;
+    private static int pickupRadius = 48;
 
     public static void handleInput(float dt){
+        Food nearestFood = activePlayer.nearestFood(pickupRadius);
         // pickup item
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            if (activePlayer.nearestFood(32) == null) {
+            if (nearestFood == null) {
             } else {
-                activePlayer.nearestFood(32).onUse(activePlayer);
+                nearestFood.onUse(activePlayer);
             }
         }
 
