@@ -7,11 +7,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.ui.List;
 import com.badlogic.gdx.utils.Array;
 import com.oshewo.panic.interfaces.IInteractable;
 import com.oshewo.panic.screens.PlayScreen;
 import com.oshewo.panic.tools.InputHandler;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 import static com.oshewo.panic.tools.InputHandler.lastMove;
@@ -24,7 +26,7 @@ public class Food extends Sprite implements IInteractable {
     public boolean followingChef = false;
     private Chef chefToFollow;
 
-    public static Set<Food> foodArray = new HashSet<>();
+    public static ArrayList<Food> foodArray = new ArrayList<Food>();
 
     public Food(Texture texture, int id, boolean choppable, boolean grillable){
         super(texture);

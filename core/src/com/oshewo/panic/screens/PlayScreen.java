@@ -5,6 +5,7 @@ import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
@@ -20,20 +21,23 @@ import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import com.oshewo.panic.Order;
-import com.oshewo.panic.OrderSystem;
+import com.oshewo.panic.tools.Order;
+import com.oshewo.panic.tools.OrderSystem;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.scenes.Hud;
 import com.oshewo.panic.scenes.OrderHud;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.sprites.Station;
-import com.oshewo.panic.tools.CountdownTimer;
+import com.oshewo.panic.sprites.CountdownTimer;
 import com.oshewo.panic.tools.WolrdCreator;
 import com.oshewo.panic.tools.InputHandler;
+
+import java.util.ArrayList;
+
 import static com.oshewo.panic.sprites.Food.foodArray;
 import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
-import static com.oshewo.panic.tools.CountdownTimer.timerArray;
+import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
 import static com.oshewo.panic.tools.WolrdCreator.*;
 
 public class PlayScreen implements Screen {
@@ -54,7 +58,7 @@ public class PlayScreen implements Screen {
     private OrderSystem orderSystem;
     private Order currentOrder;
     private BitmapFont font;
-    private SpriteBatch batch;
+    public static SpriteBatch batch;
     private Timer timer;
 
     public PlayScreen(PiazzaPanic game){
@@ -117,7 +121,7 @@ public class PlayScreen implements Screen {
         player0.update(dt);
         player1.update(dt);
 
-        for(CountdownTimer timer : timerArray){
+        for(CountdownTimer timer : new ArrayList<>(timerArray)){
             timer.update();
         }
         for(Food food : foodArray){
@@ -198,6 +202,11 @@ public class PlayScreen implements Screen {
             food.draw(game.batch);
         }
 
+        for (CountdownTimer timer : timerArray){
+            game.batch.draw(new Texture("progressGrey.png"),timer.getX(),timer.getY(),18,4);
+            game.batch.draw(timer.getTexture(),timer.getX()+1,timer.getY()+1,16*timer.getProgressPercent(),2);
+        }
+
         game.batch.end();
 
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
@@ -206,6 +215,7 @@ public class PlayScreen implements Screen {
         orderHud.stage.draw();
 
     }
+
 
     @Override
     public void resize(int width, int height) {

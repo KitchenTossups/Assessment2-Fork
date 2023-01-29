@@ -1,4 +1,4 @@
-package com.oshewo.panic;
+package com.oshewo.panic.tools;
 
 import com.badlogic.gdx.math.RandomXS128;
 
@@ -17,10 +17,10 @@ public class OrderSystem {
         recipes = new HashMap<String, List<String>>();
 
         // burger
-        recipes.put("Burger", Arrays.asList("bun", "beef", "bun"));
+        recipes.put("Burger", Arrays.asList("bun, toasted", "beef, formed then fried"));
 
         // salad
-        recipes.put("Salad", Arrays.asList("lettuce", "tomato", "onion"));
+        recipes.put("Salad", Arrays.asList("lettuce, chopped", "tomato, chopped", "onion, chopped"));
         orderId = 1;
     }
 

@@ -6,6 +6,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.oshewo.panic.sprites.Station;
+import com.oshewo.panic.stations.Servery;
+
 
 import java.util.HashSet;
 import java.util.Set;
@@ -58,7 +60,7 @@ public class WolrdCreator {
         id = 0;
         for(MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
             Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            servingArray.add(new Station("service",id,rectangle));
+            servingArray.add(new Servery("service",id,rectangle));
             id++;
         }
 
