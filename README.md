@@ -1,4 +1,4 @@
-# Team: TBD
+# Team: Magic 8-Balls
 ![image](https://user-images.githubusercontent.com/92224583/200810536-b08c1932-3714-4c3c-8159-fcbf0cf66da7.png)
 
 ## Resources
