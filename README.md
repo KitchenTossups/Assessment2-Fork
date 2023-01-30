@@ -4,15 +4,15 @@
 ## Resources
 Here you can have an access to the resources, diagrams and planning snaphots!
 
-[CRC Cards - Entity-Component System] https://github.com/sl3416/ENG1-Group-8/wiki/CRC--Entity-Component
+[CRC Cards - Entity-Component System](https://github.com/sl3416/ENG1-Group-8/wiki/CRC--Entity-Component)
 
-[CRC Cards - Class Diagram] https://github.com/sl3416/ENG1-Group-8/wiki/CRC-Cards--Class-Diagram
+[CRC Cards - Class Diagram](https://github.com/sl3416/ENG1-Group-8/wiki/CRC-Cards--Class-Diagram)
 
-[ Interim Architectural Diagrams] https://github.com/sl3416/ENG1-Group-8/wiki/Interim-Versions-of-Arcitecture-Diagrams-(Class)
+[ Interim Architectural Diagrams](https://github.com/sl3416/ENG1-Group-8/wiki/Interim-Versions-of-Arcitecture-Diagrams-(Class))
 
-[Entity Component Diagram] https://github.com/sl3416/ENG1-Group-8/wiki/The-ECS-Diagram
+[Entity Component Diagram](https://github.com/sl3416/ENG1-Group-8/wiki/The-ECS-Diagram)
 
-[Weekly Snapshots of the Plan] https://github.com/sl3416/ENG1-Group-8/wiki/Weekly-Snapshots
+[Weekly Snapshots of the Plan](https://github.com/sl3416/ENG1-Group-8/wiki/Weekly-Snapshots)
 
 
 All of them can be also found on the [Wiki](https://github.com/sl3416/ENG1-Group-8/wiki)!
