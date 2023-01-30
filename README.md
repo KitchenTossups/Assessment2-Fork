@@ -18,6 +18,13 @@ Here you can have an access to the resources, diagrams and planning snaphots!
 All of them can be also found on the [Wiki](https://github.com/sl3416/ENG1-Group-8/wiki)!
 
 
+## Report
+[Arch1](https://docs.google.com/document/d/1M5Yc-ynWV8Ukr0fjD9w3T7CTatjXMj0c-6p1O0sKkSQ/edit?usp=share_link)
+[Impl1](https://docs.google.com/document/d/1jW1BKm_5LOsY1s1j56_DcH_8T7j3AppgKQkAKZSlx34/edit?usp=share_link)
+[Plan1](https://docs.google.com/document/d/16l5FANKZ8jkmoPDqqGsnmnXT41itee0pT8Tf41NRDzg/edit?usp=share_link)
+[Req1](https://docs.google.com/document/d/1v9SeU0xybvgMnu_iAfMkNvVOgKTXml8ctnm7z2AHQfY/edit?usp=share_link)
+[Risk1](https://docs.google.com/document/d/1TrysNWfQHdmad1fb4CCPhGj1Rx8RXBj1aNFfJbQ04xI/edit?usp=share_link)
+
 ## Online Treasure Hunt:
 [Github](https://www.github.com) - Gives us the ability to easily collaborate on the project itself, with easy version control and division of roles.<br/>
 [Trello](https://www.trello.com) - Allows us to post, share, and organize tasks that need doing and issues that need resolving.<br/>
