@@ -2,7 +2,21 @@
 ![image](https://user-images.githubusercontent.com/92224583/200810536-b08c1932-3714-4c3c-8159-fcbf0cf66da7.png)
 
 ## Resources
-Find all our resources on the [Wiki](https://github.com/sl3416/ENG1-Group-8/wiki)!
+Here you can have an access to the resources, diagrams and planning snaphots!
+
+[CRC Cards - Entity-Component System] https://github.com/sl3416/ENG1-Group-8/wiki/CRC--Entity-Component
+
+[CRC Cards - Class Diagram] https://github.com/sl3416/ENG1-Group-8/wiki/CRC-Cards--Class-Diagram
+
+[ Interim Architectural Diagrams] https://github.com/sl3416/ENG1-Group-8/wiki/Interim-Versions-of-Arcitecture-Diagrams-(Class)
+
+[Entity Component Diagram] https://github.com/sl3416/ENG1-Group-8/wiki/The-ECS-Diagram
+
+[Weekly Snapshots of the Plan] https://github.com/sl3416/ENG1-Group-8/wiki/Weekly-Snapshots
+
+
+All of them can be also found on the [Wiki](https://github.com/sl3416/ENG1-Group-8/wiki)!
+
 
 ## Online Treasure Hunt:
 [Github](https://www.github.com) - Gives us the ability to easily collaborate on the project itself, with easy version control and division of roles.<br/>
