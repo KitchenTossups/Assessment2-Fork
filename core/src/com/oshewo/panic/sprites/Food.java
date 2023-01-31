@@ -1,21 +1,14 @@
 package com.oshewo.panic.sprites;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.utils.Array;
 import com.oshewo.panic.interfaces.IInteractable;
-import com.oshewo.panic.screens.PlayScreen;
-import com.oshewo.panic.tools.InputHandler;
+
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import static com.oshewo.panic.tools.InputHandler.lastMove;
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 

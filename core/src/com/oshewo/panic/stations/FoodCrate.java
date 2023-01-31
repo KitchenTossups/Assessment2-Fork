@@ -4,16 +4,11 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.oshewo.panic.interfaces.IInteractable;
 import com.oshewo.panic.sprites.Chef;
-import com.oshewo.panic.sprites.CountdownTimer;
 import com.oshewo.panic.sprites.Food;
-import com.oshewo.panic.sprites.Station;
-import org.w3c.dom.css.Rect;
 
-import java.util.ArrayList;
 
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
-import static com.oshewo.panic.screens.PlayScreen.currentOrder;
-import static com.oshewo.panic.sprites.Food.foodArray;
+
 
 public class FoodCrate implements IInteractable {
     private Rectangle bounds;

@@ -2,11 +2,9 @@ package com.oshewo.panic.tools;
 
 import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.oshewo.panic.scenes.OrderHud;
 
 import java.util.*;
 
-import static com.badlogic.gdx.math.MathUtils.random;
 import static com.oshewo.panic.screens.PlayScreen.currentOrder;
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
 

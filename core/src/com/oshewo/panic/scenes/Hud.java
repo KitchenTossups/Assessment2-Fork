@@ -13,8 +13,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
 
-import static com.oshewo.panic.screens.PlayScreen.ordersCompleted;
-
 public class Hud implements Disposable
 {
     public Stage stage;
