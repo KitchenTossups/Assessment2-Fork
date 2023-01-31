@@ -10,6 +10,8 @@ Here you can have an access to the resources, diagrams and planning snaphots!
 
 [Interim Architectural Diagrams](https://github.com/sl3416/ENG1-Group-8/wiki/Interim-Versions-of-Arcitecture-Diagrams-(Class))
 
+[Use Case Diagram](https://github.com/sl3416/ENG1-Group-8/wiki/Use-Case-Diagram)
+
 [Entity Component Diagram](https://github.com/sl3416/ENG1-Group-8/wiki/The-ECS-Diagram)
 
 [Weekly Snapshots of the Plan](https://github.com/sl3416/ENG1-Group-8/wiki/Weekly-Snapshots)
@@ -32,11 +34,4 @@ Here you can have an access to the resources, diagrams and planning snaphots!
 
 
 
-## Online Treasure Hunt:
-[Github](https://www.github.com) - Gives us the ability to easily collaborate on the project itself, with easy version control and division of roles.<br/>
-[Trello](https://www.trello.com) - Allows us to post, share, and organize tasks that need doing and issues that need resolving.<br/>
-[LibGDX](https://www.libgdx.com) - It allows us to create something that fits the project specifications.<br/>
-[IntelliJ IDEA](https://www.jetbrains.com/idea/) - A well designed IDE for Java allowing easy integration of Github, making it easy to contribute in a streamlined manner.<br/>
-[UML](https://tallyfy.com/uml-diagram/) - A way to visualize how a project is or will be working.<br/>
-[Development Lifecycles](https://www.roberthalf.co.uk/advice/industry-insights/6-basic-sdlc-methodologies-which-one-best) - They allow us to approach devleopment in an organised way.
 
