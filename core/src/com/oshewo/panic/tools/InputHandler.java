@@ -29,7 +29,7 @@ public class InputHandler {
         }
 
         handleMovement(dt);
-        debugControls();
+        //debugControls();
     }
 
     public static void handleMovement(float dt){
