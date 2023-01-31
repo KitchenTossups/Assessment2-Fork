@@ -26,6 +26,7 @@ Here you can have an access to the resources, diagrams and planning snaphots!
 
 [Impl1 Link](https://docs.google.com/document/d/1jW1BKm_5LOsY1s1j56_DcH_8T7j3AppgKQkAKZSlx34/edit?usp=share_link)
 - [jar](https://github.com/sl3416/ENG1-Group-8/releases/download/Implementation/ENG1-Group-8.jar)
+- [Impl1.pdf](https://github.com/sl3416/ENG1-Group-8/files/10551713/Impl1.pdf)
 
 
 
