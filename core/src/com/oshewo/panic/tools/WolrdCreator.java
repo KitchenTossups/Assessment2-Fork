@@ -6,6 +6,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.oshewo.panic.sprites.Station;
+import com.oshewo.panic.stations.FoodCrate;
 import com.oshewo.panic.stations.Servery;
 
 
@@ -16,6 +17,7 @@ public class WolrdCreator {
     public static Set<Station> stoveArray = new HashSet<>();
     public static Set<Station> boardArray = new HashSet<>();
     public static Set<Station> servingArray = new HashSet<>();
+    public static Set<FoodCrate> crateArray = new HashSet<>();
 
     public WolrdCreator(World world, TiledMap map){
 
@@ -64,6 +66,12 @@ public class WolrdCreator {
             id++;
         }
 
-        //
+        // Food Boxes
+        for(int i = 1; i<=5; i++){
+            for(MapObject object : map.getLayers().get(i+7).getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+                crateArray.add(new FoodCrate(rectangle, i));
+            }
+        }
     }
 }

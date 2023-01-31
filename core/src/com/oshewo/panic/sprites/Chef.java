@@ -16,6 +16,7 @@ public class Chef extends Sprite {
     private TextureRegion chefStand;
 
     public boolean isHolding = false;
+    private BodyDef bdef = new BodyDef();
 
     public Chef(World world, int id, PlayScreen screen){
         super(screen.getAtlas().findRegion("chef0"));
@@ -31,8 +32,7 @@ public class Chef extends Sprite {
         setPosition(b2body.getPosition().x-(getWidth()/2),b2body.getPosition().y-(getHeight()/4));
     }
     public void defineChef(int id){
-        BodyDef bdef = new BodyDef();
-        bdef.position.set(32*(id+5),32*(id+5));
+        bdef.position.set(32*(id*5+5)+10,32*5);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -66,7 +66,7 @@ public class Chef extends Sprite {
         return new Vector2(this.getX(),this.getY());
     }
 
-
+    public BodyDef getBDef(){return this.bdef;}
 
 
 

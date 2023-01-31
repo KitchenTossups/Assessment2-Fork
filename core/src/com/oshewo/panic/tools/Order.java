@@ -7,12 +7,17 @@ public class Order {
     private String recipeType;
     public HashMap<String, List<String>> recipes;
     private List<String> ingredients;
-    private int orderId;
+    private int orderId = -1;
     private static int nextId = 1;
 
     public Order(String recipeType) {
         this.recipeType = recipeType;
-        this.orderId = nextId++;
+        if(recipeType.toString() == "Burger"){
+            this.orderId = 450;
+        } else if (recipeType.toString() == "Salad") {
+            this.orderId = 60;
+        }
+
     }
 
     public String getRecipeType() {

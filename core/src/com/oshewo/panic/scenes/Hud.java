@@ -8,9 +8,12 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Disposable;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
+
+import static com.oshewo.panic.screens.PlayScreen.ordersCompleted;
 
 public class Hud implements Disposable
 {
@@ -19,7 +22,9 @@ public class Hud implements Disposable
 
     private int worldTimer;
     private float timeCount;
-    private int score;
+    public static int score;
+    public static long hudStartTime;
+
 
     // HUD labels will be split into static labels and dynamic labels that will be combined into the hud in a way such as STATIC : DYNAMIC or Time: (S) 12 (D)
     // Static labels (e.g. "Time:")
@@ -32,7 +37,8 @@ public class Hud implements Disposable
     public Hud(SpriteBatch sb){
         worldTimer = 0;
         timeCount = 0;
-        score = 0;
+        score = 3;
+        this.hudStartTime = TimeUtils.millis();
 
         viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_WIDTH, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -54,6 +60,13 @@ public class Hud implements Disposable
         table.add(countdownLabel).expandX();
 
         stage.addActor(table);
+    }
+
+    public void update(){
+        worldTimer = (int)TimeUtils.timeSinceMillis(hudStartTime)/1000;
+        countdownLabel.setText(String.format("%03d", worldTimer));
+        pointsLabel.setText(String.format("%03d", score));
+
     }
 
     @Override

@@ -45,7 +45,7 @@ public class PlayScreen implements Screen {
     private OrthographicCamera gameCam;
     private Viewport gamePort;
     private Hud hud;
-    private OrderHud orderHud;
+    public static OrderHud orderHud;
     private TmxMapLoader mapLoader;
     private TiledMap map;
     private OrthoCachedTiledMapRenderer renderer;
@@ -56,10 +56,11 @@ public class PlayScreen implements Screen {
     private static Chef player1;
     private TextureAtlas atlas;
     private OrderSystem orderSystem;
-    private Order currentOrder;
+    public static Order currentOrder;
     private BitmapFont font;
     public static SpriteBatch batch;
-    private Timer timer;
+    public static int ordersCompleted = 0;
+
 
     public PlayScreen(PiazzaPanic game){
         atlas = new TextureAtlas("sprites.txt");
@@ -85,6 +86,7 @@ public class PlayScreen implements Screen {
 
         player0 = new Chef(world, 0,this);
         player1 = new Chef(world, 1,this);
+        player1.getBDef().position.set(160,160);
         activePlayer = player0;
 
         // order
@@ -136,40 +138,19 @@ public class PlayScreen implements Screen {
         for(Station servery : servingArray){
             servery.update();
         }
+        if(currentOrder!=null) {
+            orderSystem.update();
+        } else if(ordersCompleted <= 5){
+            currentOrder = orderSystem.generateOrder();
+        }
 
-        currentOrder = orderSystem.generateOrder();
-
+        hud.update();
         renderer.setView(gameCam);
     }
 
     @Override
     public void show() {
-        timer = new Timer();
-        final Label recipeLabel = orderHud.getRecipeLabel();
-        final Label ingredient1Label = orderHud.getIngredient1Label();
-        final Label ingredient2Label = orderHud.getIngredient2Label();
-        final Label ingredient3Label = orderHud.getIngredient3Label();
 
-        timer.scheduleTask(new Timer.Task() {
-
-            @Override
-            public void run() {
-                recipeLabel.setText(currentOrder.getRecipeType().toString());;
-
-                switch (currentOrder.getRecipeType()) {
-                    case "Burger":
-                        ingredient1Label.setText("bun");
-                        ingredient2Label.setText("patty");
-                        ingredient3Label.setText("bun");
-                        break;
-                    case "Salad":
-                        ingredient1Label.setText("lettuce");
-                        ingredient2Label.setText("tomato");
-                        ingredient3Label.setText("onion");
-                        break;
-                }
-            }
-        }, 0);
     }
 
     @Override
@@ -184,7 +165,7 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
-        b2dr.render(world,gameCam.combined);
+        //b2dr.render(world,gameCam.combined); //uncomment to see hitboxes
 
         game.batch.setProjectionMatrix(gameCam.combined);
         game.batch.begin();

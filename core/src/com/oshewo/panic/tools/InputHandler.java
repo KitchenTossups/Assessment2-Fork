@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.oshewo.panic.sprites.Food;
+import com.oshewo.panic.stations.FoodCrate;
 
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 import static com.oshewo.panic.screens.PlayScreen.swapChef;
+import static com.oshewo.panic.tools.WolrdCreator.crateArray;
 
 public class InputHandler {
     public static int lastMove;
@@ -17,9 +19,12 @@ public class InputHandler {
         Food nearestFood = activePlayer.nearestFood(pickupRadius);
         // pickup item
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)){
-            if (nearestFood == null) {
-            } else {
+            if (nearestFood != null) {
                 nearestFood.onUse(activePlayer);
+            } else {
+                for(FoodCrate crate : crateArray){
+                    crate.onUse(activePlayer);
+                }
             }
         }
 
@@ -62,7 +67,27 @@ public class InputHandler {
     public static void debugControls(){
         // spawn lettuce
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
-            Food gen = new Food(new Texture("lettuce.png"), 0);
+            Food gen = new Food(new Texture("lettuce.png"), 1);
+            gen.setX(activePlayer.getX());
+            gen.setY(activePlayer.getY());
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
+            Food gen = new Food(new Texture("tomato.png"), 2);
+            gen.setX(activePlayer.getX());
+            gen.setY(activePlayer.getY());
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.T)){
+            Food gen = new Food(new Texture("onion.png"), 3);
+            gen.setX(activePlayer.getX());
+            gen.setY(activePlayer.getY());
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.Y)){
+            Food gen = new Food(new Texture("meat.png"), 4);
+            gen.setX(activePlayer.getX());
+            gen.setY(activePlayer.getY());
+        }
+        if(Gdx.input.isKeyJustPressed(Input.Keys.U)){
+            Food gen = new Food(new Texture("bun.png"), 5);
             gen.setX(activePlayer.getX());
             gen.setY(activePlayer.getY());
         }
