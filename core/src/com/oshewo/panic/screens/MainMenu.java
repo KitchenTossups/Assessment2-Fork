@@ -17,25 +17,32 @@ import com.oshewo.panic.PiazzaPanic;
 
 import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
 
+/**
+ * The game starts on the main menu which allows the player to either start playing the game or exit
+ * @author sl3416
+ */
 public class MainMenu implements Screen {
-
-    private PiazzaPanic game;
-    private OrthographicCamera camera;
-    private FitViewport viewport;
-
+    // setup
+    private final PiazzaPanic game;
+    private final OrthographicCamera camera;
+    private final FitViewport viewport;
     private Stage stage;
 
+    // buttons setup
     private TextureAtlas atlas;
     private Skin skin;
     private Table table;
-
     private TextButton buttonPlay, buttonExit;
     private Texture background;
     private BitmapFont font;
-
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;
 
+    /**
+     * Instantiates a new Main menu.
+     *
+     * @param game the game
+     */
     public MainMenu (final PiazzaPanic game) {
         this.game = game;
 
@@ -44,19 +51,17 @@ public class MainMenu implements Screen {
 
     }
 
-    public void handleInput() {
-
-    }
-
-    public void update(float dt) {
-    }
-
+    /**
+     * When the screen switches to the main menu screen, it sets up the background and the start and exit buttons.
+     * The start button brings the player to the PlayScreen screen to play the game
+     * The exit button exits the game
+     */
     @Override
     public void show() {
         // set stage for actors
         stage = new Stage(viewport);
 
-        // set background
+        // set background of main menu screen
         background = new Texture(Gdx.files.internal("piazza_panic_main_menu_bckgrnd.png"));
 
         // import buttons
@@ -90,9 +95,8 @@ public class MainMenu implements Screen {
                 game.setScreen(new PlayScreen(game));
             }
         });
-        // create Exit button
-        font = new BitmapFont();
 
+        // create Exit button
         TextButtonStyle button2 = new TextButtonStyle();
         button2.font = font;
         button2.up = skin.getDrawable("exit_button_inactive");
@@ -102,8 +106,7 @@ public class MainMenu implements Screen {
         table.add(buttonExit).center().size(buttonWidth,buttonHeight).pad(10);
 
         // button event handler for Exit button
-        // exit when button clicked
-
+        // exit game when button clicked
         buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -112,11 +115,17 @@ public class MainMenu implements Screen {
         });
     }
 
+    /**
+     *
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
+        // sets background of game to black and clears screen
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
+        // draws background and stage
         stage.getBatch().begin();
         stage.getBatch().draw(background, 0, 0, PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM);
         stage.getBatch().end();
@@ -125,6 +134,11 @@ public class MainMenu implements Screen {
         stage.draw();
     }
 
+    /**
+     * Resizes stage so it maintains aspect ratio.
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         stage.getViewport().update(width, height, true);
@@ -145,6 +159,9 @@ public class MainMenu implements Screen {
 
     }
 
+    /**
+     * Disposes stage
+     */
     @Override
     public void dispose() {
         stage.dispose();

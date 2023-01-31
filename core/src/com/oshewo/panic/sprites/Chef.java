@@ -8,14 +8,25 @@ import com.oshewo.panic.screens.PlayScreen;
 
 import static com.oshewo.panic.sprites.Food.foodArray;
 
+/**
+ * Creates chef and its actions and interactions with foods
+ *
+ * @author Oshewo
+ */
 public class Chef extends Sprite {
     public World world;
     public Body b2body;
-    private TextureRegion chefStand;
-
+    private final TextureRegion chefStand;
     public boolean isHolding = false;
-    private BodyDef bdef = new BodyDef();
+    private final BodyDef bdef = new BodyDef();
 
+    /**
+     * Instantiates a new Chef.
+     *
+     * @param world  the world
+     * @param id     the id
+     * @param screen the screen
+     */
     public Chef(World world, int id, PlayScreen screen){
         super(screen.getAtlas().findRegion("chef0"));
         this.world = world;
@@ -26,9 +37,20 @@ public class Chef extends Sprite {
     }
 
 
+    /**
+     * Updates position of where the chef is at
+     *
+     * @param dt the dt
+     */
     public void update(float dt){
         setPosition(b2body.getPosition().x-(getWidth()/2),b2body.getPosition().y-(getHeight()/4));
     }
+
+    /**
+     * Sets collisions and hitbox for the chef
+     *
+     * @param id the id
+     */
     public void defineChef(int id){
         bdef.position.set(32*(id*5+5)+10,32*5);
         bdef.type = BodyDef.BodyType.DynamicBody;
@@ -42,6 +64,12 @@ public class Chef extends Sprite {
         b2body.createFixture(fdef);
     }
 
+    /**
+     * Detect whether there is a food nearby and pickup.
+     *
+     * @param distance the distance from the food
+     * @return the food that is nearest
+     */
     public Food nearestFood(float distance){
         Food nearestFood = null;
         float nearestDistance = Float.MAX_VALUE;
@@ -56,14 +84,29 @@ public class Chef extends Sprite {
     }
 
 
+    /**
+     * Nearest food.
+     *
+     * @return the food
+     */
     public Food nearestFood(){
         return this.nearestFood(Float.MAX_VALUE);
     }
 
+    /**
+     * Gets x and y position of chef
+     *
+     * @return 2D vector of x and y position
+     */
     public Vector2 getPosition(){
         return new Vector2(this.getX(),this.getY());
     }
 
+    /**
+     * Gets the body definition of chef
+     *
+     * @return the body def
+     */
     public BodyDef getBDef(){return this.bdef;}
 
 

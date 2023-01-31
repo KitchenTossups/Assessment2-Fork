@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.oshewo.panic.interfaces.IInteractable;
+import com.oshewo.panic.interfaces.Interactable;
 
 
 import java.util.ArrayList;
@@ -12,15 +12,30 @@ import java.util.List;
 import static com.oshewo.panic.tools.InputHandler.lastMove;
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 
-public class Food extends Sprite implements IInteractable {
-    private int id;
+/**
+ * The food class sets the attributes for each ingredient and what preparation can be done to it
+ *
+ * @author Oshewo
+ */
+public class Food extends Sprite implements Interactable {#
+    // ID for the food
+    private final int id;
+
+    // how the foods can be prepped
     private boolean choppable = false;
     private boolean grillable = false;
+
+// what is being held by the chef
+    public static ArrayList<Food> foodArray = new ArrayList<Food>();
     public boolean followingChef = false;
     private Chef chefToFollow;
 
-    public static ArrayList<Food> foodArray = new ArrayList<Food>();
-
+    /**
+     * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
+     *
+     * @param texture the texture for the food
+     * @param id      the id of the food
+     */
     public Food(Texture texture, int id){
         super(texture);
         this.id = id;
@@ -33,6 +48,11 @@ public class Food extends Sprite implements IInteractable {
     }
 
 
+    /**
+     * Updates which foods are being carried by the chef and sets the texture according to the food being carried
+     *
+     * @param dt the dt
+     */
     public void update(float dt) {
         if (followingChef){
             this.setX(chefToFollow.getX()+chefToFollow.getWidth()/4);
@@ -70,6 +90,11 @@ public class Food extends Sprite implements IInteractable {
         }
     }
 
+    /**
+     * Gets x and y position
+     *
+     * @return 2D vector of x and y position
+     */
     public Vector2 getPosition(){
         return new Vector2(this.getX(),this.getY());
     }
@@ -80,7 +105,7 @@ public class Food extends Sprite implements IInteractable {
         float offsetX;
         float offsetY;
 
-        // put down
+        // puts down food according to direction of chef which is what movement key was last pressed
         if(followingChef && chefToFollow == chefInUse){
             chefInUse.isHolding = false;
             followingChef = false;
@@ -101,7 +126,7 @@ public class Food extends Sprite implements IInteractable {
             this.setY(chefToFollow.getY()+offsetY);
             chefToFollow = null;
         }
-        // pickup
+        // pickup food
         else{
             if(!chefInUse.isHolding && chefToFollow == null ) {
                 chefToFollow = chefInUse;
@@ -110,18 +135,39 @@ public class Food extends Sprite implements IInteractable {
             }
         }
     }
+
+    /**
+     * Get id
+     *
+     * @return id
+     */
     public int getId(){
         return id;
     }
 
+    /**
+     * Determines whether food is choppable
+     *
+     * @return choppable boolean
+     */
     public boolean isChoppable(){
         return choppable;
     }
 
+    /**
+     * Determines whether food is grillable.
+     *
+     * @return grillable boolean
+     */
     public boolean isGrillable(){
         return grillable;
     }
 
+    /**
+     * Determines whether food is being carried or not.
+     *
+     * @return boolean of if it is carried
+     */
     public boolean isCarried(){
         return followingChef;
     }

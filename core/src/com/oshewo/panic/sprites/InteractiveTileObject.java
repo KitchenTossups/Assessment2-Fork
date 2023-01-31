@@ -5,7 +5,11 @@ import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
-
+/**
+ * Sets the bodies and interactability of objects
+ *
+ * @author Oshewo
+ */
 public abstract class  InteractiveTileObject {
     protected World world;
     protected TiledMap map;
@@ -18,6 +22,7 @@ public abstract class  InteractiveTileObject {
         this.map = map;
         this.bounds = bounds;
 
+        // object body
         BodyDef bdef = new BodyDef();
         FixtureDef fdef = new FixtureDef();
         PolygonShape shape = new PolygonShape();

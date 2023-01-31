@@ -9,12 +9,23 @@ import com.oshewo.panic.stations.FoodCrate;
 
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 import static com.oshewo.panic.screens.PlayScreen.swapChef;
-import static com.oshewo.panic.tools.WolrdCreator.crateArray;
+import static com.oshewo.panic.tools.WorldCreator.crateArray;
 
+/**
+ * The type Input handler.
+ * Handles user input and what actions need to be taken
+ *
+ * @author Oshewo
+ */
 public class InputHandler {
     public static int lastMove;
-    private static int pickupRadius = 48;
+    private static final int pickupRadius = 48;
 
+    /**
+     * Handle input of picking up food that is nearest
+     *
+     * @param dt the dt
+     */
     public static void handleInput(float dt){
         Food nearestFood = activePlayer.nearestFood(pickupRadius);
         // pickup item
@@ -32,6 +43,11 @@ public class InputHandler {
         //debugControls();
     }
 
+    /**
+     * Handle movement of chefs.
+     *
+     * @param dt the dt
+     */
     public static void handleMovement(float dt){
 
         // * * * * M O V E M E N T * * * * //
@@ -64,6 +80,9 @@ public class InputHandler {
         activePlayer.b2body.setLinearVelocity(new Vector2(x,y));
     }
 
+    /**
+     * Debug controls
+     */
     public static void debugControls(){
         // spawn lettuce
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)){

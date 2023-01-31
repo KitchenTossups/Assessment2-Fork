@@ -8,13 +8,21 @@ import java.util.*;
 import static com.oshewo.panic.screens.PlayScreen.currentOrder;
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
 
+/**
+ * The type Order system.
+ * @author sl3416, Oshewo
+ */
 public class OrderSystem {
-    private RandomXS128 random;
+    private final RandomXS128 random;
     public static HashMap<String, List<String>> recipes;
     public static Queue<Object> orders = new LinkedList<>();
     private final int orderId;
     private com.badlogic.gdx.utils.Timer timer;
 
+    /**
+     * Instantiates a new Order system.
+     * Creates recipes
+     */
     public OrderSystem() {
         random = new RandomXS128();
         recipes = new HashMap<String, List<String>>();
@@ -27,10 +35,20 @@ public class OrderSystem {
         orderId = 1;
     }
 
+    /**
+     * Gets recipes.
+     *
+     * @return the recipes
+     */
     public static HashMap<String, List<String>> getRecipes() {
         return recipes;
     }
 
+    /**
+     * Generate order randomly.
+     *
+     * @return the order
+     */
     public Order generateOrder() {
         Set<String> recipeTypes = recipes.keySet();
         int recipeSize = recipeTypes.size();
@@ -39,6 +57,9 @@ public class OrderSystem {
         return new Order(recipeType);
     }
 
+    /**
+     * Updates order hud
+     */
     public void update(){
         timer = new com.badlogic.gdx.utils.Timer();
         final Label recipeLabel = orderHud.getRecipeLabel();
@@ -51,8 +72,7 @@ public class OrderSystem {
             @Override
             public void run() {
                 if(currentOrder!=null) {
-                    recipeLabel.setText(currentOrder.getRecipeType().toString());
-                    ;
+                    recipeLabel.setText(currentOrder.getRecipeType());
 
                     switch (currentOrder.getRecipeType()) {
                         case "Burger":

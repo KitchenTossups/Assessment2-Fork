@@ -2,7 +2,7 @@ package com.oshewo.panic.stations;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.oshewo.panic.interfaces.IInteractable;
+import com.oshewo.panic.interfaces.Interactable;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
 
@@ -10,13 +10,32 @@ import com.oshewo.panic.sprites.Food;
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 
 
-public class FoodCrate implements IInteractable {
-    private Rectangle bounds;
-    private int foodId;
+/**
+ * The type Food crate.
+ * Crates to get ingredients for the recipes
+ *
+ * @author Oshewo
+ */
+public class FoodCrate implements Interactable {
+    private final Rectangle bounds;
+    private final int foodId;
+
+    /**
+     * Instantiates a new Food crate.
+     *
+     * @param bounds the bounds
+     * @param foodId the food id
+     */
     public FoodCrate(Rectangle bounds, int foodId) {
         this.bounds = bounds;
         this.foodId = foodId;
     }
+
+    /**
+     * Checks whether chef is nearby and has free hands to get ingredient
+     *
+     * @return the chef
+     */
     public Chef checkForChef() {
         if (bounds.contains(activePlayer.getX()+activePlayer.getWidth()/2, activePlayer.getY()) && !activePlayer.isHolding) {
             return activePlayer;
@@ -25,6 +44,10 @@ public class FoodCrate implements IInteractable {
         }
     }
 
+    /**
+     * Sets texture of ingredient according to ID of food
+     * @param chefInUse
+     */
     @Override
     public void onUse(Chef chefInUse) {
         if(checkForChef()!=null) {

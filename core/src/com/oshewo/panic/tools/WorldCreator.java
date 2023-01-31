@@ -13,13 +13,24 @@ import com.oshewo.panic.stations.Servery;
 import java.util.HashSet;
 import java.util.Set;
 
-public class WolrdCreator {
+/**
+ * The type World creator.
+ * Sets collisions and gets stations
+ * @author Oshewo, sl3416
+ */
+public class WorldCreator {
     public static Set<Station> stoveArray = new HashSet<>();
     public static Set<Station> boardArray = new HashSet<>();
     public static Set<Station> servingArray = new HashSet<>();
     public static Set<FoodCrate> crateArray = new HashSet<>();
 
-    public WolrdCreator(World world, TiledMap map){
+    /**
+     * Instantiates a new World creator.
+     *
+     * @param world the world
+     * @param map   the map
+     */
+    public WorldCreator(World world, TiledMap map){
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();

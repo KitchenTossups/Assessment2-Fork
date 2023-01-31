@@ -28,7 +28,7 @@ import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.sprites.Station;
 import com.oshewo.panic.sprites.CountdownTimer;
-import com.oshewo.panic.tools.WolrdCreator;
+import com.oshewo.panic.tools.WorldCreator;
 import com.oshewo.panic.tools.InputHandler;
 
 import java.util.ArrayList;
@@ -36,30 +36,47 @@ import java.util.ArrayList;
 import static com.oshewo.panic.sprites.Food.foodArray;
 import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
 import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
-import static com.oshewo.panic.tools.WolrdCreator.*;
+import static com.oshewo.panic.tools.WorldCreator.*;
 
+/**
+ * The Play screen is the screen featuring the actual game
+ * @author Oshewo, sl3416
+ */
 public class PlayScreen implements Screen {
-    private  PiazzaPanic game;
-    private OrthographicCamera gameCam;
-    private Viewport gamePort;
-    private Hud hud;
+    // sets up world and map for the game
+    private final PiazzaPanic game;
+    private final OrthographicCamera gameCam;
+    private final Viewport gamePort;
+    private final TmxMapLoader mapLoader;
+    private final TiledMap map;
+    private final OrthoCachedTiledMapRenderer renderer;
+    private final World world;
+    private final Box2DDebugRenderer b2dr;
+
+    // tools
+    private final TextureAtlas atlas;
+    private final BitmapFont font;
+    public static SpriteBatch batch;
+
+    // Hud
+    private final Hud hud;
     public static OrderHud orderHud;
-    private TmxMapLoader mapLoader;
-    private TiledMap map;
-    private OrthoCachedTiledMapRenderer renderer;
-    private World world;
-    private Box2DDebugRenderer b2dr;
+
+    // Chef
     public static Chef activePlayer;
     private static Chef player0;
     private static Chef player1;
-    private TextureAtlas atlas;
-    private OrderSystem orderSystem;
+
+    // order
+    private final OrderSystem orderSystem;
     public static Order currentOrder;
-    private BitmapFont font;
-    public static SpriteBatch batch;
     public static int ordersCompleted = 0;
 
-
+    /**
+     * Instantiates a new Play screen.
+     *
+     * @param game the game
+     */
     public PlayScreen(PiazzaPanic game){
         atlas = new TextureAtlas("sprites.txt");
 
@@ -69,7 +86,7 @@ public class PlayScreen implements Screen {
         hud = new Hud(game.batch);
         orderHud = new OrderHud(game.batch);
 
-        // game setup
+        // game, camera and map setup
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM, gameCam);
         mapLoader = new TmxMapLoader();
@@ -78,13 +95,13 @@ public class PlayScreen implements Screen {
         gameCam.position.set(gamePort.getWorldWidth()/(4*V_ZOOM),gamePort.getWorldHeight()/(2.2f*V_ZOOM),0);
         world = new World(new Vector2(0,0),true);
         b2dr = new Box2DDebugRenderer();
+        new WorldCreator(world,map);
 
-
-        new WolrdCreator(world,map);
-
+        // sets up and positions both chefs in the game
         player0 = new Chef(world, 0,this);
         player1 = new Chef(world, 1,this);
         player1.getBDef().position.set(160,160);
+        // current chef is set to player 0 by default
         activePlayer = player0;
 
         // order
@@ -94,10 +111,18 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Get texture atlas.
+     *
+     * @return the texture atlas
+     */
     public TextureAtlas getAtlas(){
         return atlas;
     }
 
+    /**
+     * Swap chef
+     */
     public static void swapChef(){
         if(activePlayer == player0){
             activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
@@ -109,14 +134,16 @@ public class PlayScreen implements Screen {
         }
     }
 
-
-
-
+    /**
+     * Updates positions of chefs, timer hud, food and stations
+     *
+     * @param dt the dt
+     */
     public void update(float dt){
+        // updates according to user input
         InputHandler.handleInput(dt);
 
         world.step(1/60f,6,2);
-
 
         player0.update(dt);
         player1.update(dt);
@@ -136,6 +163,8 @@ public class PlayScreen implements Screen {
         for(Station servery : servingArray){
             servery.update();
         }
+
+        // Generates order and continues until all orders are completed
         if(currentOrder!=null) {
             orderSystem.update();
         } else if(ordersCompleted <= 5){
@@ -151,10 +180,16 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Renders the play screen and all of its assets / objects
+     *
+     * @param delta The time in seconds since the last render.
+     */
     @Override
     public void render(float delta) {
         update(delta);
 
+        // sets background of game to black and clears screen
         Gdx.gl.glClearColor(0,0,0,1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -181,6 +216,7 @@ public class PlayScreen implements Screen {
             food.draw(game.batch);
         }
 
+        // draws the timer
         for (CountdownTimer timer : timerArray){
             game.batch.draw(new Texture("progressGrey.png"),timer.getX(),timer.getY(),18,4);
             game.batch.draw(timer.getTexture(),timer.getX()+1,timer.getY()+1,16*timer.getProgressPercent(),2);
@@ -188,6 +224,7 @@ public class PlayScreen implements Screen {
 
         game.batch.end();
 
+        // draws the huds
         game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
         game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
         hud.stage.draw();
@@ -195,7 +232,11 @@ public class PlayScreen implements Screen {
 
     }
 
-
+    /**
+     * Resizes screen accordingly
+     * @param width
+     * @param height
+     */
     @Override
     public void resize(int width, int height) {
         gamePort.update(width,height);
@@ -216,6 +257,9 @@ public class PlayScreen implements Screen {
 
     }
 
+    /**
+     * Disposes of resources in screen
+     */
     @Override
     public void dispose() {
         map.dispose();

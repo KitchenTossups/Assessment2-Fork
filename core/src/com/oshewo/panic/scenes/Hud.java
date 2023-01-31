@@ -13,30 +13,38 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
 
+/**
+ * The Hud displays the time and score counter
+ * @author Oshewo
+ */
 public class Hud implements Disposable
 {
     public Stage stage;
-    private Viewport viewport;
+    private final Viewport viewport;
 
     private int worldTimer;
-    private float timeCount;
+    private final float timeCount;
     public static int score;
     public static long hudStartTime;
 
-
-    // HUD labels will be split into static labels and dynamic labels that will be combined into the hud in a way such as STATIC : DYNAMIC or Time: (S) 12 (D)
+// HUD labels will be split into static labels and dynamic labels that will be combined into the hud in a way such as STATIC : DYNAMIC or Time: (S) 12 (D)
     // Static labels (e.g. "Time:")
     Label timeLabel;
     Label scoreLabel;
-    // Dynamic labels (e.g. "9" -> "10" etc)
+// Dynamic labels (e.g. "9" -> "10" etc)
     Label countdownLabel;
     Label pointsLabel;
 
+    /**
+     * Instantiates a new Hud which contains time and score
+     *
+     * @param sb the sb
+     */
     public Hud(SpriteBatch sb){
         worldTimer = 0;
         timeCount = 0;
         score = 3;
-        this.hudStartTime = TimeUtils.millis();
+        hudStartTime = TimeUtils.millis();
 
         viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_WIDTH, new OrthographicCamera());
         stage = new Stage(viewport, sb);
@@ -60,6 +68,9 @@ public class Hud implements Disposable
         stage.addActor(table);
     }
 
+    /**
+     * Updates time and score as the game progresses
+     */
     public void update(){
         worldTimer = (int)TimeUtils.timeSinceMillis(hudStartTime)/1000;
         countdownLabel.setText(String.format("%03d", worldTimer));
@@ -67,6 +78,9 @@ public class Hud implements Disposable
 
     }
 
+    /**
+     * Disposes stage
+     */
     @Override
     public void dispose() {
         stage.dispose();

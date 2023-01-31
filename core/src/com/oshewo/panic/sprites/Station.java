@@ -11,20 +11,36 @@ import static com.oshewo.panic.screens.PlayScreen.*;
 import static com.oshewo.panic.sprites.Food.foodArray;
 import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
 
+/**
+ * The type Station.
+ * Sets methods for all stations - prep stations and servery
+ *
+ * @author Oshewo
+ */
 public class Station{
-    private String type;
-    private Rectangle bounds;
-    private int id;
+    private final String type;
+    private final Rectangle bounds;
+    private final int id;
     private int foodId = -1;
     private CountdownTimer timer;
 
 
+    /**
+     * Instantiates a new Station.
+     *
+     * @param type   the type
+     * @param id     the id
+     * @param bounds the bounds
+     */
     public Station(String type,int id,  Rectangle bounds){
         this.type = type;
         this.id = id;
         this.bounds = bounds;
     }
 
+    /**
+     * Updates whether food has been served and if it is being prepped
+     */
     public void update(){
         if(foodId < 0){
             checkForFood();
@@ -37,6 +53,9 @@ public class Station{
         }
     }
 
+    /**
+     * Check whether food has been placed on a specific station then if so, starts timer for prepping
+     */
     public void checkForFood(){
         for(Food food: new ArrayList<>(foodArray)){
             if(bounds.contains(food.getX(),food.getY()) && !food.followingChef){
@@ -60,12 +79,19 @@ public class Station{
         }
 
     }
+
+    /**
+     * Submit order which finishes current order and restarts hud timer
+     */
     public void submitOrder(){
         currentOrder =null;
         hudStartTime = TimeUtils.millis();
         ordersCompleted++;
     }
 
+    /**
+     * Show progress of timer.
+     */
     public void showProgress() {
         float progress = timer.getProgressPercent();
         float x = this.bounds.x;
@@ -73,6 +99,10 @@ public class Station{
         float width = 32;
         float height = 5;
     }
+
+    /**
+     * Outputs finished food and the correct texture of cooked food.
+     */
     public void output(){
         String tex = "";
         if(type=="board"){
@@ -86,6 +116,12 @@ public class Station{
         gen.setX(bounds.getX()-10);
         gen.setY(bounds.getY()-10);
     }
+
+    /**
+     * Returns correct string for the png depending on ID of the foods which can be chopped
+     *
+     * @return the string for the png of the food
+     */
     public String choppingOutput(){
         if(foodId==1){
             return  "lettuce_chopped.png";
@@ -99,6 +135,11 @@ public class Station{
         return null;
     }
 
+    /**
+     * Returns correct string for the png depending on ID of the foods which can be cooked
+     *
+     * @return the string for the png of the food
+     */
     public String cookingOutput(){
         if(foodId==5){
             return  "bun_toasted.png";
