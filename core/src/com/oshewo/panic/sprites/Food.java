@@ -17,7 +17,7 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  *
  * @author Oshewo
  */
-public class Food extends Sprite implements Interactable {#
+public class Food extends Sprite implements Interactable {
     // ID for the food
     private final int id;
 
