@@ -15,6 +15,8 @@ Here you can have an access to the resources, diagrams and planning snaphots!
 
 [CRC Cards - Class Diagram](https://github.com/sl3416/ENG1-Group-8/wiki/CRC-Cards--Class-Diagram)
 
+[Link to the architecture diagrams](https://lucid.app/lucidchart/56524027-aa92-4d2d-95fd-7cd5692114c3/edit?invitationId=inv_078fd3a3-3f6f-40d5-a90e-c7e5e0fc7b54)
+
 [Interim Architectural Diagrams](https://github.com/sl3416/ENG1-Group-8/wiki/Interim-Versions-of-Arcitecture-Diagrams-(Class))
 
 [Use Case Diagram](https://github.com/sl3416/ENG1-Group-8/wiki/Use-Case-Diagram)
