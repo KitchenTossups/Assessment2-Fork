@@ -70,7 +70,7 @@ public class MainMenu implements Screen {
 
         // create table
         table = new Table(skin);
-        table.setBounds(-30,-150, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        table.setBounds(0, -150, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(table);
 
         // create Play button
