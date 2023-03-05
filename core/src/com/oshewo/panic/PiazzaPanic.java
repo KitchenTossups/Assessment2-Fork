@@ -9,10 +9,10 @@ import com.oshewo.panic.screens.MainMenu;
  * Sets dimensions of game and initial screen when game loads
  */
 public class PiazzaPanic extends Game {
-	// screen dimensions and zoom
-	public static final float V_ZOOM = 0.7f;
-	public static final float V_WIDTH = 800;
-	public static final float V_HEIGHT = 416;
+    // screen dimensions and zoom
+    public static final float V_ZOOM = 1.42f;
+    public static final float V_WIDTH = 1280;
+    public static final float V_HEIGHT = 720;
 
     public SpriteBatch batch;
 
