@@ -87,15 +87,17 @@ public class PlayScreen implements Screen {
         orderHud = new OrderHud(game.batch);
 
         // game, camera and map setup
-        gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM, gameCam);
+        gameCam = new OrthographicCamera(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT);
+//        gamePort = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, gameCam);
+        gamePort = new FitViewport(PiazzaPanic.V_WIDTH / (V_ZOOM), PiazzaPanic.V_HEIGHT / (V_ZOOM), gameCam);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("piazza2.tmx");
+        map = mapLoader.load("piazza-map-big.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
-        gameCam.position.set(gamePort.getWorldWidth()/(4*V_ZOOM),gamePort.getWorldHeight()/(2.2f*V_ZOOM),0);
-        world = new World(new Vector2(0,0),true);
+        gameCam.position.set(gamePort.getWorldWidth() / (1.9f * V_ZOOM), gamePort.getWorldHeight() / (1.1f * V_ZOOM), 0);
+//        gameCam.position.set(120, 300, 0);
+        world = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
-        new WorldCreator(world,map);
+        new WorldCreator(world, map);
 
         // sets up and positions both chefs in the game
         player0 = new Chef(world, 0, this);

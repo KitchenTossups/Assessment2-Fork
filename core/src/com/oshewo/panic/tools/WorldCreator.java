@@ -1,17 +1,15 @@
 package com.oshewo.panic.tools;
 
-import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 import com.oshewo.panic.sprites.Station;
-import com.oshewo.panic.stations.FoodCrate;
-import com.oshewo.panic.stations.Servery;
+import com.oshewo.panic.stations.*;
 
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * The type World creator.
@@ -79,9 +77,9 @@ public class WorldCreator {
         }
 
         // Food Boxes
-        for(int i = 1; i<=5; i++){
-            for(MapObject object : map.getLayers().get(i+7).getObjects().getByType(RectangleMapObject.class)) {
-                Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+        for (int i = 0; i <= map.getLayers().size() - 9; i++) {
+            for (RectangleMapObject object : map.getLayers().get(i + 8).getObjects().getByType(RectangleMapObject.class)) {
+                Rectangle rectangle = object.getRectangle();
                 crateArray.add(new FoodCrate(rectangle, i));
             }
         }
