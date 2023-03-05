@@ -3,6 +3,7 @@ package com.oshewo.panic.scenes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.Stage;
@@ -10,6 +11,8 @@ import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
 
@@ -54,10 +57,24 @@ public class Hud implements Disposable {
         table.top();
         table.setFillParent(true);
 
-        countdownLabel = new Label(String.format("%02d", worldTimer), new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
-        pointsLabel = new Label(String.format("%03d", score), new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
-        timeLabel = new Label("TIME", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
-        scoreLabel = new Label("SCORE", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.WHITE));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("arcadeclassic.ttf"));
+        FreeTypeFontParameter fontParameters = new FreeTypeFontParameter();
+        fontParameters.size = 36;
+        fontParameters.color = Color.WHITE;
+        fontParameters.borderWidth = 2;
+        fontParameters.borderColor = Color.BLACK;
+        fontParameters.borderStraight = true;
+        fontParameters.minFilter = Texture.TextureFilter.Linear;
+        fontParameters.magFilter = Texture.TextureFilter.Linear;
+
+        BitmapFont bitmap = fontGenerator.generateFont(fontParameters);
+
+        Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.WHITE);
+
+        countdownLabel = new Label(String.format("%02d", worldTimer), style);
+        pointsLabel = new Label(String.format("%03d", score), style);
+        timeLabel = new Label("TIME", style);
+        scoreLabel = new Label("SCORE", style);
 
         table.add(scoreLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
