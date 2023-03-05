@@ -19,6 +19,7 @@ import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
 
 /**
  * The game starts on the main menu which allows the player to either start playing the game or exit
+ *
  * @author sl3416
  */
 public class MainMenu implements Screen {
@@ -43,12 +44,11 @@ public class MainMenu implements Screen {
      *
      * @param game the game
      */
-    public MainMenu (final PiazzaPanic game) {
+    public MainMenu(final PiazzaPanic game) {
         this.game = game;
 
-        this.camera = new OrthographicCamera(PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM);
-        this.viewport = new FitViewport(PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM, camera);
-
+        this.camera = new OrthographicCamera(PiazzaPanic.V_WIDTH/* / V_ZOOM*/, PiazzaPanic.V_HEIGHT/* / V_ZOOM*/);
+        this.viewport = new FitViewport(PiazzaPanic.V_WIDTH/* * V_ZOOM*/, PiazzaPanic.V_HEIGHT/* * V_ZOOM*/, camera);
     }
 
     /**
@@ -82,7 +82,7 @@ public class MainMenu implements Screen {
         button.down = skin.getDrawable("play_button_active");
 
         buttonPlay = new TextButton("", button);
-        table.add(buttonPlay).center().size(buttonWidth,buttonHeight).pad(10);
+        table.add(buttonPlay).center().size(buttonWidth, buttonHeight).pad(10);
         table.row();
 
         // button event handler for Play button
@@ -103,7 +103,7 @@ public class MainMenu implements Screen {
         button2.down = skin.getDrawable("exit_button_active");
 
         buttonExit = new TextButton("", button2);
-        table.add(buttonExit).center().size(buttonWidth,buttonHeight).pad(10);
+        table.add(buttonExit).center().size(buttonWidth, buttonHeight).pad(10);
 
         // button event handler for Exit button
         // exit game when button clicked
@@ -116,18 +116,17 @@ public class MainMenu implements Screen {
     }
 
     /**
-     *
      * @param delta The time in seconds since the last render.
      */
     @Override
     public void render(float delta) {
         // sets background of game to black and clears screen
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // draws background and stage
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0, PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM);
+        stage.getBatch().draw(background, 0, 0, PiazzaPanic.V_WIDTH/* * V_ZOOM*/, PiazzaPanic.V_HEIGHT/* * V_ZOOM*/);
         stage.getBatch().end();
 
         stage.act(delta);
@@ -136,8 +135,9 @@ public class MainMenu implements Screen {
 
     /**
      * Resizes stage so it maintains aspect ratio.
-     * @param width
-     * @param height
+     *
+     * @param width  width
+     * @param height height
      */
     @Override
     public void resize(int width, int height) {

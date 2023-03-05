@@ -10,6 +10,7 @@ import static com.oshewo.panic.screens.PlayScreen.orderHud;
 
 /**
  * The type Order system.
+ *
  * @author sl3416, Oshewo
  */
 public class OrderSystem {
@@ -25,7 +26,7 @@ public class OrderSystem {
      */
     public OrderSystem() {
         random = new RandomXS128();
-        recipes = new HashMap<String, List<String>>();
+        recipes = new HashMap<>();
 
         // burger
         recipes.put("Burger", Arrays.asList("bun, toasted", "beef, formed then fried"));
@@ -53,14 +54,14 @@ public class OrderSystem {
         Set<String> recipeTypes = recipes.keySet();
         int recipeSize = recipeTypes.size();
         int randomIndex = new Random().nextInt(recipeSize);
-        String recipeType = (String)recipeTypes.toArray()[randomIndex];
+        String recipeType = (String) recipeTypes.toArray()[randomIndex];
         return new Order(recipeType);
     }
 
     /**
      * Updates order hud
      */
-    public void update(){
+    public void update() {
         timer = new com.badlogic.gdx.utils.Timer();
         final Label recipeLabel = orderHud.getRecipeLabel();
         final Label ingredient1Label = orderHud.getIngredient1Label();
@@ -71,7 +72,7 @@ public class OrderSystem {
 
             @Override
             public void run() {
-                if(currentOrder!=null) {
+                if (currentOrder != null) {
                     recipeLabel.setText(currentOrder.getRecipeType());
 
                     switch (currentOrder.getRecipeType()) {
@@ -86,8 +87,7 @@ public class OrderSystem {
                             ingredient3Label.setText("onion");
                             break;
                     }
-                }
-                else{
+                } else {
                     recipeLabel.setText("CONGRATULATIONS!");
                     ingredient1Label.setText("You've completed");
                     ingredient2Label.setText("level 1!");

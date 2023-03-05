@@ -27,12 +27,12 @@ public class Chef extends Sprite {
      * @param id     the id
      * @param screen the screen
      */
-    public Chef(World world, int id, PlayScreen screen){
+    public Chef(World world, int id, PlayScreen screen) {
         super(screen.getAtlas().findRegion("chef0"));
         this.world = world;
         defineChef(id);
-        chefStand = new TextureRegion(getTexture(),128*id,0,32,32);
-        setBounds(0,0,32,32);
+        chefStand = new TextureRegion(getTexture(), 128 * id, 0, 32, 32);
+        setBounds(0, 0, 32, 32);
         setRegion(chefStand);
     }
 
@@ -42,8 +42,8 @@ public class Chef extends Sprite {
      *
      * @param dt the dt
      */
-    public void update(float dt){
-        setPosition(b2body.getPosition().x-(getWidth()/2),b2body.getPosition().y-(getHeight()/4));
+    public void update(float dt) {
+        setPosition(b2body.getPosition().x - (getWidth() / 2), b2body.getPosition().y - (getHeight() / 4));
     }
 
     /**
@@ -51,8 +51,8 @@ public class Chef extends Sprite {
      *
      * @param id the id
      */
-    public void defineChef(int id){
-        bdef.position.set(32*(id*5+5)+10,32*5);
+    public void defineChef(int id) {
+        bdef.position.set(32 * (id * 5 + 5) + 10, 32 * 5);
         bdef.type = BodyDef.BodyType.DynamicBody;
         b2body = world.createBody(bdef);
 
@@ -70,12 +70,12 @@ public class Chef extends Sprite {
      * @param distance the distance from the food
      * @return the food that is nearest
      */
-    public Food nearestFood(float distance){
+    public Food nearestFood(float distance) {
         Food nearestFood = null;
         float nearestDistance = Float.MAX_VALUE;
-        for (Food food : foodArray){
+        for (Food food : foodArray) {
             float currentDistance = this.getPosition().dst(food.getPosition());
-            if( currentDistance <= distance && currentDistance < nearestDistance){
+            if (currentDistance <= distance && currentDistance < nearestDistance) {
                 nearestDistance = currentDistance;
                 nearestFood = food;
             }
@@ -89,7 +89,7 @@ public class Chef extends Sprite {
      *
      * @return the food
      */
-    public Food nearestFood(){
+    public Food nearestFood() {
         return this.nearestFood(Float.MAX_VALUE);
     }
 
@@ -98,8 +98,8 @@ public class Chef extends Sprite {
      *
      * @return 2D vector of x and y position
      */
-    public Vector2 getPosition(){
-        return new Vector2(this.getX(),this.getY());
+    public Vector2 getPosition() {
+        return new Vector2(this.getX(), this.getY());
     }
 
     /**
@@ -107,8 +107,7 @@ public class Chef extends Sprite {
      *
      * @return the body def
      */
-    public BodyDef getBDef(){return this.bdef;}
-
-
-
+    public BodyDef getBDef() {
+        return this.bdef;
+    }
 }

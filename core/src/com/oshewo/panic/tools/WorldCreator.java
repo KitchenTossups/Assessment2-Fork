@@ -16,6 +16,7 @@ import java.util.Set;
 /**
  * The type World creator.
  * Sets collisions and gets stations
+ *
  * @author Oshewo, sl3416
  */
 public class WorldCreator {
@@ -30,7 +31,7 @@ public class WorldCreator {
      * @param world the world
      * @param map   the map
      */
-    public WorldCreator(World world, TiledMap map){
+    public WorldCreator(World world, TiledMap map) {
 
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
@@ -39,41 +40,41 @@ public class WorldCreator {
 
         // object collision detector
         // walls
-       for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+        for (RectangleMapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
+            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2);
 
             body = world.createBody(bdef);
 
-            shape.setAsBox(rectangle.getWidth()/2,rectangle.getHeight()/2);
+            shape.setAsBox(rectangle.getWidth() / 2, rectangle.getHeight() / 2);
             fdef.shape = shape;
             body.createFixture(fdef);
         }
 
-       // stoves
+        // stoves
         int id = 0;
-        for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            stoveArray.add(new Station("stove",id,rectangle));
+        for (RectangleMapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            stoveArray.add(new Station("stove", id, rectangle));
             id++;
 
         }
 
         // chopping counter
         id = 0;
-        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            boardArray.add(new Station("board",id,rectangle));
+        for (RectangleMapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            boardArray.add(new Station("board", id, rectangle));
             id++;
         }
 
         // Service Station
         id = 0;
-        for(MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-            servingArray.add(new Servery("service",id,rectangle));
+        for (RectangleMapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            servingArray.add(new Servery("service", id, rectangle));
             id++;
         }
 

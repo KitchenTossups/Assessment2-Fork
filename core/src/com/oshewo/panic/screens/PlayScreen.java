@@ -40,6 +40,7 @@ import static com.oshewo.panic.tools.WorldCreator.*;
 
 /**
  * The Play screen is the screen featuring the actual game
+ *
  * @author Oshewo, sl3416
  */
 public class PlayScreen implements Screen {
@@ -77,7 +78,7 @@ public class PlayScreen implements Screen {
      *
      * @param game the game
      */
-    public PlayScreen(PiazzaPanic game){
+    public PlayScreen(PiazzaPanic game) {
         atlas = new TextureAtlas("sprites.txt");
 
         this.game = game;
@@ -108,7 +109,6 @@ public class PlayScreen implements Screen {
         orderSystem = new OrderSystem();
         font = new BitmapFont();
         batch = new SpriteBatch();
-
     }
 
     /**
@@ -116,7 +116,7 @@ public class PlayScreen implements Screen {
      *
      * @return the texture atlas
      */
-    public TextureAtlas getAtlas(){
+    public TextureAtlas getAtlas() {
         return atlas;
     }
 
@@ -139,35 +139,35 @@ public class PlayScreen implements Screen {
      *
      * @param dt the dt
      */
-    public void update(float dt){
+    public void update(float dt) {
         // updates according to user input
         InputHandler.handleInput(dt);
 
-        world.step(1/60f,6,2);
+        world.step(1 / 60f, 6, 2);
 
         player0.update(dt);
         player1.update(dt);
 
-        for(CountdownTimer timer : new ArrayList<>(timerArray)){
+        for (CountdownTimer timer : new ArrayList<>(timerArray)) {
             timer.update();
         }
-        for(Food food : foodArray){
+        for (Food food : foodArray) {
             food.update(dt);
         }
-        for(Station stove : stoveArray){
+        for (Station stove : stoveArray) {
             stove.update();
         }
-        for(Station board : boardArray){
+        for (Station board : boardArray) {
             board.update();
         }
-        for(Station servery : servingArray){
+        for (Station servery : servingArray) {
             servery.update();
         }
 
         // Generates order and continues until all orders are completed
-        if(currentOrder!=null) {
+        if (currentOrder != null) {
             orderSystem.update();
-        } else if(ordersCompleted <= 5){
+        } else if (ordersCompleted <= 5) {
             currentOrder = orderSystem.generateOrder();
         }
 
@@ -190,7 +190,7 @@ public class PlayScreen implements Screen {
         update(delta);
 
         // sets background of game to black and clears screen
-        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         Gdx.gl.glEnable(GL20.GL_BLEND);
@@ -204,22 +204,21 @@ public class PlayScreen implements Screen {
         game.batch.begin();
 
         // ensures the chef in front is drawn over the other
-        if(player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
+        if (player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
             player0.draw(game.batch);
             player1.draw(game.batch);
-        }
-        else{
+        } else {
             player1.draw(game.batch);
             player0.draw(game.batch);
         }
-        for (Food food : foodArray ) {
+        for (Food food : foodArray) {
             food.draw(game.batch);
         }
 
         // draws the timer
-        for (CountdownTimer timer : timerArray){
-            game.batch.draw(new Texture("progressGrey.png"),timer.getX(),timer.getY(),18,4);
-            game.batch.draw(timer.getTexture(),timer.getX()+1,timer.getY()+1,16*timer.getProgressPercent(),2);
+        for (CountdownTimer timer : timerArray) {
+            game.batch.draw(new Texture("progressGrey.png"), timer.getX(), timer.getY(), 18, 4);
+            game.batch.draw(timer.getTexture(), timer.getX() + 1, timer.getY() + 1, 16 * timer.getProgressPercent(), 2);
         }
 
         game.batch.end();
@@ -234,12 +233,13 @@ public class PlayScreen implements Screen {
 
     /**
      * Resizes screen accordingly
-     * @param width
-     * @param height
+     *
+     * @param width  width
+     * @param height height
      */
     @Override
     public void resize(int width, int height) {
-        gamePort.update(width,height);
+        gamePort.update(width, height);
     }
 
     @Override
@@ -268,6 +268,5 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
         orderHud.dispose();
-
     }
 }

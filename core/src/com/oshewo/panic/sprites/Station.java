@@ -5,6 +5,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
 
 import java.util.ArrayList;
+import java.util.Objects;
 
 import static com.oshewo.panic.scenes.Hud.hudStartTime;
 import static com.oshewo.panic.screens.PlayScreen.*;
@@ -17,7 +18,7 @@ import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
  *
  * @author Oshewo
  */
-public class Station{
+public class Station {
     private final String type;
     private final Rectangle bounds;
     private final int id;
@@ -32,7 +33,7 @@ public class Station{
      * @param id     the id
      * @param bounds the bounds
      */
-    public Station(String type,int id,  Rectangle bounds){
+    public Station(String type, int id, Rectangle bounds) {
         this.type = type;
         this.id = id;
         this.bounds = bounds;
@@ -41,14 +42,14 @@ public class Station{
     /**
      * Updates whether food has been served and if it is being prepped
      */
-    public void update(){
-        if(foodId < 0){
+    public void update() {
+        if (foodId < 0) {
             checkForFood();
-        } else if(timer.isComplete()){
+        } else if (timer.isComplete()) {
             output();
             foodId = -1;
             timerArray.remove(timer);
-        } else{
+        } else {
             showProgress();
         }
     }
@@ -56,23 +57,21 @@ public class Station{
     /**
      * Check whether food has been placed on a specific station then if so, starts timer for prepping
      */
-    public void checkForFood(){
-        for(Food food: new ArrayList<>(foodArray)){
-            if(bounds.contains(food.getX(),food.getY()) && !food.followingChef){
+    public void checkForFood() {
+        for (Food food : new ArrayList<>(foodArray)) {
+            if (bounds.contains(food.getX(), food.getY()) && !food.followingChef) {
                 foodId = food.getId();
-                if(food.isChoppable() && this.type == "board"){
+                if (food.isChoppable() && Objects.equals(this.type, "board")) {
                     foodArray.remove(food);
-                    timer = new CountdownTimer(15,bounds);
-                }
-                else if(food.isGrillable() && this.type == "stove"){
+                    timer = new CountdownTimer(15, bounds);
+                } else if (food.isGrillable() && Objects.equals(this.type, "stove")) {
                     foodArray.remove(food);
-                    timer = new CountdownTimer(15,bounds);
-                }else if(foodId == currentOrder.getOrderId() && this.type == "service"){
+                    timer = new CountdownTimer(15, bounds);
+                } else if (foodId == currentOrder.getOrderId() && Objects.equals(this.type, "service")) {
                     foodArray.remove(food);
-                    timer = new CountdownTimer(0,bounds);
+                    timer = new CountdownTimer(0, bounds);
                     submitOrder();
-                }
-                else{
+                } else {
                     foodId = -1;
                 }
             }
@@ -83,8 +82,8 @@ public class Station{
     /**
      * Submit order which finishes current order and restarts hud timer
      */
-    public void submitOrder(){
-        currentOrder =null;
+    public void submitOrder() {
+        currentOrder = null;
         hudStartTime = TimeUtils.millis();
         ordersCompleted++;
     }
@@ -103,18 +102,18 @@ public class Station{
     /**
      * Outputs finished food and the correct texture of cooked food.
      */
-    public void output(){
+    public void output() {
         String tex = "";
-        if(type=="board"){
+        if (Objects.equals(type, "board"))
             tex = choppingOutput();
-        } else if(type=="stove"){
+        else if (Objects.equals(type, "stove"))
             tex = cookingOutput();
-        }
-        if(tex=="" || tex ==null){return;}
-        foodId*=10;
+        if (Objects.equals(tex, "") || tex == null)
+            return;
+        foodId *= 10;
         Food gen = new Food(new Texture(tex), foodId);
-        gen.setX(bounds.getX()-10);
-        gen.setY(bounds.getY()-10);
+        gen.setX(bounds.getX() - 10);
+        gen.setY(bounds.getY() - 10);
     }
 
     /**
@@ -122,14 +121,14 @@ public class Station{
      *
      * @return the string for the png of the food
      */
-    public String choppingOutput(){
-        if(foodId==1){
-            return  "lettuce_chopped.png";
-        } else if(foodId==2){
-            return  "tomato_chopped.png";
-        } else if(foodId==3){
-            return  "onion_chopped.png";
-        } else if(foodId==4) {
+    public String choppingOutput() {
+        if (foodId == 1) {
+            return "lettuce_chopped.png";
+        } else if (foodId == 2) {
+            return "tomato_chopped.png";
+        } else if (foodId == 3) {
+            return "onion_chopped.png";
+        } else if (foodId == 4) {
             return "patty.png";
         }
         return null;
@@ -140,11 +139,11 @@ public class Station{
      *
      * @return the string for the png of the food
      */
-    public String cookingOutput(){
-        if(foodId==5){
-            return  "bun_toasted.png";
-        } else if(foodId==40){
-            return  "patty_cooked.png";
+    public String cookingOutput() {
+        if (foodId == 5) {
+            return "bun_toasted.png";
+        } else if (foodId == 40) {
+            return "patty_cooked.png";
         }
         return null;
     }

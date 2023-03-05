@@ -2,7 +2,6 @@ package com.oshewo.panic;
 
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application;
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration;
-import com.oshewo.panic.PiazzaPanic;
 
 // Please note that on macOS your application needs to be started with the -XstartOnFirstThread JVM argument
 

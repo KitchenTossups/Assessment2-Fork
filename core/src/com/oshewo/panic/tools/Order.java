@@ -23,12 +23,10 @@ public class Order {
      */
     public Order(String recipeType) {
         this.recipeType = recipeType;
-        if(recipeType == "Burger"){
+        if (Objects.equals(recipeType, "Burger"))
             this.orderId = 450;
-        } else if (recipeType == "Salad") {
+        else if (Objects.equals(recipeType, "Salad"))
             this.orderId = 60;
-        }
-
     }
 
     /**
