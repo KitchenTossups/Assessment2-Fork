@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.Disposable;
@@ -44,23 +45,37 @@ public class OrderHud implements Disposable {
         // variables for order - order image, recipe and ingredient labels for recipe
         Image order_receipt = new Image(new Texture(Gdx.files.internal("order_receipt.png")));
         order_receipt.setPosition(25, 400);
-        order_receipt.setSize(150, 350);
+        order_receipt.setSize(300, 600);
+
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("arcadeclassic.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameters.size = 36;
+        fontParameters.color = Color.BLACK;
+//        fontParameters.borderWidth = 2;
+        fontParameters.borderColor = Color.WHITE;
+        fontParameters.borderStraight = true;
+        fontParameters.minFilter = Texture.TextureFilter.Linear;
+        fontParameters.magFilter = Texture.TextureFilter.Linear;
+
+        BitmapFont bitmap = fontGenerator.generateFont(fontParameters);
+
+        Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.BLACK);
 
         // Creating order labels
-        recipeLabel = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        recipeLabel.setPosition(65, 570);
+        recipeLabel = new Label("", style);
+        recipeLabel.setPosition(110, 750);
         recipeLabel.setSize(150, 150);
 
-        ingredient1Label = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        ingredient1Label.setPosition(75, 535);
+        ingredient1Label = new Label("", style);
+        ingredient1Label.setPosition(125, 710);
         ingredient1Label.setSize(150, 150);
 
-        ingredient2Label = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        ingredient2Label.setPosition(75, 500);
+        ingredient2Label = new Label("", style);
+        ingredient2Label.setPosition(125, 670);
         ingredient2Label.setSize(150, 150);
 
-        ingredient3Label = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        ingredient3Label.setPosition(75, 465);
+        ingredient3Label = new Label("", style);
+        ingredient3Label.setPosition(125, 630);
         ingredient3Label.setSize(150, 150);
 
         // Lays out recipe and ingredients label onto the order image in a table
