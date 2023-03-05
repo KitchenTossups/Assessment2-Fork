@@ -65,8 +65,7 @@ public class PlayScreen implements Screen {
 
     // Chef
     public static Chef activePlayer;
-    private static Chef player0;
-    private static Chef player1;
+    private static Chef player0, player1, player2;
 
     // order
     private final OrderSystem orderSystem;
@@ -99,9 +98,11 @@ public class PlayScreen implements Screen {
         new WorldCreator(world,map);
 
         // sets up and positions both chefs in the game
-        player0 = new Chef(world, 0,this);
-        player1 = new Chef(world, 1,this);
-        player1.getBDef().position.set(160,160);
+        player0 = new Chef(world, 0, this);
+        player1 = new Chef(world, 1, this);
+        player2 = new Chef(world, 2, this);
+        player1.getBDef().position.set(160, 160);
+        player2.getBDef().position.set(200, 160);
         // current chef is set to player 0 by default
         activePlayer = player0;
 
@@ -123,13 +124,15 @@ public class PlayScreen implements Screen {
     /**
      * Swap chef
      */
-    public static void swapChef(){
-        if(activePlayer == player0){
-            activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
+    public static void swapChef() {
+        if (activePlayer == player0) {
+            activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
             activePlayer = player1;
-        }
-        else{
-            activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
+        } else if (activePlayer == player1) {
+            activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
+            activePlayer = player2;
+        } else {
+            activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
             activePlayer = player0;
         }
     }
