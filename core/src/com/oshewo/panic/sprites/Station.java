@@ -22,7 +22,6 @@ import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
 public class Station {
     private final StationType type;
     private final Rectangle bounds;
-    private final int id;
     private Ingredients ingredient;
     private CountdownTimer timer;
 
@@ -31,12 +30,10 @@ public class Station {
      * Instantiates a new Station.
      *
      * @param stationType   the station type
-     * @param id     the id
      * @param bounds the bounds
      */
-    public Station(StationType stationType, int id, Rectangle bounds) {
+    public Station(StationType stationType, Rectangle bounds) {
         this.type = stationType;
-        this.id = id;
         this.bounds = bounds;
     }
 
