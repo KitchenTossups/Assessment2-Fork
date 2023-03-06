@@ -1,6 +1,5 @@
 package com.oshewo.panic.tools;
 
-import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
@@ -57,7 +56,6 @@ public class WorldCreator {
             Rectangle rectangle = object.getRectangle();
             stoveArray.add(new Station("stove", id, rectangle));
             id++;
-
         }
 
         // chopping counter
