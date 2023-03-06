@@ -37,21 +37,22 @@ public class FoodCrate implements Interactable {
      * @return the chef
      */
     public Chef checkForChef() {
-        if (bounds.contains(activePlayer.getX()+activePlayer.getWidth()/2, activePlayer.getY()) && !activePlayer.isHolding) {
+        if (bounds.contains(activePlayer.getX() + activePlayer.getWidth() / 2, activePlayer.getY()) && !activePlayer.isHolding) {
             return activePlayer;
-        }else{
+        } else {
             return null;
         }
     }
 
     /**
      * Sets texture of ingredient according to ID of food
-     * @param chefInUse
+     *
+     * @param chefInUse chef in use
      */
     @Override
     public void onUse(Chef chefInUse) {
-        if(checkForChef()!=null) {
-            String tex = "";
+        if (checkForChef() != null) {
+            String tex;
             if (foodId == 1) {
                 tex = "lettuce.png";
             } else if (foodId == 2) {
@@ -62,8 +63,7 @@ public class FoodCrate implements Interactable {
                 tex = "meat.png";
             } else if (foodId == 5) {
                 tex = "bun.png";
-            }
-            if (tex == "" || tex == null) {
+            } else {
                 return;
             }
             Food gen = new Food(new Texture(tex), foodId);
