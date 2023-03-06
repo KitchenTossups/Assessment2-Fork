@@ -59,28 +59,28 @@ public class Food extends Sprite implements Interactable {
             this.setX(chefToFollow.getX() + chefToFollow.getWidth() / 4);
             this.setY(chefToFollow.getY());
         } else {
-            List<Integer> idList = new ArrayList<>();
+            List<Ingredients> ingredientsList = new ArrayList<>();
             List<Food> foods = new ArrayList<>();
             for (Food food : foodArray) {
                 if (!food.isCarried()) {
                     float yDiff = food.getPosition().y - this.getPosition().y;
                     float xDiff = food.getPosition().x - this.getPosition().x;
                     if (yDiff >= -16 && yDiff <= 16 && xDiff >= -16 && xDiff <= 16) {
-                        int id = food.getId();
-                        idList.add(id);
+                        Ingredients ingredient = food.getIngredient();
+                        ingredientsList.add(ingredient);
                         foods.add(food);
                     }
                 }
             }
-            if (idList.size() == 3 && idList.contains(10) && idList.contains(20) && idList.contains(30)) {
-                Food gen = new Food(new Texture("salad.png"), 60);
+            if (ingredientsList.size() == 3 && ingredientsList.contains(Ingredients.TOMATO) && ingredientsList.contains(Ingredients.ONION) && ingredientsList.contains(Ingredients.LETTUCE)) {
+                Food gen = new Food(new Texture("salad.png"), Ingredients.SALAD);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {
                     foodArray.remove(food);
                 }
-            } else if (idList.size() == 2 && idList.contains(400) && idList.contains(50)) {
-                Food gen = new Food(new Texture("burger.png"), 450);
+            } else if (ingredientsList.size() == 2 && ingredientsList.contains(Ingredients.BUN) && ingredientsList.contains(Ingredients.PATTY)) {
+                Food gen = new Food(new Texture("burger.png"), Ingredients.BURGER);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {

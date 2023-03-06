@@ -5,5 +5,7 @@ public enum Ingredients {
     TOMATO,
     ONION,
     PATTY,
-    BUN
+    BUN,
+    BURGER,
+    SALAD
 }

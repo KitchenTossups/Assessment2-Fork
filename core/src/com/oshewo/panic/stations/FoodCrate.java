@@ -48,7 +48,7 @@ public class FoodCrate implements Interactable {
     /**
      * Sets texture of ingredient according to ID of food
      *
-     * @param chefInUse
+     * @param chefInUse chef in use
      */
     @Override
     public void onUse(Chef chefInUse) {

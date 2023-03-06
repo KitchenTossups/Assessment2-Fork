@@ -3,6 +3,8 @@ package com.oshewo.panic.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.oshewo.panic.enums.Ingredients;
+import com.oshewo.panic.enums.StationType;
 
 import java.util.ArrayList;
 
@@ -18,22 +20,22 @@ import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
  * @author Oshewo
  */
 public class Station {
-    private final String type;
+    private final StationType type;
     private final Rectangle bounds;
     private final int id;
-    private int foodId = -1;
+    private Ingredients ingredient;
     private CountdownTimer timer;
 
 
     /**
      * Instantiates a new Station.
      *
-     * @param type   the type
+     * @param stationType   the station type
      * @param id     the id
      * @param bounds the bounds
      */
-    public Station(String type, int id, Rectangle bounds) {
-        this.type = type;
+    public Station(StationType stationType, int id, Rectangle bounds) {
+        this.type = stationType;
         this.id = id;
         this.bounds = bounds;
     }
@@ -60,13 +62,13 @@ public class Station {
         for (Food food : new ArrayList<>(foodArray)) {
             if (bounds.contains(food.getX(), food.getY()) && !food.followingChef) {
                 foodId = food.getId();
-                if (food.isChoppable() && this.type == "board") {
+                if (food.isChoppable() && this.type == StationType.CHOPPING_BOARD) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(15, bounds);
-                } else if (food.isGrillable() && this.type == "stove") {
+                } else if (food.isGrillable() && this.type == StationType.STOVE) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(15, bounds);
-                } else if (foodId == currentOrder.getOrderId() && this.type == "service") {
+                } else if (foodId == currentOrder.getOrderId() && this.type == StationType.SERVING) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(0, bounds);
                     submitOrder();
@@ -140,9 +142,9 @@ public class Station {
      * @return the string for the png of the food
      */
     public String cookingOutput() {
-        if (foodId == 5) {
+        if (ingredient == Ingredients.BUN) {
             return "bun_toasted.png";
-        } else if (foodId == 40) {
+        } else if (ingredient == Ingredients.PATTY) {
             return "patty_cooked.png";
         }
         return null;
