@@ -27,28 +27,28 @@ public class CountdownTimer extends Sprite {
      * @param seconds   the seconds
      * @param rectangle the rectangle
      */
-    public CountdownTimer(int seconds, Rectangle rectangle){
+    public CountdownTimer(int seconds, Rectangle rectangle) {
         super(new Texture("progressRed.png"));
         this.seconds = seconds;
         this.isCounting = true;
         this.startTime = TimeUtils.millis();
         timerArray.add(this);
-        this.setX(rectangle.x+(rectangle.getWidth()-18)/2);
-        this.setY(rectangle.y+rectangle.getHeight());
+        this.setX(rectangle.x + (rectangle.getWidth() - 18) / 2);
+        this.setY(rectangle.y + rectangle.getHeight());
     }
 
     /**
      * Updates whether the timer is running.
      */
-    public void update(){
-        if(isCounting) {
+    public void update() {
+        if (isCounting) {
             long currentTime = TimeUtils.millis();
             if (TimeUtils.timeSinceMillis(startTime) >= (seconds * 1000L)) {
                 isCounting = false;
-            }else{
+            } else {
 
             }
-        }else{ // timer resets if isCounting is True
+        } else { // timer resets if isCounting is True
             timerArray.remove(this);
             isComplete();
         }
@@ -59,7 +59,7 @@ public class CountdownTimer extends Sprite {
      *
      * @return the boolean
      */
-    public boolean isComplete(){
+    public boolean isComplete() {
         return !isCounting;
     }
 
@@ -68,8 +68,8 @@ public class CountdownTimer extends Sprite {
      *
      * @return the float value for the time
      */
-    public float getProgressPercent(){
-        float prog = (float)TimeUtils.timeSinceMillis(startTime)/(seconds*1000);
+    public float getProgressPercent() {
+        float prog = (float) TimeUtils.timeSinceMillis(startTime) / (seconds * 1000);
         return prog;
     }
 }
