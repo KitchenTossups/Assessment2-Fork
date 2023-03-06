@@ -2,6 +2,7 @@ package com.oshewo.panic.stations;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.oshewo.panic.enums.Ingredients;
 import com.oshewo.panic.interfaces.Interactable;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
@@ -18,17 +19,17 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  */
 public class FoodCrate implements Interactable {
     private final Rectangle bounds;
-    private final int foodId;
+    private final Ingredients ingredient;
 
     /**
      * Instantiates a new Food crate.
      *
      * @param bounds the bounds
-     * @param foodId the food id
+     * @param ingredient the ingredient
      */
-    public FoodCrate(Rectangle bounds, int foodId) {
+    public FoodCrate(Rectangle bounds, Ingredients ingredient) {
         this.bounds = bounds;
-        this.foodId = foodId;
+        this.ingredient = ingredient;
     }
 
     /**
@@ -47,26 +48,26 @@ public class FoodCrate implements Interactable {
     /**
      * Sets texture of ingredient according to ID of food
      *
-     * @param chefInUse chef in use
+     * @param chefInUse
      */
     @Override
     public void onUse(Chef chefInUse) {
         if (checkForChef() != null) {
-            String tex;
-            if (foodId == 1) {
-                tex = "lettuce.png";
-            } else if (foodId == 2) {
-                tex = "tomato.png";
-            } else if (foodId == 3) {
-                tex = "onion.png";
-            } else if (foodId == 4) {
-                tex = "meat.png";
-            } else if (foodId == 5) {
-                tex = "bun.png";
+            String texture;
+            if (ingredient == Ingredients.LETTUCE) {
+                texture = "lettuce.png";
+            } else if (ingredient == Ingredients.TOMATO) {
+                texture = "tomato.png";
+            } else if (ingredient == Ingredients.ONION) {
+                texture = "onion.png";
+            } else if (ingredient == Ingredients.PATTY) {
+                texture = "meat.png";
+            } else if (ingredient == Ingredients.BUN) {
+                texture = "bun.png";
             } else {
                 return;
             }
-            Food gen = new Food(new Texture(tex), foodId);
+            Food gen = new Food(new Texture(texture), ingredient);
             gen.onUse(activePlayer);
         }
     }

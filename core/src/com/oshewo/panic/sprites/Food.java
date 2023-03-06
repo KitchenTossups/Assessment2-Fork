@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.oshewo.panic.enums.Ingredients;
 import com.oshewo.panic.interfaces.Interactable;
 
 
@@ -19,8 +20,7 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  * @author Oshewo
  */
 public class Food extends Sprite implements Interactable {
-    // ID for the food
-    private final int id;
+    private final Ingredients ingredient;
 
     // how the foods can be prepped
     private boolean choppable = false;
@@ -34,12 +34,12 @@ public class Food extends Sprite implements Interactable {
     /**
      * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
      *
-     * @param texture the texture for the food
-     * @param id      the id of the food
+     * @param texture    the texture for the food
+     * @param ingredient the ingredient
      */
-    public Food(Texture texture, int id) {
+    public Food(Texture texture, Ingredients ingredient) {
         super(texture);
-        this.id = id;
+        this.ingredient = ingredient;
         if (id <= 4 && id >= 1) {
             this.choppable = true;
         } else if (id == 5 || id == 40) {
@@ -144,8 +144,8 @@ public class Food extends Sprite implements Interactable {
      *
      * @return id
      */
-    public int getId() {
-        return id;
+    public Ingredients getIngredient() {
+        return ingredient;
     }
 
     /**

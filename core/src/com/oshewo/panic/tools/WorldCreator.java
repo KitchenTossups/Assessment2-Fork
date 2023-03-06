@@ -5,6 +5,7 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.oshewo.panic.enums.Ingredients;
 import com.oshewo.panic.enums.TiledAssets;
 import com.oshewo.panic.sprites.Station;
 import com.oshewo.panic.stations.FoodCrate;
@@ -48,15 +49,15 @@ public class WorldCreator {
             } else if (mapLayer.getName().equals(TiledAssets.SERVING_STATION.getLayerName())) {
                 InitialiseServiceStation(mapLayer);
             } else if (mapLayer.getName().equals(TiledAssets.LETTUCE.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 1);
+                InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
             } else if (mapLayer.getName().equals(TiledAssets.TOMATO.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 2);
+                InitialiseFoodObject(mapLayer, Ingredients.TOMATO);
             } else if (mapLayer.getName().equals(TiledAssets.ONION.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 3);
+                InitialiseFoodObject(mapLayer, Ingredients.ONION);
             } else if (mapLayer.getName().equals(TiledAssets.PATTY.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 4);
+                InitialiseFoodObject(mapLayer, Ingredients.PATTY);
             } else if (mapLayer.getName().equals(TiledAssets.BUNS.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 5);
+                InitialiseFoodObject(mapLayer, Ingredients.BUN);
             }
         }
     }
@@ -107,10 +108,10 @@ public class WorldCreator {
         }
     }
 
-    private void InitialiseFoodObject(MapLayer mapLayer, int ingredientID) {
+    private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredient) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            crateArray.add(new FoodCrate(rectangle, ingredientID));
+            crateArray.add(new FoodCrate(rectangle, ingredient));
         }
     }
 }
