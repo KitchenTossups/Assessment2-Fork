@@ -9,6 +9,7 @@ import com.oshewo.panic.interfaces.Interactable;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import static com.oshewo.panic.tools.InputHandler.lastMove;
 import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 
@@ -25,7 +26,7 @@ public class Food extends Sprite implements Interactable {
     private boolean choppable = false;
     private boolean grillable = false;
 
-// what is being held by the chef
+    // what is being held by the chef
     public static ArrayList<Food> foodArray = new ArrayList<Food>();
     public boolean followingChef = false;
     private Chef chefToFollow;
@@ -36,12 +37,12 @@ public class Food extends Sprite implements Interactable {
      * @param texture the texture for the food
      * @param id      the id of the food
      */
-    public Food(Texture texture, int id){
+    public Food(Texture texture, int id) {
         super(texture);
         this.id = id;
-        if(id<=4 && id>=1){
+        if (id <= 4 && id >= 1) {
             this.choppable = true;
-        } else if (id==5 || id ==40) {
+        } else if (id == 5 || id == 40) {
             this.grillable = true;
         }
         foodArray.add(this);
@@ -54,14 +55,14 @@ public class Food extends Sprite implements Interactable {
      * @param dt the dt
      */
     public void update(float dt) {
-        if (followingChef){
-            this.setX(chefToFollow.getX()+chefToFollow.getWidth()/4);
+        if (followingChef) {
+            this.setX(chefToFollow.getX() + chefToFollow.getWidth() / 4);
             this.setY(chefToFollow.getY());
-        } else{
+        } else {
             List<Integer> idList = new ArrayList<>();
             List<Food> foods = new ArrayList<>();
-            for(Food food : foodArray){
-                if(!food.isCarried()) {
+            for (Food food : foodArray) {
+                if (!food.isCarried()) {
                     float yDiff = food.getPosition().y - this.getPosition().y;
                     float xDiff = food.getPosition().x - this.getPosition().x;
                     if (yDiff >= -16 && yDiff <= 16 && xDiff >= -16 && xDiff <= 16) {
@@ -71,21 +72,23 @@ public class Food extends Sprite implements Interactable {
                     }
                 }
             }
-            if(idList.size() == 3 && idList.contains(10) && idList.contains(20) && idList.contains(30)){
+            if (idList.size() == 3 && idList.contains(10) && idList.contains(20) && idList.contains(30)) {
                 Food gen = new Food(new Texture("salad.png"), 60);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
-                for(Food food : foods){
+                for (Food food : foods) {
                     foodArray.remove(food);
                 }
             } else if (idList.size() == 2 && idList.contains(400) && idList.contains(50)) {
                 Food gen = new Food(new Texture("burger.png"), 450);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
-                for(Food food : foods){
+                for (Food food : foods) {
                     foodArray.remove(food);
                 }
-            } else{return;}
+            } else {
+                return;
+            }
             activePlayer.isHolding = false;
         }
     }
@@ -95,8 +98,8 @@ public class Food extends Sprite implements Interactable {
      *
      * @return 2D vector of x and y position
      */
-    public Vector2 getPosition(){
-        return new Vector2(this.getX(),this.getY());
+    public Vector2 getPosition() {
+        return new Vector2(this.getX(), this.getY());
     }
 
 
@@ -106,29 +109,29 @@ public class Food extends Sprite implements Interactable {
         float offsetY;
 
         // puts down food according to direction of chef which is what movement key was last pressed
-        if(followingChef && chefToFollow == chefInUse){
+        if (followingChef && chefToFollow == chefInUse) {
             chefInUse.isHolding = false;
             followingChef = false;
-            if(lastMove== Input.Keys.S){
-                offsetX = chefToFollow.getWidth()/4;
+            if (lastMove == Input.Keys.S) {
+                offsetX = chefToFollow.getWidth() / 4;
                 offsetY = -10;
             } else if (lastMove == Input.Keys.W) {
-                offsetX = chefToFollow.getWidth()/4;
+                offsetX = chefToFollow.getWidth() / 4;
                 offsetY = chefToFollow.getHeight();
-            } else if (lastMove == Input.Keys.A){
+            } else if (lastMove == Input.Keys.A) {
                 offsetX = -10;
                 offsetY = 2;
-            } else{
+            } else {
                 offsetX = chefToFollow.getWidth();
                 offsetY = 2;
             }
-            this.setX(chefToFollow.getX()+offsetX);
-            this.setY(chefToFollow.getY()+offsetY);
+            this.setX(chefToFollow.getX() + offsetX);
+            this.setY(chefToFollow.getY() + offsetY);
             chefToFollow = null;
         }
         // pickup food
-        else{
-            if(!chefInUse.isHolding && chefToFollow == null ) {
+        else {
+            if (!chefInUse.isHolding && chefToFollow == null) {
                 chefToFollow = chefInUse;
                 chefInUse.isHolding = true;
                 followingChef = true;
@@ -141,7 +144,7 @@ public class Food extends Sprite implements Interactable {
      *
      * @return id
      */
-    public int getId(){
+    public int getId() {
         return id;
     }
 
@@ -150,7 +153,7 @@ public class Food extends Sprite implements Interactable {
      *
      * @return choppable boolean
      */
-    public boolean isChoppable(){
+    public boolean isChoppable() {
         return choppable;
     }
 
@@ -159,7 +162,7 @@ public class Food extends Sprite implements Interactable {
      *
      * @return grillable boolean
      */
-    public boolean isGrillable(){
+    public boolean isGrillable() {
         return grillable;
     }
 
@@ -168,7 +171,7 @@ public class Food extends Sprite implements Interactable {
      *
      * @return boolean of if it is carried
      */
-    public boolean isCarried(){
+    public boolean isCarried() {
         return followingChef;
     }
 }
