@@ -2,6 +2,7 @@ package com.oshewo.panic.stations;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.oshewo.panic.enums.State;
 import com.oshewo.panic.interfaces.Interactable;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
@@ -19,6 +20,7 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
 public class FoodCrate implements Interactable {
     private final Rectangle bounds;
     private final int foodId;
+    private final State state;
 
     /**
      * Instantiates a new Food crate.
@@ -26,9 +28,10 @@ public class FoodCrate implements Interactable {
      * @param bounds the bounds
      * @param foodId the food id
      */
-    public FoodCrate(Rectangle bounds, int foodId) {
+    public FoodCrate(Rectangle bounds, int foodId, State state) {
         this.bounds = bounds;
         this.foodId = foodId;
+        this.state = state;
     }
 
     /**

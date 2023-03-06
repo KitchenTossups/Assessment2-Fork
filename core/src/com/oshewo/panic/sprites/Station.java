@@ -107,8 +107,7 @@ public class Station {
             tex = choppingOutput();
         } else if (type == "stove") {
             tex = cookingOutput();
-        }
-        if (tex == "" || tex == null) {
+        } else {
             return;
         }
         foodId *= 10;

@@ -110,7 +110,7 @@ public class WorldCreator {
     private void InitialiseFoodObject(MapLayer mapLayer, int ingredientID) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            crateArray.add(new FoodCrate(rectangle, ingredientID));
+            crateArray.add(new FoodCrate(rectangle, ingredientID, null));
         }
     }
 }
