@@ -40,9 +40,9 @@ public class Food extends Sprite implements Interactable {
     public Food(Texture texture, Ingredients ingredient) {
         super(texture);
         this.ingredient = ingredient;
-        if (id <= 4 && id >= 1) {
+        if (ingredient == Ingredients.TOMATO || ingredient == Ingredients.ONION || ingredient == Ingredients.LETTUCE) {
             this.choppable = true;
-        } else if (id == 5 || id == 40) {
+        } else if (ingredient == Ingredients.BUN || ingredient == Ingredients.PATTY) {
             this.grillable = true;
         }
         foodArray.add(this);

@@ -16,12 +16,9 @@ public class Servery extends Station {
      * Instantiates a new Servery.
      *
      * @param type   the type
-     * @param id     the id
      * @param bounds the bounds
      */
-    public Servery(String type, int id, Rectangle bounds) {
-        super(type, id, bounds);
+    public Servery(String type, Rectangle bounds) {
+        super(type, bounds);
     }
-
-
 }

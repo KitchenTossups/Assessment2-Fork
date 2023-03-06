@@ -104,16 +104,15 @@ public class Station {
      * Outputs finished food and the correct texture of cooked food.
      */
     public void output() {
-        String tex = "";
-        if (type == "board") {
-            tex = choppingOutput();
-        } else if (type == "stove") {
-            tex = cookingOutput();
+        String texture = "";
+        if (type == StationType.CHOPPING_BOARD) {
+            texture = choppingOutput();
+        } else if (type == StationType.STOVE) {
+            texture = cookingOutput();
         } else {
             return;
         }
-        foodId *= 10;
-        Food gen = new Food(new Texture(tex), foodId);
+        Food gen = new Food(new Texture(texture), foodId);
         gen.setX(bounds.getX() - 10);
         gen.setY(bounds.getY() - 10);
     }

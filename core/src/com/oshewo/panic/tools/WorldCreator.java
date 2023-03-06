@@ -82,29 +82,23 @@ public class WorldCreator {
     }
 
     private void InitialiseStoves(MapLayer mapLayer) {
-        int id = 0;
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            stoveArray.add(new Station("stove", id, rectangle));
-            id++;
+            stoveArray.add(new Station("stove", rectangle));
         }
     }
 
     private void InitialiseChoppingCounter(MapLayer mapLayer) {
-        int id = 0;
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            boardArray.add(new Station("board", id, rectangle));
-            id++;
+            boardArray.add(new Station("board", rectangle));
         }
     }
 
     private void InitialiseServiceStation(MapLayer mapLayer) {
-        int id = 0;
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            servingArray.add(new Servery("service", id, rectangle));
-            id++;
+            servingArray.add(new Servery("service", rectangle));
         }
     }
 
