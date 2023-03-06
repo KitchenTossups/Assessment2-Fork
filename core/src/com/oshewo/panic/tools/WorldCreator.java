@@ -1,16 +1,20 @@
 package com.oshewo.panic.tools;
 
+import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.oshewo.panic.enums.Ingredients;
+import com.oshewo.panic.enums.TiledAssets;
 import com.oshewo.panic.sprites.Station;
 import com.oshewo.panic.stations.FoodCrate;
 import com.oshewo.panic.stations.Servery;
 
 
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -23,6 +27,9 @@ public class WorldCreator {
     public static Set<Station> boardArray = new HashSet<>();
     public static Set<Station> servingArray = new HashSet<>();
     public static Set<FoodCrate> crateArray = new HashSet<>();
+    public World world;
+    public TiledMap map;
+    public Body body;
 
     /**
      * Instantiates a new World creator.
@@ -31,16 +38,55 @@ public class WorldCreator {
      * @param map   the map
      */
     public WorldCreator(World world, TiledMap map){
+        this.world = world;
+        this.map = map;
 
+        //New code
+        for (MapLayer mapLayer : map.getLayers()){
+            if (mapLayer.getName().equals(TiledAssets.WALLS.getLayerName())) {
+                System.out.println(TiledAssets.WALLS.getLayerName());
+                InitialiseWalls(mapLayer);
+            }
+            else if (mapLayer.getName().equals(TiledAssets.STOVES.getLayerName())) {
+                System.out.println("stoves");
+                InitialiseStoves(mapLayer);
+            }
+            else if (mapLayer.getName().equals(TiledAssets.CHOPPING_BOARD.getLayerName())) {
+                InitialiseChoppingCounter(mapLayer);
+            }
+            else if (mapLayer.getName().equals(TiledAssets.SERVING_STATION.getLayerName())) {
+                InitialiseServiceStation(mapLayer);
+            }
+            else if (mapLayer.getName().equals(TiledAssets.LETTUCE.getLayerName())) {
+                System.out.println("lettuce");
+                //InitialiseFoodObject(mapLayer, 8);
+                for(RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+                    Rectangle rectangle = object.getRectangle();
+                    crateArray.add(new FoodCrate(rectangle, 8));
+                }
+            }
+            else if (mapLayer.getName().equals(TiledAssets.TOMATO.getLayerName())) {
+                InitialiseFoodObject(mapLayer, 9);
+            }
+            else if (mapLayer.getName().equals(TiledAssets.ONION.getLayerName())) {
+                InitialiseFoodObject(mapLayer, 10);
+            }
+            else if (mapLayer.getName().equals(TiledAssets.PATTY.getLayerName())) {
+                InitialiseFoodObject(mapLayer, 11);
+            }
+            else if (mapLayer.getName().equals(TiledAssets.BUNS.getLayerName())) {
+                InitialiseFoodObject(mapLayer, 12);
+            }
+        }
+    }
+
+    private void InitialiseWalls(MapLayer mapLayer){
         BodyDef bdef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fdef = new FixtureDef();
-        Body body;
 
-        // object collision detector
-        // walls
-       for(MapObject object : map.getLayers().get(4).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
 
             bdef.type = BodyDef.BodyType.StaticBody;
             bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight()/2);
@@ -51,38 +97,39 @@ public class WorldCreator {
             fdef.shape = shape;
             body.createFixture(fdef);
         }
+    }
 
-       // stoves
+    private void InitialiseStoves(MapLayer mapLayer){
         int id = 0;
-        for(MapObject object : map.getLayers().get(5).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+        for(RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = object.getRectangle();
             stoveArray.add(new Station("stove",id,rectangle));
             id++;
-
         }
+    }
 
-        // chopping counter
-        id = 0;
-        for(MapObject object : map.getLayers().get(6).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+    private void InitialiseChoppingCounter(MapLayer mapLayer){
+        int id = 0;
+        for(RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = object.getRectangle();
             boardArray.add(new Station("board",id,rectangle));
             id++;
         }
+    }
 
-        // Service Station
-        id = 0;
-        for(MapObject object : map.getLayers().get(7).getObjects().getByType(RectangleMapObject.class)){
-            Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
+    private void InitialiseServiceStation(MapLayer mapLayer){
+        int id = 0;
+        for(RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)){
+            Rectangle rectangle = object.getRectangle();
             servingArray.add(new Servery("service",id,rectangle));
             id++;
         }
+    }
 
-        // Food Boxes
-        for(int i = 1; i<=5; i++){
-            for(MapObject object : map.getLayers().get(i+7).getObjects().getByType(RectangleMapObject.class)) {
-                Rectangle rectangle = ((RectangleMapObject) object).getRectangle();
-                crateArray.add(new FoodCrate(rectangle, i));
-            }
+    private void InitialiseFoodObject(MapLayer mapLayer, int ingredientID){
+        for(RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            crateArray.add(new FoodCrate(rectangle, ingredientID));
         }
     }
 }
