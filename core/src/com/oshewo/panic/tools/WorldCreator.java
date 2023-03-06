@@ -5,12 +5,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.oshewo.panic.enums.Ingredients;
-import com.oshewo.panic.enums.StationType;
-import com.oshewo.panic.enums.TiledAssets;
+import com.oshewo.panic.enums.*;
 import com.oshewo.panic.sprites.Station;
 import com.oshewo.panic.stations.FoodCrate;
-import com.oshewo.panic.stations.Servery;
 
 
 import java.util.*;
@@ -99,7 +96,7 @@ public class WorldCreator {
     private void InitialiseServiceStation(MapLayer mapLayer) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            servingArray.add(new Servery(StationType.SERVING, rectangle));
+            servingArray.add(new Station(StationType.SERVING, rectangle));
         }
     }
 
