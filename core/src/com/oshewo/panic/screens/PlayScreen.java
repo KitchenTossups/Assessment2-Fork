@@ -1,37 +1,23 @@
 package com.oshewo.panic.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
 
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.utils.viewport.*;
 
-import com.oshewo.panic.tools.Order;
-import com.oshewo.panic.tools.OrderSystem;
-import com.oshewo.panic.PiazzaPanic;
-import com.oshewo.panic.scenes.Hud;
-import com.oshewo.panic.scenes.OrderHud;
-import com.oshewo.panic.sprites.Chef;
-import com.oshewo.panic.sprites.Food;
-import com.oshewo.panic.sprites.Station;
-import com.oshewo.panic.sprites.CountdownTimer;
-import com.oshewo.panic.tools.WorldCreator;
-import com.oshewo.panic.tools.InputHandler;
+import com.oshewo.panic.tools.*;
+import com.oshewo.panic.*;
+import com.oshewo.panic.scenes.*;
+import com.oshewo.panic.sprites.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
 import static com.oshewo.panic.sprites.Food.foodArray;
 import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
@@ -48,7 +34,6 @@ public class PlayScreen implements Screen {
     private final PiazzaPanic game;
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
-    private final TmxMapLoader mapLoader;
     private final TiledMap map;
     private final OrthoCachedTiledMapRenderer renderer;
     private final World world;
@@ -56,7 +41,6 @@ public class PlayScreen implements Screen {
 
     // tools
     private final TextureAtlas atlas;
-    private final BitmapFont font;
     public static SpriteBatch batch;
 
     // Hud
@@ -70,7 +54,7 @@ public class PlayScreen implements Screen {
 
     // order
     private final OrderSystem orderSystem;
-    public static Order currentOrder;
+    //    public static Order currentOrder;
     public static int ordersCompleted = 0;
 
     /**
@@ -90,7 +74,7 @@ public class PlayScreen implements Screen {
         // game, camera and map setup
         gameCam = new OrthographicCamera();
         gamePort = new FitViewport(PiazzaPanic.V_WIDTH * V_ZOOM, PiazzaPanic.V_HEIGHT * V_ZOOM, gameCam);
-        mapLoader = new TmxMapLoader();
+        TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("piazza2.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
         gameCam.position.set(gamePort.getWorldWidth() / (4 * V_ZOOM), gamePort.getWorldHeight() / (2.2f * V_ZOOM), 0);
@@ -107,9 +91,7 @@ public class PlayScreen implements Screen {
 
         // order
         orderSystem = new OrderSystem();
-        font = new BitmapFont();
         batch = new SpriteBatch();
-
     }
 
     /**
@@ -228,14 +210,13 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
         hud.stage.draw();
         orderHud.stage.draw();
-
     }
 
     /**
      * Resizes screen accordingly
      *
-     * @param width
-     * @param height
+     * @param width width
+     * @param height height
      */
     @Override
     public void resize(int width, int height) {
@@ -268,6 +249,5 @@ public class PlayScreen implements Screen {
         b2dr.dispose();
         hud.dispose();
         orderHud.dispose();
-
     }
 }

@@ -1,6 +1,6 @@
 package com.oshewo.panic.enums;
 
-public enum Ingredients {
+public enum Item {
     LETTUCE,
     TOMATO,
     ONION,

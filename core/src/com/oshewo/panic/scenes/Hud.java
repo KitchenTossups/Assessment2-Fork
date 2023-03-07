@@ -15,10 +15,10 @@ import com.oshewo.panic.PiazzaPanic;
 
 /**
  * The Hud displays the time and score counter
+ *
  * @author Oshewo
  */
-public class Hud implements Disposable
-{
+public class Hud implements Disposable {
     public Stage stage;
     private final Viewport viewport;
 
@@ -27,11 +27,11 @@ public class Hud implements Disposable
     public static int score;
     public static long hudStartTime;
 
-// HUD labels will be split into static labels and dynamic labels that will be combined into the hud in a way such as STATIC : DYNAMIC or Time: (S) 12 (D)
+    // HUD labels will be split into static labels and dynamic labels that will be combined into the hud in a way such as STATIC : DYNAMIC or Time: (S) 12 (D)
     // Static labels (e.g. "Time:")
     Label timeLabel;
     Label scoreLabel;
-// Dynamic labels (e.g. "9" -> "10" etc)
+    // Dynamic labels (e.g. "9" -> "10" etc)
     Label countdownLabel;
     Label pointsLabel;
 
@@ -40,7 +40,7 @@ public class Hud implements Disposable
      *
      * @param sb the sb
      */
-    public Hud(SpriteBatch sb){
+    public Hud(SpriteBatch sb) {
         worldTimer = 0;
         timeCount = 0;
         score = 3;
@@ -71,8 +71,8 @@ public class Hud implements Disposable
     /**
      * Updates time and score as the game progresses
      */
-    public void update(){
-        worldTimer = (int)TimeUtils.timeSinceMillis(hudStartTime)/1000;
+    public void update() {
+        worldTimer = (int) TimeUtils.timeSinceMillis(hudStartTime) / 1000;
         countdownLabel.setText(String.format("%03d", worldTimer));
         pointsLabel.setText(String.format("%03d", score));
 

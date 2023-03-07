@@ -2,7 +2,7 @@ package com.oshewo.panic.stations;
 
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.oshewo.panic.enums.Ingredients;
+import com.oshewo.panic.enums.Item;
 import com.oshewo.panic.interfaces.Interactable;
 import com.oshewo.panic.sprites.Chef;
 import com.oshewo.panic.sprites.Food;
@@ -19,17 +19,17 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  */
 public class FoodCrate implements Interactable {
     private final Rectangle bounds;
-    private final Ingredients ingredient;
+    private final Item item;
 
     /**
      * Instantiates a new Food crate.
      *
      * @param bounds the bounds
-     * @param ingredient the ingredient
+     * @param item the ingredient
      */
-    public FoodCrate(Rectangle bounds, Ingredients ingredient) {
+    public FoodCrate(Rectangle bounds, Item item) {
         this.bounds = bounds;
-        this.ingredient = ingredient;
+        this.item = item;
     }
 
     /**
@@ -54,20 +54,20 @@ public class FoodCrate implements Interactable {
     public void onUse(Chef chefInUse) {
         if (checkForChef() != null) {
             String texture;
-            if (ingredient == Ingredients.LETTUCE) {
+            if (item == Item.LETTUCE) {
                 texture = "lettuce.png";
-            } else if (ingredient == Ingredients.TOMATO) {
+            } else if (item == Item.TOMATO) {
                 texture = "tomato.png";
-            } else if (ingredient == Ingredients.ONION) {
+            } else if (item == Item.ONION) {
                 texture = "onion.png";
-            } else if (ingredient == Ingredients.PATTY) {
+            } else if (item == Item.PATTY) {
                 texture = "meat.png";
-            } else if (ingredient == Ingredients.BUN) {
+            } else if (item == Item.BUN) {
                 texture = "bun.png";
             } else {
                 return;
             }
-            Food gen = new Food(new Texture(texture), ingredient);
+            Food gen = new Food(new Texture(texture), item);
             gen.onUse(activePlayer);
         }
     }

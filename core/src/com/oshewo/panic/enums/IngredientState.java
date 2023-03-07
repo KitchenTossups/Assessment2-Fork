@@ -1,6 +1,7 @@
 package com.oshewo.panic.enums;
 
-public enum State {
+@SuppressWarnings("unused")
+public enum IngredientState {
     UNPREPARED,
     PREPARED,
     NOT_APPLICABLE, // This is for ingredients that are not in need of preparation

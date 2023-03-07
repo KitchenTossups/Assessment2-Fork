@@ -1,9 +1,8 @@
 package com.oshewo.panic.sprites;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.oshewo.panic.enums.Ingredients;
+import com.oshewo.panic.enums.Item;
 import com.oshewo.panic.enums.StationType;
 
 import java.util.ArrayList;
@@ -22,7 +21,7 @@ import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
 public class Station {
     private final StationType type;
     private final Rectangle bounds;
-    private Ingredients ingredient;
+    private Item item;
     private CountdownTimer timer;
 
 
@@ -140,9 +139,9 @@ public class Station {
      * @return the string for the png of the food
      */
     public String cookingOutput() {
-        if (ingredient == Ingredients.BUN) {
+        if (item == Item.BUN) {
             return "bun_toasted.png";
-        } else if (ingredient == Ingredients.PATTY) {
+        } else if (item == Item.PATTY) {
             return "patty_cooked.png";
         }
         return null;

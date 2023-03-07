@@ -4,7 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.oshewo.panic.enums.Ingredients;
+import com.oshewo.panic.enums.Item;
 import com.oshewo.panic.interfaces.Interactable;
 
 
@@ -20,7 +20,7 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  * @author Oshewo
  */
 public class Food extends Sprite implements Interactable {
-    private final Ingredients ingredient;
+    private final Item item;
 
     // how the foods can be prepped
     private boolean choppable = false;
@@ -35,14 +35,14 @@ public class Food extends Sprite implements Interactable {
      * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
      *
      * @param texture    the texture for the food
-     * @param ingredient the ingredient
+     * @param item the ingredient
      */
-    public Food(Texture texture, Ingredients ingredient) {
+    public Food(Texture texture, Item item) {
         super(texture);
-        this.ingredient = ingredient;
-        if (ingredient == Ingredients.TOMATO || ingredient == Ingredients.ONION || ingredient == Ingredients.LETTUCE) {
+        this.item = item;
+        if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
             this.choppable = true;
-        } else if (ingredient == Ingredients.BUN || ingredient == Ingredients.PATTY) {
+        } else if (item == Item.BUN || item == Item.PATTY) {
             this.grillable = true;
         }
         foodArray.add(this);
@@ -59,28 +59,28 @@ public class Food extends Sprite implements Interactable {
             this.setX(chefToFollow.getX() + chefToFollow.getWidth() / 4);
             this.setY(chefToFollow.getY());
         } else {
-            List<Ingredients> ingredientsList = new ArrayList<>();
+            List<Item> itemList = new ArrayList<>();
             List<Food> foods = new ArrayList<>();
             for (Food food : foodArray) {
                 if (!food.isCarried()) {
                     float yDiff = food.getPosition().y - this.getPosition().y;
                     float xDiff = food.getPosition().x - this.getPosition().x;
                     if (yDiff >= -16 && yDiff <= 16 && xDiff >= -16 && xDiff <= 16) {
-                        Ingredients ingredient = food.getIngredient();
-                        ingredientsList.add(ingredient);
+                        Item item = food.getIngredient();
+                        itemList.add(item);
                         foods.add(food);
                     }
                 }
             }
-            if (ingredientsList.size() == 3 && ingredientsList.contains(Ingredients.TOMATO) && ingredientsList.contains(Ingredients.ONION) && ingredientsList.contains(Ingredients.LETTUCE)) {
-                Food gen = new Food(new Texture("salad.png"), Ingredients.SALAD);
+            if (itemList.size() == 3 && itemList.contains(Item.TOMATO) && itemList.contains(Item.ONION) && itemList.contains(Item.LETTUCE)) {
+                Food gen = new Food(new Texture("salad.png"), Item.SALAD);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {
                     foodArray.remove(food);
                 }
-            } else if (ingredientsList.size() == 2 && ingredientsList.contains(Ingredients.BUN) && ingredientsList.contains(Ingredients.PATTY)) {
-                Food gen = new Food(new Texture("burger.png"), Ingredients.BURGER);
+            } else if (itemList.size() == 2 && itemList.contains(Item.BUN) && itemList.contains(Item.PATTY)) {
+                Food gen = new Food(new Texture("burger.png"), Item.BURGER);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {
@@ -144,8 +144,8 @@ public class Food extends Sprite implements Interactable {
      *
      * @return id
      */
-    public Ingredients getIngredient() {
-        return ingredient;
+    public Item getIngredient() {
+        return item;
     }
 
     /**

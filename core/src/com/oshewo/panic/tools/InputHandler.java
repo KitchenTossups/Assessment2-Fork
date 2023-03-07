@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
-import com.oshewo.panic.enums.Ingredients;
+import com.oshewo.panic.enums.Item;
 import com.oshewo.panic.sprites.Food;
 import com.oshewo.panic.stations.FoodCrate;
 
@@ -87,27 +87,27 @@ public class InputHandler {
     public static void debugControls(){
         // spawn lettuce
         if(Gdx.input.isKeyJustPressed(Input.Keys.E)){
-            Food gen = new Food(new Texture("lettuce.png"), Ingredients.LETTUCE);
+            Food gen = new Food(new Texture("lettuce.png"), Item.LETTUCE);
             gen.setX(activePlayer.getX());
             gen.setY(activePlayer.getY());
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.R)){
-            Food gen = new Food(new Texture("tomato.png"), Ingredients.TOMATO);
+            Food gen = new Food(new Texture("tomato.png"), Item.TOMATO);
             gen.setX(activePlayer.getX());
             gen.setY(activePlayer.getY());
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.T)){
-            Food gen = new Food(new Texture("onion.png"), Ingredients.ONION);
+            Food gen = new Food(new Texture("onion.png"), Item.ONION);
             gen.setX(activePlayer.getX());
             gen.setY(activePlayer.getY());
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.Y)){
-            Food gen = new Food(new Texture("meat.png"), Ingredients.PATTY);
+            Food gen = new Food(new Texture("meat.png"), Item.PATTY);
             gen.setX(activePlayer.getX());
             gen.setY(activePlayer.getY());
         }
         if(Gdx.input.isKeyJustPressed(Input.Keys.U)){
-            Food gen = new Food(new Texture("bun.png"), Ingredients.BUN);
+            Food gen = new Food(new Texture("bun.png"), Item.BUN);
             gen.setX(activePlayer.getX());
             gen.setY(activePlayer.getY());
         }

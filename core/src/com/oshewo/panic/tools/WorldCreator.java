@@ -47,15 +47,15 @@ public class WorldCreator {
             } else if (mapLayer.getName().equals(TiledAssets.SERVING_STATION.getLayerName())) {
                 InitialiseServiceStation(mapLayer);
             } else if (mapLayer.getName().equals(TiledAssets.LETTUCE.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
+                InitialiseFoodObject(mapLayer, Item.LETTUCE);
             } else if (mapLayer.getName().equals(TiledAssets.TOMATO.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Ingredients.TOMATO);
+                InitialiseFoodObject(mapLayer, Item.TOMATO);
             } else if (mapLayer.getName().equals(TiledAssets.ONION.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Ingredients.ONION);
+                InitialiseFoodObject(mapLayer, Item.ONION);
             } else if (mapLayer.getName().equals(TiledAssets.PATTY.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Ingredients.PATTY);
+                InitialiseFoodObject(mapLayer, Item.PATTY);
             } else if (mapLayer.getName().equals(TiledAssets.BUNS.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Ingredients.BUN);
+                InitialiseFoodObject(mapLayer, Item.BUN);
             }
         }
     }
@@ -100,10 +100,10 @@ public class WorldCreator {
         }
     }
 
-    private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredient) {
+    private void InitialiseFoodObject(MapLayer mapLayer, Item item) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            crateArray.add(new FoodCrate(rectangle, ingredient));
+            crateArray.add(new FoodCrate(rectangle, item));
         }
     }
 }
