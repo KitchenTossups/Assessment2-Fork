@@ -13,7 +13,6 @@ import static com.oshewo.panic.screens.PlayScreen.orderHud;
  * @author sl3416, Oshewo
  */
 public class OrderSystem {
-    private final RandomXS128 random;
     public static HashMap<String, List<String>> recipes;
     public static Queue<Object> orders = new LinkedList<>();
     private final int orderId;
@@ -24,8 +23,7 @@ public class OrderSystem {
      * Creates recipes
      */
     public OrderSystem() {
-        random = new RandomXS128();
-        recipes = new HashMap<String, List<String>>();
+        recipes = new HashMap<>();
 
         // burger
         recipes.put("Burger", Arrays.asList("bun, toasted", "beef, formed then fried"));

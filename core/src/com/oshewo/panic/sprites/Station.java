@@ -41,11 +41,12 @@ public class Station {
      * Updates whether food has been served and if it is being prepped
      */
     public void update() {
-        if (foodId < 0) {
+//        if (foodId < 0) {
+        if (false) {
             checkForFood();
         } else if (timer.isComplete()) {
             output();
-            foodId = -1;
+//            foodId = -1;
             timerArray.remove(timer);
         } else {
             showProgress();
@@ -58,19 +59,19 @@ public class Station {
     public void checkForFood() {
         for (Food food : new ArrayList<>(foodArray)) {
             if (bounds.contains(food.getX(), food.getY()) && !food.followingChef) {
-                foodId = food.getId();
+//                foodId = food.getId();
                 if (food.isChoppable() && this.type == StationType.CHOPPING_BOARD) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(15, bounds);
                 } else if (food.isGrillable() && this.type == StationType.STOVE) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(15, bounds);
-                } else if (foodId == currentOrder.getOrderId() && this.type == StationType.SERVING) {
+//                } else if (foodId == currentOrder.getOrderId() && this.type == StationType.SERVING) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(0, bounds);
                     submitOrder();
                 } else {
-                    foodId = -1;
+//                    foodId = -1;
                 }
             }
         }
@@ -109,7 +110,8 @@ public class Station {
         } else {
             return;
         }
-        Food gen = new Food(new Texture(texture), foodId);
+        Food gen = new Food(null, null);
+//        Food gen = new Food(new Texture(texture), foodId);
         gen.setX(bounds.getX() - 10);
         gen.setY(bounds.getY() - 10);
     }
@@ -120,15 +122,15 @@ public class Station {
      * @return the string for the png of the food
      */
     public String choppingOutput() {
-        if (foodId == 1) {
-            return "lettuce_chopped.png";
-        } else if (foodId == 2) {
-            return "tomato_chopped.png";
-        } else if (foodId == 3) {
-            return "onion_chopped.png";
-        } else if (foodId == 4) {
-            return "patty.png";
-        }
+//        if (foodId == 1) {
+//            return "lettuce_chopped.png";
+//        } else if (foodId == 2) {
+//            return "tomato_chopped.png";
+//        } else if (foodId == 3) {
+//            return "onion_chopped.png";
+//        } else if (foodId == 4) {
+//            return "patty.png";
+//        }
         return null;
     }
 
