@@ -27,7 +27,7 @@ public class Food extends Sprite implements Interactable {
     private boolean grillable = false;
 
     // what is being held by the chef
-    public static ArrayList<Food> foodArray = new ArrayList<Food>();
+    public static ArrayList<Food> foodArray = new ArrayList<>();
     public boolean followingChef = false;
     private Chef chefToFollow;
 

@@ -49,8 +49,7 @@ public class PlayScreen implements Screen {
 
     // Chef
     public static Chef activePlayer;
-    private static Chef player0;
-    private static Chef player1;
+    private static Chef player0, player1, player2;
 
     // order
     private final OrderSystem orderSystem;
@@ -72,12 +71,14 @@ public class PlayScreen implements Screen {
         orderHud = new OrderHud(game.batch);
 
         // game, camera and map setup
-        gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(PiazzaPanic.V_WIDTH * V_ZOOM, PiazzaPanic.V_HEIGHT * V_ZOOM, gameCam);
-        TmxMapLoader mapLoader = new TmxMapLoader();
-        map = mapLoader.load("piazza2.tmx");
+        gameCam = new OrthographicCamera(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT);
+//        gamePort = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, gameCam);
+        gamePort = new FitViewport(PiazzaPanic.V_WIDTH / (V_ZOOM), PiazzaPanic.V_HEIGHT / (V_ZOOM), gameCam);
+        mapLoader = new TmxMapLoader();
+        map = mapLoader.load("piazza-map-big.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
-        gameCam.position.set(gamePort.getWorldWidth() / (4 * V_ZOOM), gamePort.getWorldHeight() / (2.2f * V_ZOOM), 0);
+        gameCam.position.set(gamePort.getWorldWidth() / (1.9f * V_ZOOM), gamePort.getWorldHeight() / (1.1f * V_ZOOM), 0);
+//        gameCam.position.set(120, 300, 0);
         world = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
         new WorldCreator(world, map);
@@ -85,7 +86,9 @@ public class PlayScreen implements Screen {
         // sets up and positions both chefs in the game
         player0 = new Chef(world, 0, this);
         player1 = new Chef(world, 1, this);
+        player2 = new Chef(world, 2, this);
         player1.getBDef().position.set(160, 160);
+        player2.getBDef().position.set(200, 160);
         // current chef is set to player 0 by default
         activePlayer = player0;
 
@@ -110,6 +113,9 @@ public class PlayScreen implements Screen {
         if (activePlayer == player0) {
             activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
             activePlayer = player1;
+        } else if (activePlayer == player1) {
+            activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
+            activePlayer = player2;
         } else {
             activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
             activePlayer = player0;

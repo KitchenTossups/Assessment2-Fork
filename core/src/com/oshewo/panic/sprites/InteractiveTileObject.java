@@ -10,14 +10,14 @@ import com.badlogic.gdx.physics.box2d.*;
  *
  * @author Oshewo
  */
-public abstract class  InteractiveTileObject {
+public abstract class InteractiveTileObject {
     protected World world;
     protected TiledMap map;
     protected TiledMapTile tile;
     protected Rectangle bounds;
     protected Body body;
 
-    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds){
+    public InteractiveTileObject(World world, TiledMap map, Rectangle bounds) {
         this.world = world;
         this.map = map;
         this.bounds = bounds;
@@ -28,11 +28,11 @@ public abstract class  InteractiveTileObject {
         PolygonShape shape = new PolygonShape();
 
         bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set(bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight()/2);
+        bdef.position.set(bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2);
 
         body = world.createBody(bdef);
 
-        shape.setAsBox(bounds.getWidth()/2,bounds.getHeight()/2);
+        shape.setAsBox(bounds.getWidth() / 2, bounds.getHeight() / 2);
         fdef.shape = shape;
         body.createFixture(fdef);
     }
