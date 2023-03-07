@@ -5,10 +5,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
-import com.oshewo.panic.enums.TiledAssets;
+import com.oshewo.panic.enums.*;
 import com.oshewo.panic.sprites.Station;
 import com.oshewo.panic.stations.FoodCrate;
-import com.oshewo.panic.stations.Servery;
 
 
 import java.util.*;
@@ -38,10 +37,8 @@ public class WorldCreator {
         this.world = world;
         this.map = map;
 
-        //New code
         for (MapLayer mapLayer : map.getLayers()) {
             if (mapLayer.getName().equals(TiledAssets.WALLS.getLayerName())) {
-                System.out.println(TiledAssets.WALLS.getLayerName());
                 InitialiseWalls(mapLayer);
             } else if (mapLayer.getName().equals(TiledAssets.STOVES.getLayerName())) {
                 InitialiseStoves(mapLayer);
@@ -50,15 +47,15 @@ public class WorldCreator {
             } else if (mapLayer.getName().equals(TiledAssets.SERVING_STATION.getLayerName())) {
                 InitialiseServiceStation(mapLayer);
             } else if (mapLayer.getName().equals(TiledAssets.LETTUCE.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 1);
+                InitialiseFoodObject(mapLayer, Item.LETTUCE);
             } else if (mapLayer.getName().equals(TiledAssets.TOMATO.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 2);
+                InitialiseFoodObject(mapLayer, Item.TOMATO);
             } else if (mapLayer.getName().equals(TiledAssets.ONION.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 3);
+                InitialiseFoodObject(mapLayer, Item.ONION);
             } else if (mapLayer.getName().equals(TiledAssets.PATTY.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 4);
+                InitialiseFoodObject(mapLayer, Item.PATTY);
             } else if (mapLayer.getName().equals(TiledAssets.BUNS.getLayerName())) {
-                InitialiseFoodObject(mapLayer, 5);
+                InitialiseFoodObject(mapLayer, Item.BUN);
             }
         }
     }
@@ -83,36 +80,30 @@ public class WorldCreator {
     }
 
     private void InitialiseStoves(MapLayer mapLayer) {
-        int id = 0;
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            stoveArray.add(new Station("stove", id, rectangle));
-            id++;
+            stoveArray.add(new Station(StationType.STOVE, rectangle));
         }
     }
 
     private void InitialiseChoppingCounter(MapLayer mapLayer) {
-        int id = 0;
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            boardArray.add(new Station("board", id, rectangle));
-            id++;
+            boardArray.add(new Station(StationType.CHOPPING_BOARD, rectangle));
         }
     }
 
     private void InitialiseServiceStation(MapLayer mapLayer) {
-        int id = 0;
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            servingArray.add(new Servery("service", id, rectangle));
-            id++;
+            servingArray.add(new Station(StationType.SERVING, rectangle));
         }
     }
 
-    private void InitialiseFoodObject(MapLayer mapLayer, int ingredientID) {
+    private void InitialiseFoodObject(MapLayer mapLayer, Item item) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            crateArray.add(new FoodCrate(rectangle, ingredientID));
+            crateArray.add(new FoodCrate(rectangle, item));
         }
     }
 }

@@ -46,7 +46,6 @@ public class CountdownTimer extends Sprite {
             if (TimeUtils.timeSinceMillis(startTime) >= (seconds * 1000L)) {
                 isCounting = false;
             } else {
-
             }
         } else { // timer resets if isCounting is True
             timerArray.remove(this);

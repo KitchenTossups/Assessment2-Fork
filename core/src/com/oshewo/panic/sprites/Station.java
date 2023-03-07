@@ -1,8 +1,9 @@
 package com.oshewo.panic.sprites;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
+import com.oshewo.panic.enums.Item;
+import com.oshewo.panic.enums.StationType;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -19,23 +20,20 @@ import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
  * @author Oshewo
  */
 public class Station {
-    private final String type;
+    private final StationType type;
     private final Rectangle bounds;
-    private final int id;
-    private int foodId = -1;
+    private Item item;
     private CountdownTimer timer;
 
 
     /**
      * Instantiates a new Station.
      *
-     * @param type   the type
-     * @param id     the id
+     * @param stationType   the station type
      * @param bounds the bounds
      */
-    public Station(String type, int id, Rectangle bounds) {
-        this.type = type;
-        this.id = id;
+    public Station(StationType stationType, Rectangle bounds) {
+        this.type = stationType;
         this.bounds = bounds;
     }
 
@@ -43,11 +41,12 @@ public class Station {
      * Updates whether food has been served and if it is being prepped
      */
     public void update() {
-        if (foodId < 0) {
+//        if (foodId < 0) {
+        if (false) {
             checkForFood();
         } else if (timer.isComplete()) {
             output();
-            foodId = -1;
+//            foodId = -1;
             timerArray.remove(timer);
         } else {
             showProgress();
@@ -60,19 +59,19 @@ public class Station {
     public void checkForFood() {
         for (Food food : new ArrayList<>(foodArray)) {
             if (bounds.contains(food.getX(), food.getY()) && !food.followingChef) {
-                foodId = food.getId();
-                if (food.isChoppable() && Objects.equals(this.type, "board")) {
+//                foodId = food.getId();
+                if (food.isChoppable() && this.type == StationType.CHOPPING_BOARD) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(15, bounds);
-                } else if (food.isGrillable() && Objects.equals(this.type, "stove")) {
+                } else if (food.isGrillable() && this.type == StationType.STOVE) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(15, bounds);
-                } else if (foodId == currentOrder.getOrderId() && Objects.equals(this.type, "service")) {
+//                } else if (foodId == currentOrder.getOrderId() && this.type == StationType.SERVING) {
                     foodArray.remove(food);
                     timer = new CountdownTimer(0, bounds);
                     submitOrder();
                 } else {
-                    foodId = -1;
+//                    foodId = -1;
                 }
             }
         }
@@ -103,15 +102,16 @@ public class Station {
      * Outputs finished food and the correct texture of cooked food.
      */
     public void output() {
-        String tex = "";
-        if (Objects.equals(type, "board"))
-            tex = choppingOutput();
-        else if (Objects.equals(type, "stove"))
-            tex = cookingOutput();
-        if (Objects.equals(tex, "") || tex == null)
+        String texture = "";
+        if (type == StationType.CHOPPING_BOARD) {
+            texture = choppingOutput();
+        } else if (type == StationType.STOVE) {
+            texture = cookingOutput();
+        } else {
             return;
-        foodId *= 10;
-        Food gen = new Food(new Texture(tex), foodId);
+        }
+        Food gen = new Food(null, null);
+//        Food gen = new Food(new Texture(texture), foodId);
         gen.setX(bounds.getX() - 10);
         gen.setY(bounds.getY() - 10);
     }
@@ -122,15 +122,15 @@ public class Station {
      * @return the string for the png of the food
      */
     public String choppingOutput() {
-        if (foodId == 1) {
-            return "lettuce_chopped.png";
-        } else if (foodId == 2) {
-            return "tomato_chopped.png";
-        } else if (foodId == 3) {
-            return "onion_chopped.png";
-        } else if (foodId == 4) {
-            return "patty.png";
-        }
+//        if (foodId == 1) {
+//            return "lettuce_chopped.png";
+//        } else if (foodId == 2) {
+//            return "tomato_chopped.png";
+//        } else if (foodId == 3) {
+//            return "onion_chopped.png";
+//        } else if (foodId == 4) {
+//            return "patty.png";
+//        }
         return null;
     }
 
@@ -140,9 +140,9 @@ public class Station {
      * @return the string for the png of the food
      */
     public String cookingOutput() {
-        if (foodId == 5) {
+        if (item == Item.BUN) {
             return "bun_toasted.png";
-        } else if (foodId == 40) {
+        } else if (item == Item.PATTY) {
             return "patty_cooked.png";
         }
         return null;

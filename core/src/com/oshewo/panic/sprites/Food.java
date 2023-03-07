@@ -4,6 +4,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.oshewo.panic.enums.Item;
 import com.oshewo.panic.interfaces.Interactable;
 
 
@@ -19,8 +20,7 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  * @author Oshewo
  */
 public class Food extends Sprite implements Interactable {
-    // ID for the food
-    private final int id;
+    private final Item item;
 
     // how the foods can be prepped
     private boolean choppable = false;
@@ -34,15 +34,15 @@ public class Food extends Sprite implements Interactable {
     /**
      * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
      *
-     * @param texture the texture for the food
-     * @param id      the id of the food
+     * @param texture    the texture for the food
+     * @param item the ingredient
      */
-    public Food(Texture texture, int id) {
+    public Food(Texture texture, Item item) {
         super(texture);
-        this.id = id;
-        if (id <= 4 && id >= 1) {
+        this.item = item;
+        if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
             this.choppable = true;
-        } else if (id == 5 || id == 40) {
+        } else if (item == Item.BUN || item == Item.PATTY) {
             this.grillable = true;
         }
         foodArray.add(this);
@@ -59,28 +59,28 @@ public class Food extends Sprite implements Interactable {
             this.setX(chefToFollow.getX() + chefToFollow.getWidth() / 4);
             this.setY(chefToFollow.getY());
         } else {
-            List<Integer> idList = new ArrayList<>();
+            List<Item> itemList = new ArrayList<>();
             List<Food> foods = new ArrayList<>();
             for (Food food : foodArray) {
                 if (!food.isCarried()) {
                     float yDiff = food.getPosition().y - this.getPosition().y;
                     float xDiff = food.getPosition().x - this.getPosition().x;
                     if (yDiff >= -16 && yDiff <= 16 && xDiff >= -16 && xDiff <= 16) {
-                        int id = food.getId();
-                        idList.add(id);
+                        Item item = food.getIngredient();
+                        itemList.add(item);
                         foods.add(food);
                     }
                 }
             }
-            if (idList.size() == 3 && idList.contains(10) && idList.contains(20) && idList.contains(30)) {
-                Food gen = new Food(new Texture("salad.png"), 60);
+            if (itemList.size() == 3 && itemList.contains(Item.TOMATO) && itemList.contains(Item.ONION) && itemList.contains(Item.LETTUCE)) {
+                Food gen = new Food(new Texture("salad.png"), Item.SALAD);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {
                     foodArray.remove(food);
                 }
-            } else if (idList.size() == 2 && idList.contains(400) && idList.contains(50)) {
-                Food gen = new Food(new Texture("burger.png"), 450);
+            } else if (itemList.size() == 2 && itemList.contains(Item.BUN) && itemList.contains(Item.PATTY)) {
+                Food gen = new Food(new Texture("burger.png"), Item.BURGER);
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {
@@ -144,8 +144,8 @@ public class Food extends Sprite implements Interactable {
      *
      * @return id
      */
-    public int getId() {
-        return id;
+    public Item getIngredient() {
+        return item;
     }
 
     /**

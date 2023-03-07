@@ -1,7 +1,8 @@
 package com.oshewo.panic.tools;
 
-import com.badlogic.gdx.math.RandomXS128;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.oshewo.panic.enums.Product;
+import com.oshewo.panic.non_sprite.Recipe;
 
 import java.util.*;
 
@@ -14,10 +15,10 @@ import static com.oshewo.panic.screens.PlayScreen.orderHud;
  * @author sl3416, Oshewo
  */
 public class OrderSystem {
-    private final RandomXS128 random;
-    public static HashMap<String, List<String>> recipes;
-    public static Queue<Object> orders = new LinkedList<>();
-    private final int orderId;
+//    public static HashMap<String, List<String>> recipes;
+//    public static Queue<Object> orders = new LinkedList<>();
+    private static final List<Recipe> orders = new ArrayList<>();
+//    private final int orderId;
     private com.badlogic.gdx.utils.Timer timer;
 
     /**
@@ -25,37 +26,32 @@ public class OrderSystem {
      * Creates recipes
      */
     public OrderSystem() {
-        random = new RandomXS128();
-        recipes = new HashMap<>();
-
-        // burger
-        recipes.put("Burger", Arrays.asList("bun, toasted", "beef, formed then fried"));
-
-        // salad
-        recipes.put("Salad", Arrays.asList("lettuce, chopped", "tomato, chopped", "onion, chopped"));
-        orderId = 1;
+//        recipes = new HashMap<>();
+//
+//        // burger
+//        recipes.put("Burger", Arrays.asList("bun, toasted", "beef, formed then fried"));
+//
+//        // salad
+//        recipes.put("Salad", Arrays.asList("lettuce, chopped", "tomato, chopped", "onion, chopped"));
+//        orderId = 1;
     }
 
-    /**
-     * Gets recipes.
-     *
-     * @return the recipes
-     */
-    public static HashMap<String, List<String>> getRecipes() {
-        return recipes;
-    }
+//    /**
+//     * Gets recipes.
+//     *
+//     * @return the recipes
+//     */
+//    public static HashMap<String, List<String>> getRecipes() {
+//        return recipes;
+//    }
 
     /**
      * Generate order randomly.
      *
      * @return the order
      */
-    public Order generateOrder() {
-        Set<String> recipeTypes = recipes.keySet();
-        int recipeSize = recipeTypes.size();
-        int randomIndex = new Random().nextInt(recipeSize);
-        String recipeType = (String) recipeTypes.toArray()[randomIndex];
-        return new Order(recipeType);
+    public Recipe generateOrder() {
+        return new Recipe(Product.getRandomProduct());
     }
 
     /**
@@ -73,9 +69,9 @@ public class OrderSystem {
             @Override
             public void run() {
                 if (currentOrder != null) {
-                    recipeLabel.setText(currentOrder.getRecipeType());
+                    recipeLabel.setText(currentOrder.getEndProduct());
 
-                    switch (currentOrder.getRecipeType()) {
+                    switch (currentOrder.getEndProduct()) {
                         case "Burger":
                             ingredient1Label.setText("bun");
                             ingredient2Label.setText("patty");
@@ -95,6 +91,5 @@ public class OrderSystem {
                 }
             }
         }, 1);
-
     }
 }
