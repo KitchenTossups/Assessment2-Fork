@@ -43,28 +43,31 @@ public class Recipe {
         List<Ingredient> items = new ArrayList<>();
         switch (this.endProduct) {
             case CHEESEBURGER:
-//                items.add(new Ingredient(Item.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
                 items.add(new Ingredient(Item.PATTY, IngredientState.COOKED));
-                items.add(new Ingredient(Item.CHEESE, IngredientState.NOT_APPLICABLE));
-//                items.add(new Ingredient(Item.TOP_BUN, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.CHEDDAR, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.TOP_BUN, IngredientState.NOT_APPLICABLE));
                 break;
             case DOUBLE_CHEESEBURGER:
-//                items.add(new Ingredient(Item.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
                 items.add(new Ingredient(Item.PATTY, IngredientState.COOKED));
-                items.add(new Ingredient(Item.CHEESE, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.CHEDDAR, IngredientState.NOT_APPLICABLE));
                 items.add(new Ingredient(Item.PATTY, IngredientState.COOKED));
-                items.add(new Ingredient(Item.CHEESE, IngredientState.NOT_APPLICABLE));
-//                items.add(new Ingredient(Item.TOP_BUN, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.CHEDDAR, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.TOP_BUN, IngredientState.NOT_APPLICABLE));
                 break;
             case BURGER:
-//                items.add(new Ingredient(Item.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
                 items.add(new Ingredient(Item.PATTY, IngredientState.COOKED));
-//                items.add(new Ingredient(Item.TOP_BUN, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.TOP_BUN, IngredientState.NOT_APPLICABLE));
                 break;
             case SALAD:
                 items.add(new Ingredient(Item.LETTUCE, IngredientState.CUT));
                 items.add(new Ingredient(Item.TOMATO, IngredientState.CUT));
                 items.add(new Ingredient(Item.ONION, IngredientState.CUT));
+                break;
+            case JACKET_PLAIN:
+                items.add(new Ingredient(Item.JACKET, IngredientState.COOKED));
                 break;
             case JACKET_BEANS:
                 items.add(new Ingredient(Item.JACKET, IngredientState.COOKED));
@@ -72,12 +75,21 @@ public class Recipe {
                 break;
             case JACKET_CHEESE:
                 items.add(new Ingredient(Item.JACKET, IngredientState.COOKED));
-                items.add(new Ingredient(Item.CHEESE, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.CHEDDAR, IngredientState.NOT_APPLICABLE));
                 break;
             case JACKET_CHEESE_BEANS:
                 items.add(new Ingredient(Item.JACKET, IngredientState.COOKED));
                 items.add(new Ingredient(Item.BEANS, IngredientState.COOKED));
-                items.add(new Ingredient(Item.CHEESE, IngredientState.NOT_APPLICABLE));
+                items.add(new Ingredient(Item.CHEDDAR, IngredientState.NOT_APPLICABLE));
+                break;
+            case PIZZA_MARGARITA:
+                items.add(new Ingredient(Item.PIZZA_BASE, IngredientState.COOKED));
+                items.add(new Ingredient(Item.MOZZARELLA, IngredientState.PREPARED));
+                break;
+            case PIZZA_PEPERONI:
+                items.add(new Ingredient(Item.PIZZA_BASE, IngredientState.COOKED));
+                items.add(new Ingredient(Item.MOZZARELLA, IngredientState.PREPARED));
+                items.add(new Ingredient(Item.PEPERONI, IngredientState.CUT));
                 break;
         }
         return items;
