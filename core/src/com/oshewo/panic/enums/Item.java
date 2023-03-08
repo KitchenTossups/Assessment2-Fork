@@ -5,10 +5,48 @@ public enum Item {
     TOMATO,
     ONION,
     PATTY,
-    CHEESE,
-    BUN,
+    CHEDDAR,
+    BOTTOM_BUN,
+    TOP_BUN,
     JACKET,
     BEANS,
-    BURGER,
-    SALAD;
+    PIZZA_BASE,
+    MOZZARELLA,
+    PEPERONI;
+
+    @Override
+    public String toString() {
+        switch (this) {
+//            case TOP_BUN:
+//                return "Top Bun";
+//            case BOTTOM_BUN:
+//                return "Bottom Bun";
+            case PATTY:
+                return "Patty";
+            case CHEDDAR:
+                return "Cheddar";
+            case LETTUCE:
+                return "Lettuce";
+            case TOMATO:
+                return "Tomato";
+            case ONION:
+                return "Onion";
+            case BOTTOM_BUN:
+                return "Bottom Bun";
+            case TOP_BUN:
+                return "Top Bun";
+            case BEANS:
+                return "Beans";
+            case JACKET:
+                return "Jacket";
+            case PEPERONI:
+                return "Peperoni";
+            case MOZZARELLA:
+                return "Mozzarella";
+            case PIZZA_BASE:
+                return "Pizza Base";
+            default:
+                return null;
+        }
+    }
 }
