@@ -20,7 +20,9 @@ import com.oshewo.panic.PiazzaPanic;
 public class Hud implements Disposable {
     public Stage stage;
 
-    private int worldTimer;
+    private final PiazzaPanic game;
+
+//    private int worldTimer;
     public static int score;
     public static long hudStartTime;
 
@@ -29,21 +31,21 @@ public class Hud implements Disposable {
     Label timeLabel;
     Label scoreLabel;
     // Dynamic labels (e.g. "9" -> "10" etc)
-    Label countdownLabel;
-    Label pointsLabel;
+    Label countupLabel;
+    Label livesLabel;
 
     /**
      * Instantiates a new Hud which contains time and score
      *
-     * @param sb the sb
+     * @param game Piazza Panic
      */
-    public Hud(SpriteBatch sb) {
-        worldTimer = 0;
+    public Hud(PiazzaPanic game) {
+        this.game = game;
         score = 3;
         hudStartTime = TimeUtils.millis();
 
         Viewport viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, sb);
+        stage = new Stage(viewport, game.batch);
 
         // score and time HUD
         Table table = new Table();
@@ -64,16 +66,16 @@ public class Hud implements Disposable {
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.WHITE);
 
-        countdownLabel = new Label(String.format("%02d", worldTimer), style);
-        pointsLabel = new Label(String.format("%03d", score), style);
+        countupLabel = new Label(String.format("%03d", game.worldTimer), style);
+        livesLabel = new Label(String.format("%01d", score), style);
         timeLabel = new Label("TIME", style);
-        scoreLabel = new Label("SCORE", style);
+        scoreLabel = new Label("LIVES", style);
 
         table.add(scoreLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.row().pad(10);
-        table.add(pointsLabel).expandX();
-        table.add(countdownLabel).expandX();
+        table.add(livesLabel).expandX();
+        table.add(countupLabel).expandX();
 
         stage.addActor(table);
     }
@@ -82,10 +84,9 @@ public class Hud implements Disposable {
      * Updates time and score as the game progresses
      */
     public void update() {
-        worldTimer = (int) TimeUtils.timeSinceMillis(hudStartTime) / 1000;
-        countdownLabel.setText(String.format("%03d", worldTimer));
-        pointsLabel.setText(String.format("%03d", score));
-
+        game.worldTimer = (int) TimeUtils.timeSinceMillis(hudStartTime) / 1000;
+        countupLabel.setText(String.format("%03d", game.worldTimer));
+        livesLabel.setText(String.format("%01d", score));
     }
 
     /**
