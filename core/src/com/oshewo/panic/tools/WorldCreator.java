@@ -61,21 +61,21 @@ public class WorldCreator {
     }
 
     private void InitialiseWalls(MapLayer mapLayer) {
-        BodyDef bdef = new BodyDef();
+        BodyDef bodyDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
-        FixtureDef fdef = new FixtureDef();
+        FixtureDef fixtureDef = new FixtureDef();
 
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
 
-            bdef.type = BodyDef.BodyType.StaticBody;
-            bdef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2);
+            bodyDef.type = BodyDef.BodyType.StaticBody;
+            bodyDef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2);
 
-            body = world.createBody(bdef);
+            body = world.createBody(bodyDef);
 
             shape.setAsBox(rectangle.getWidth() / 2, rectangle.getHeight() / 2);
-            fdef.shape = shape;
-            body.createFixture(fdef);
+            fixtureDef.shape = shape;
+            body.createFixture(fixtureDef);
         }
     }
 

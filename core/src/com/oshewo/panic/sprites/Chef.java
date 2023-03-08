@@ -16,9 +16,8 @@ import static com.oshewo.panic.sprites.Food.foodArray;
 public class Chef extends Sprite {
     public World world;
     public Body b2body;
-    private final TextureRegion chefStand;
     public boolean isHolding = false;
-    private final BodyDef bdef = new BodyDef();
+    private final BodyDef bodyDef = new BodyDef();
 
     /**
      * Instantiates a new Chef.
@@ -31,7 +30,7 @@ public class Chef extends Sprite {
         super(screen.getAtlas().findRegion("chef0"));
         this.world = world;
         defineChef(id);
-        chefStand = new TextureRegion(getTexture(), 128 * id, 0, 32, 32);
+        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * id, 0, 32, 32);
         setBounds(0, 0, 32, 32);
         setRegion(chefStand);
     }
@@ -39,29 +38,27 @@ public class Chef extends Sprite {
 
     /**
      * Updates position of where the chef is at
-     *
-     * @param dt the dt
      */
-    public void update(float dt) {
+    public void update() {
         setPosition(b2body.getPosition().x - (getWidth() / 2), b2body.getPosition().y - (getHeight() / 4));
     }
 
     /**
-     * Sets collisions and hitbox for the chef
+     * Sets collisions and hit-box for the chef
      *
      * @param id the id
      */
     public void defineChef(int id) {
-        bdef.position.set(32 * (id * 5 + 5) + 10, 32 * 5);
-        bdef.type = BodyDef.BodyType.DynamicBody;
-        b2body = world.createBody(bdef);
+        bodyDef.position.set(32 * (id * 5 + 5) + 10, 32 * 5);
+        bodyDef.type = BodyDef.BodyType.DynamicBody;
+        b2body = world.createBody(bodyDef);
 
-        FixtureDef fdef = new FixtureDef();
+        FixtureDef fixtureDef = new FixtureDef();
         CircleShape shape = new CircleShape();
         shape.setRadius(10);
 
-        fdef.shape = shape;
-        b2body.createFixture(fdef);
+        fixtureDef.shape = shape;
+        b2body.createFixture(fixtureDef);
     }
 
     /**
@@ -108,6 +105,6 @@ public class Chef extends Sprite {
      * @return the body def
      */
     public BodyDef getBDef() {
-        return this.bdef;
+        return this.bodyDef;
     }
 }

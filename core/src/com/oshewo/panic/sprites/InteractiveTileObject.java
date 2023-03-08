@@ -23,17 +23,17 @@ public abstract class InteractiveTileObject {
         this.bounds = bounds;
 
         // object body
-        BodyDef bdef = new BodyDef();
-        FixtureDef fdef = new FixtureDef();
+        BodyDef bodyDef = new BodyDef();
+        FixtureDef fixtureDef = new FixtureDef();
         PolygonShape shape = new PolygonShape();
 
-        bdef.type = BodyDef.BodyType.StaticBody;
-        bdef.position.set(bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2);
+        bodyDef.type = BodyDef.BodyType.StaticBody;
+        bodyDef.position.set(bounds.getX() + bounds.getWidth() / 2, bounds.getY() + bounds.getHeight() / 2);
 
-        body = world.createBody(bdef);
+        body = world.createBody(bodyDef);
 
         shape.setAsBox(bounds.getWidth() / 2, bounds.getHeight() / 2);
-        fdef.shape = shape;
-        body.createFixture(fdef);
+        fixtureDef.shape = shape;
+        body.createFixture(fixtureDef);
     }
 }

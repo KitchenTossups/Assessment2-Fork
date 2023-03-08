@@ -82,7 +82,7 @@ public class Station {
      * Submit order which finishes current order and restarts hud timer
      */
     public void submitOrder() {
-        currentOrder = null;
+//        currentOrder = null;
         hudStartTime = TimeUtils.millis();
         ordersCompleted++;
     }

@@ -1,15 +1,11 @@
 package com.oshewo.panic.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.*;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
@@ -23,10 +19,8 @@ import com.oshewo.panic.PiazzaPanic;
  */
 public class Hud implements Disposable {
     public Stage stage;
-    private final Viewport viewport;
 
     private int worldTimer;
-    private final float timeCount;
     public static int score;
     public static long hudStartTime;
 
@@ -45,11 +39,10 @@ public class Hud implements Disposable {
      */
     public Hud(SpriteBatch sb) {
         worldTimer = 0;
-        timeCount = 0;
         score = 3;
         hudStartTime = TimeUtils.millis();
 
-        viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, new OrthographicCamera());
+        Viewport viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, sb);
 
         // score and time HUD

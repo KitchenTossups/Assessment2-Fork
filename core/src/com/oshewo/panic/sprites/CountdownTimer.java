@@ -19,7 +19,7 @@ public class CountdownTimer extends Sprite {
     /**
      * The constant timerArray.
      */
-    public static ArrayList<CountdownTimer> timerArray = new ArrayList<CountdownTimer>();
+    public static ArrayList<CountdownTimer> timerArray = new ArrayList<>();
 
     /**
      * Instantiates a new Countdown timer.
@@ -42,10 +42,8 @@ public class CountdownTimer extends Sprite {
      */
     public void update() {
         if (isCounting) {
-            long currentTime = TimeUtils.millis();
             if (TimeUtils.timeSinceMillis(startTime) >= (seconds * 1000L)) {
                 isCounting = false;
-            } else {
             }
         } else { // timer resets if isCounting is True
             timerArray.remove(this);
@@ -68,7 +66,6 @@ public class CountdownTimer extends Sprite {
      * @return the float value for the time
      */
     public float getProgressPercent() {
-        float prog = (float) TimeUtils.timeSinceMillis(startTime) / (seconds * 1000);
-        return prog;
+        return (float) TimeUtils.timeSinceMillis(startTime) / (seconds * 1000);
     }
 }
