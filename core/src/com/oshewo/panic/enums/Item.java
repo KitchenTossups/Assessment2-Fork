@@ -5,7 +5,10 @@ public enum Item {
     TOMATO,
     ONION,
     PATTY,
+    CHEESE,
     BUN,
+    JACKET,
+    BEANS,
     BURGER,
-    SALAD
+    SALAD;
 }
