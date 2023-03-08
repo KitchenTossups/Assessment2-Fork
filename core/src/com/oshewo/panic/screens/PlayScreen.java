@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import com.badlogic.gdx.utils.viewport.*;
 
+import com.oshewo.panic.enums.GameMode;
 import com.oshewo.panic.tools.*;
 import com.oshewo.panic.*;
 import com.oshewo.panic.scenes.*;
@@ -35,9 +36,11 @@ public class PlayScreen implements Screen {
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
     private final TiledMap map;
+    private final TmxMapLoader mapLoader;
     private final OrthoCachedTiledMapRenderer renderer;
     private final World world;
     private final Box2DDebugRenderer b2dr;
+    private final GameMode mode;
 
     // tools
     private final TextureAtlas atlas;
@@ -62,6 +65,7 @@ public class PlayScreen implements Screen {
      * @param game the game
      */
     public PlayScreen(PiazzaPanic game) {
+        this.mode = game.MODE;
         atlas = new TextureAtlas("sprites.txt");
 
         this.game = game;
@@ -93,7 +97,7 @@ public class PlayScreen implements Screen {
         activePlayer = player0;
 
         // order
-        orderSystem = new OrderSystem();
+        orderSystem = new OrderSystem(mode);
         batch = new SpriteBatch();
     }
 
@@ -129,12 +133,13 @@ public class PlayScreen implements Screen {
      */
     public void update(float dt) {
         // updates according to user input
-        InputHandler.handleInput(dt);
+        InputHandler.handleInput();
 
         world.step(1 / 60f, 6, 2);
 
-        player0.update(dt);
-        player1.update(dt);
+        player0.update();
+        player1.update();
+        player2.update();
 
         for (CountdownTimer timer : new ArrayList<>(timerArray)) {
             timer.update();
@@ -153,11 +158,11 @@ public class PlayScreen implements Screen {
         }
 
         // Generates order and continues until all orders are completed
-        if (currentOrder != null) {
+//        if (currentOrder != null) {
             orderSystem.update();
-        } else if (ordersCompleted <= 5) {
-            currentOrder = orderSystem.generateOrder();
-        }
+//        } else if (ordersCompleted <= 5) {
+//            currentOrder = orderSystem.generateOrder();
+//        }
 
         hud.update();
         renderer.setView(gameCam);
