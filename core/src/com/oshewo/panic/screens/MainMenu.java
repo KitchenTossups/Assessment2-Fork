@@ -15,8 +15,6 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.oshewo.panic.PiazzaPanic;
 
-import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
-
 /**
  * The game starts on the main menu which allows the player to either start playing the game or exit
  *
@@ -25,17 +23,10 @@ import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
 public class MainMenu implements Screen {
     // setup
     private final PiazzaPanic game;
-    private final OrthographicCamera camera;
     private final FitViewport viewport;
     private Stage stage;
 
-    // buttons setup
-    private TextureAtlas atlas;
-    private Skin skin;
-    private Table table;
-    private TextButton buttonPlay, buttonExit;
     private Texture background;
-    private BitmapFont font;
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;
 
@@ -47,8 +38,8 @@ public class MainMenu implements Screen {
     public MainMenu(final PiazzaPanic game) {
         this.game = game;
 
-        this.camera = new OrthographicCamera(PiazzaPanic.V_WIDTH/* / V_ZOOM*/, PiazzaPanic.V_HEIGHT/* / V_ZOOM*/);
-        this.viewport = new FitViewport(PiazzaPanic.V_WIDTH/* * V_ZOOM*/, PiazzaPanic.V_HEIGHT/* * V_ZOOM*/, camera);
+        OrthographicCamera camera = new OrthographicCamera(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT);
+        this.viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, camera);
     }
 
     /**
@@ -62,26 +53,27 @@ public class MainMenu implements Screen {
         stage = new Stage(viewport);
 
         // set background of main menu screen
-        background = new Texture(Gdx.files.internal("piazza_panic_main_menu_bckgrnd.png"));
+        background = new Texture(Gdx.files.internal("piazza_panic_main_menu_background.png"));
 
         // import buttons
-        atlas = new TextureAtlas(Gdx.files.internal("buttons.pack"));
-        skin = new Skin(atlas);
+        // buttons setup
+        TextureAtlas atlas = new TextureAtlas(Gdx.files.internal("buttons.pack"));
+        Skin skin = new Skin(atlas);
 
         // create table
-        table = new Table(skin);
+        Table table = new Table(skin);
         table.setBounds(0, -150, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         stage.addActor(table);
 
         // create Play button
-        font = new BitmapFont();
+        BitmapFont font = new BitmapFont();
 
         TextButtonStyle button = new TextButtonStyle();
         button.font = font;
         button.up = skin.getDrawable("play_button_inactive");
         button.down = skin.getDrawable("play_button_active");
 
-        buttonPlay = new TextButton("", button);
+        TextButton buttonPlay = new TextButton("", button);
         table.add(buttonPlay).center().size(buttonWidth, buttonHeight).pad(10);
         table.row();
 
@@ -96,13 +88,29 @@ public class MainMenu implements Screen {
             }
         });
 
+        TextButtonStyle button3 = new TextButtonStyle();
+        button3.font = font;
+        button3.up = skin.getDrawable("settings_button_inactive");
+        button3.down = skin.getDrawable("settings_button_active");
+
+        TextButton buttonSetting = new TextButton("", button3);
+        table.add(buttonSetting).center().size(buttonWidth, buttonHeight).pad(10);
+        table.row();
+
+        buttonSetting.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setScreen(new SettingsScreen(game));
+            }
+        });
+
         // create Exit button
         TextButtonStyle button2 = new TextButtonStyle();
         button2.font = font;
         button2.up = skin.getDrawable("exit_button_inactive");
         button2.down = skin.getDrawable("exit_button_active");
 
-        buttonExit = new TextButton("", button2);
+        TextButton buttonExit = new TextButton("", button2);
         table.add(buttonExit).center().size(buttonWidth, buttonHeight).pad(10);
 
         // button event handler for Exit button
