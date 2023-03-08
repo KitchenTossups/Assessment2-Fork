@@ -55,7 +55,7 @@ public class WorldCreator {
             } else if (mapLayer.getName().equals(TiledAssets.PATTY.getLayerName())) {
                 InitialiseFoodObject(mapLayer, Item.PATTY);
             } else if (mapLayer.getName().equals(TiledAssets.BUNS.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Item.BUN);
+                InitialiseFoodObject(mapLayer, Item.TOP_BUN);
             }
         }
     }

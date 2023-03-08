@@ -62,7 +62,7 @@ public class FoodCrate implements Interactable {
                 texture = "onion.png";
             } else if (item == Item.PATTY) {
                 texture = "meat.png";
-            } else if (item == Item.BUN) {
+            } else if (item == Item.TOP_BUN) {
                 texture = "bun.png";
             } else {
                 return;

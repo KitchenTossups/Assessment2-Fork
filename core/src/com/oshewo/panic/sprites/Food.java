@@ -42,7 +42,7 @@ public class Food extends Sprite implements Interactable {
         this.item = item;
         if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
             this.choppable = true;
-        } else if (item == Item.BUN || item == Item.PATTY) {
+        } else if (item == Item.TOP_BUN || item == Item.PATTY) {
             this.grillable = true;
         }
         foodArray.add(this);
@@ -73,14 +73,16 @@ public class Food extends Sprite implements Interactable {
                 }
             }
             if (itemList.size() == 3 && itemList.contains(Item.TOMATO) && itemList.contains(Item.ONION) && itemList.contains(Item.LETTUCE)) {
-                Food gen = new Food(new Texture("salad.png"), Item.SALAD);
+//                Food gen = new Food(new Texture("salad.png"), Item.SALAD);
+                Food gen = null;
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {
                     foodArray.remove(food);
                 }
-            } else if (itemList.size() == 2 && itemList.contains(Item.BUN) && itemList.contains(Item.PATTY)) {
-                Food gen = new Food(new Texture("burger.png"), Item.BURGER);
+            } else if (itemList.size() == 2 && itemList.contains(Item.TOP_BUN) && itemList.contains(Item.PATTY)) {
+//                Food gen = new Food(new Texture("burger.png"), Item.BURGER);
+                Food gen = null;
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
                 for (Food food : foods) {
