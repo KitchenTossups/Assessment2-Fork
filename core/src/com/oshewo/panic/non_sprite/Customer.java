@@ -1,16 +1,13 @@
 package com.oshewo.panic.non_sprite;
 
-import java.util.Date;
-
 public class Customer {
 
     private final Recipe order;
-    private final long orderPlaced, customerNumber;
+    private final long orderPlaced;
 
-    public Customer(Recipe order, long customerNumber, long delay) {
+    public Customer(Recipe order, long timer) {
         this.order = order;
-        this.orderPlaced = new Date().getTime() + 11000 + delay;
-        this.customerNumber = customerNumber;
+        this.orderPlaced = timer;
     }
 
     public Recipe getOrder() {
@@ -21,16 +18,11 @@ public class Customer {
         return this.orderPlaced;
     }
 
-    public long getCustomerNumber() {
-        return customerNumber;
-    }
-
     @Override
     public String toString() {
         return "Customer{" +
                 "order=" + order.toString() +
                 ", orderPlaced=" + orderPlaced +
-                ", customerNumber=" + customerNumber +
                 '}';
     }
 }
