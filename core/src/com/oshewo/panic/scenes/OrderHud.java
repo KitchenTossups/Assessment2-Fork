@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.Disposable;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -47,7 +48,7 @@ public class OrderHud implements Disposable {
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraftia-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameters.size = 18;
+        fontParameters.size = 16;
         fontParameters.color = Color.BLACK;
 //        fontParameters.borderWidth = 2;
         fontParameters.borderColor = Color.WHITE;
@@ -60,8 +61,10 @@ public class OrderHud implements Disposable {
         Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.BLACK);
 
         label = new Label("", style);
-        label.setPosition(100, 580);
-        label.setSize(150, 400);
+        label.setPosition(100, 420);
+        label.setWrap(true);
+        label.setAlignment(Align.topLeft);
+        label.setSize(200, 400);
 
         // Creating order labels
 //        recipeLabel = new Label("", style);
