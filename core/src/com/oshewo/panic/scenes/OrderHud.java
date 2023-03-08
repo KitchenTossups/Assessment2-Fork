@@ -24,10 +24,8 @@ public class OrderHud implements Disposable {
     PiazzaPanic game;
     public Stage stage;
 
-    Label recipeLabel;
-    Label ingredient1Label;
-    Label ingredient2Label;
-    Label ingredient3Label;
+    Label label;
+//    Label recipeLabel, ingredient1Label, ingredient2Label, ingredient3Label;
 
 
     /**
@@ -47,9 +45,9 @@ public class OrderHud implements Disposable {
         order_receipt.setPosition(25, 400);
         order_receipt.setSize(300, 600);
 
-        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("arcadeclassic.ttf"));
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraftia-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
-        fontParameters.size = 36;
+        fontParameters.size = 18;
         fontParameters.color = Color.BLACK;
 //        fontParameters.borderWidth = 2;
         fontParameters.borderColor = Color.WHITE;
@@ -61,32 +59,37 @@ public class OrderHud implements Disposable {
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.BLACK);
 
+        label = new Label("", style);
+        label.setPosition(100, 580);
+        label.setSize(150, 400);
+
         // Creating order labels
-        recipeLabel = new Label("", style);
-        recipeLabel.setPosition(110, 750);
-        recipeLabel.setSize(150, 150);
-
-        ingredient1Label = new Label("", style);
-        ingredient1Label.setPosition(125, 710);
-        ingredient1Label.setSize(150, 150);
-
-        ingredient2Label = new Label("", style);
-        ingredient2Label.setPosition(125, 670);
-        ingredient2Label.setSize(150, 150);
-
-        ingredient3Label = new Label("", style);
-        ingredient3Label.setPosition(125, 630);
-        ingredient3Label.setSize(150, 150);
+//        recipeLabel = new Label("", style);
+//        recipeLabel.setPosition(110, 750);
+//        recipeLabel.setSize(150, 150);
+//
+//        ingredient1Label = new Label("", style);
+//        ingredient1Label.setPosition(125, 710);
+//        ingredient1Label.setSize(150, 150);
+//
+//        ingredient2Label = new Label("", style);
+//        ingredient2Label.setPosition(125, 670);
+//        ingredient2Label.setSize(150, 150);
+//
+//        ingredient3Label = new Label("", style);
+//        ingredient3Label.setPosition(125, 630);
+//        ingredient3Label.setSize(150, 150);
 
         // Lays out recipe and ingredients label onto the order image in a table
         Table image_table = new Table();
         image_table.addActor(order_receipt);
 
         Table labels_table = new Table();
-        labels_table.addActor(recipeLabel);
-        labels_table.addActor(ingredient1Label);
-        labels_table.addActor(ingredient2Label);
-        labels_table.addActor(ingredient3Label);
+        labels_table.addActor(label);
+//        labels_table.addActor(recipeLabel);
+//        labels_table.addActor(ingredient1Label);
+//        labels_table.addActor(ingredient2Label);
+//        labels_table.addActor(ingredient3Label);
 
         Stack stack = new Stack();
         stack.add(image_table);
@@ -96,40 +99,49 @@ public class OrderHud implements Disposable {
     }
 
     /**
-     * Get recipe label.
+     * Get label.
      *
-     * @return the label for recipe of order
+     * @return the label for orders
      */
-    public Label getRecipeLabel() {
-        return recipeLabel;
+    public Label getLabel() {
+        return label;
     }
 
-    /**
-     * Get ingredient 1 label of order recipe.
-     *
-     * @return the label for ingredient 1
-     */
-    public Label getIngredient1Label() {
-        return ingredient1Label;
-    }
-
-    /**
-     * Get ingredient 2 label of order recipe.
-     *
-     * @return the label for ingredient 2
-     */
-    public Label getIngredient2Label() {
-        return ingredient2Label;
-    }
-
-    /**
-     * Get ingredient 3 label of order recipe.
-     *
-     * @return the label for ingredient 3
-     */
-    public Label getIngredient3Label() {
-        return ingredient3Label;
-    }
+//    /**
+//     * Get recipe label.
+//     *
+//     * @return the label for recipe of order
+//     */
+//    public Label getRecipeLabel() {
+//        return recipeLabel;
+//    }
+//
+//    /**
+//     * Get ingredient 1 label of order recipe.
+//     *
+//     * @return the label for ingredient 1
+//     */
+//    public Label getIngredient1Label() {
+//        return ingredient1Label;
+//    }
+//
+//    /**
+//     * Get ingredient 2 label of order recipe.
+//     *
+//     * @return the label for ingredient 2
+//     */
+//    public Label getIngredient2Label() {
+//        return ingredient2Label;
+//    }
+//
+//    /**
+//     * Get ingredient 3 label of order recipe.
+//     *
+//     * @return the label for ingredient 3
+//     */
+//    public Label getIngredient3Label() {
+//        return ingredient3Label;
+//    }
 
     /**
      * Renders stage
