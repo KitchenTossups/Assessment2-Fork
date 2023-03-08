@@ -2,6 +2,7 @@ package com.oshewo.panic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.oshewo.panic.enums.Difficulty;
 import com.oshewo.panic.enums.GameMode;
 import com.oshewo.panic.screens.MainMenu;
 
@@ -14,8 +15,12 @@ public class PiazzaPanic extends Game {
     public static final float V_ZOOM = 1.42f;
     public static final float V_WIDTH = 1280;
     public static final float V_HEIGHT = 720;
+    private final boolean verbose = true;
 
-    public static GameMode MODE = GameMode.SCENARIO;
+    public long worldTimer = 0;
+
+    public GameMode MODE = GameMode.SCENARIO;
+    public Difficulty DIFFICULTY = Difficulty.HARD;
 
     public SpriteBatch batch;
 
@@ -26,6 +31,10 @@ public class PiazzaPanic extends Game {
     public void create() {
         batch = new SpriteBatch();
         setScreen(new MainMenu(this));
+    }
+
+    public boolean isVerbose() {
+        return this.verbose;
     }
 
     @Override
