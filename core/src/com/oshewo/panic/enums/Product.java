@@ -7,6 +7,7 @@ public enum Product {
     CHEESEBURGER,
     DOUBLE_CHEESEBURGER,
     SALAD,
+    JACKET_PLAIN,
     JACKET_CHEESE,
     JACKET_BEANS,
     JACKET_CHEESE_BEANS,
@@ -31,6 +32,8 @@ public enum Product {
                 return "Double Cheeseburger";
             case SALAD:
                 return "Salad";
+            case JACKET_PLAIN:
+                return "Plain Jacket Potato";
             case JACKET_CHEESE:
                 return "Cheese Jacket Potato";
             case JACKET_BEANS:
