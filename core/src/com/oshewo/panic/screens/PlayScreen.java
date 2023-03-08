@@ -12,6 +12,7 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import com.badlogic.gdx.utils.viewport.*;
 
+import com.oshewo.panic.enums.Difficulty;
 import com.oshewo.panic.enums.GameMode;
 import com.oshewo.panic.tools.*;
 import com.oshewo.panic.*;
@@ -41,6 +42,7 @@ public class PlayScreen implements Screen {
     private final World world;
     private final Box2DDebugRenderer b2dr;
     private final GameMode mode;
+    private final Difficulty difficulty;
 
     // tools
     private final TextureAtlas atlas;
@@ -66,12 +68,13 @@ public class PlayScreen implements Screen {
      */
     public PlayScreen(PiazzaPanic game) {
         this.mode = game.MODE;
+        this.difficulty = game.DIFFICULTY;
         atlas = new TextureAtlas("sprites.txt");
 
         this.game = game;
 
         // HUD
-        hud = new Hud(game.batch);
+        hud = new Hud(game);
         orderHud = new OrderHud(game.batch);
 
         // game, camera and map setup
@@ -97,7 +100,7 @@ public class PlayScreen implements Screen {
         activePlayer = player0;
 
         // order
-        orderSystem = new OrderSystem(mode);
+        orderSystem = new OrderSystem(game);
         batch = new SpriteBatch();
     }
 
