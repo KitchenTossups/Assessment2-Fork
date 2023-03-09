@@ -4,15 +4,12 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
-import com.oshewo.panic.enums.Item;
+import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.enums.*;
+import com.oshewo.panic.screens.PlayScreen;
 import com.oshewo.panic.interfaces.Interactable;
 
-
-import java.util.ArrayList;
-import java.util.List;
-
-import static com.oshewo.panic.tools.InputHandler.lastMove;
-import static com.oshewo.panic.screens.PlayScreen.activePlayer;
+import java.util.*;
 
 /**
  * The food class sets the attributes for each ingredient and what preparation can be done to it
@@ -20,7 +17,11 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  * @author Oshewo
  */
 public class Food extends Sprite implements Interactable {
+
+    private final PiazzaPanic game;
     private final Item item;
+
+    private PlayScreen playScreen;
 
     // how the foods can be prepped
     private boolean choppable = false;
@@ -29,7 +30,7 @@ public class Food extends Sprite implements Interactable {
     // what is being held by the chef
     public static ArrayList<Food> foodArray = new ArrayList<>();
     public boolean followingChef = false;
-    private Chef chefToFollow;
+    private int chefToFollow;
 
     /**
      * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
@@ -37,8 +38,10 @@ public class Food extends Sprite implements Interactable {
      * @param texture    the texture for the food
      * @param item the ingredient
      */
-    public Food(Texture texture, Item item) {
+    public Food(Texture texture, Item item, PlayScreen playScreen, PiazzaPanic game) {
         super(texture);
+        this.playScreen = playScreen;
+        this.game = game;
         this.item = item;
         if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
             this.choppable = true;
@@ -51,13 +54,12 @@ public class Food extends Sprite implements Interactable {
 
     /**
      * Updates which foods are being carried by the chef and sets the texture according to the food being carried
-     *
-     * @param dt the dt
      */
-    public void update(float dt) {
+    public void update(PlayScreen playScreen) {
+        updatePlayScreen(playScreen);
         if (followingChef) {
-            this.setX(chefToFollow.getX() + chefToFollow.getWidth() / 4);
-            this.setY(chefToFollow.getY());
+            this.setX(this.playScreen.chefs[this.chefToFollow].getX() + this.playScreen.chefs[this.chefToFollow].getWidth() / 4);
+            this.setY(this.playScreen.chefs[this.chefToFollow].getY());
         } else {
             List<Item> itemList = new ArrayList<>();
             List<Food> foods = new ArrayList<>();
@@ -91,7 +93,7 @@ public class Food extends Sprite implements Interactable {
             } else {
                 return;
             }
-            activePlayer.isHolding = false;
+            this.playScreen.chefs[this.chefToFollow].isHolding = false;
         }
     }
 
@@ -106,37 +108,37 @@ public class Food extends Sprite implements Interactable {
 
 
     @Override
-    public void onUse(Chef chefInUse) {
+    public void onUse() {
         float offsetX;
         float offsetY;
 
         // puts down food according to direction of chef which is what movement key was last pressed
-        if (followingChef && chefToFollow == chefInUse) {
-            chefInUse.isHolding = false;
+        if (this.followingChef && this.chefToFollow == this.playScreen.getChefSelector()) {
+            this.playScreen.chefs[this.chefToFollow].isHolding = false;
             followingChef = false;
-            if (lastMove == Input.Keys.S) {
-                offsetX = chefToFollow.getWidth() / 4;
+            if (this.playScreen.lastMove == Input.Keys.S) {
+                offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
                 offsetY = -10;
-            } else if (lastMove == Input.Keys.W) {
-                offsetX = chefToFollow.getWidth() / 4;
-                offsetY = chefToFollow.getHeight();
-            } else if (lastMove == Input.Keys.A) {
+            } else if (this.playScreen.lastMove == Input.Keys.W) {
+                offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
+                offsetY = this.playScreen.chefs[this.chefToFollow].getHeight();
+            } else if (this.playScreen.lastMove == Input.Keys.A) {
                 offsetX = -10;
                 offsetY = 2;
             } else {
-                offsetX = chefToFollow.getWidth();
+                offsetX = this.playScreen.chefs[this.chefToFollow].getWidth();
                 offsetY = 2;
             }
-            this.setX(chefToFollow.getX() + offsetX);
-            this.setY(chefToFollow.getY() + offsetY);
-            chefToFollow = null;
+            this.setX(this.playScreen.chefs[this.chefToFollow].getX() + offsetX);
+            this.setY(this.playScreen.chefs[this.chefToFollow].getY() + offsetY);
+            chefToFollow = -1;
         }
         // pickup food
         else {
-            if (!chefInUse.isHolding && chefToFollow == null) {
-                chefToFollow = chefInUse;
-                chefInUse.isHolding = true;
-                followingChef = true;
+            if (!this.playScreen.chefs[this.chefToFollow].isHolding && chefToFollow == -1) {
+                this.chefToFollow = this.playScreen.getChefSelector();
+                this.playScreen.chefs[this.chefToFollow].isHolding = true;
+                this.followingChef = true;
             }
         }
     }
@@ -175,5 +177,9 @@ public class Food extends Sprite implements Interactable {
      */
     public boolean isCarried() {
         return followingChef;
+    }
+
+    public void updatePlayScreen(PlayScreen playScreen) {
+        this.playScreen = playScreen;
     }
 }

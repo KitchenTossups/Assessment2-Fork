@@ -2,11 +2,11 @@ package com.oshewo.panic.sprites;
 
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.utils.TimeUtils;
-import com.oshewo.panic.enums.Item;
-import com.oshewo.panic.enums.StationType;
+import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.enums.*;
+import com.oshewo.panic.screens.PlayScreen;
 
-import java.util.ArrayList;
-import java.util.Objects;
+import java.util.*;
 
 import static com.oshewo.panic.scenes.Hud.hudStartTime;
 import static com.oshewo.panic.screens.PlayScreen.*;
@@ -20,6 +20,9 @@ import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
  * @author Oshewo
  */
 public class Station {
+
+    private final PiazzaPanic game;
+    private PlayScreen playScreen;
     private final StationType type;
     private final Rectangle bounds;
     private Item item;
@@ -32,15 +35,18 @@ public class Station {
      * @param stationType   the station type
      * @param bounds the bounds
      */
-    public Station(StationType stationType, Rectangle bounds) {
+    public Station(StationType stationType, Rectangle bounds, PlayScreen playScreen, PiazzaPanic game) {
         this.type = stationType;
         this.bounds = bounds;
+        this.playScreen = playScreen;
+        this.game = game;
     }
 
     /**
      * Updates whether food has been served and if it is being prepped
      */
-    public void update() {
+    public void update(PlayScreen playScreen) {
+        updatePlayScreen(playScreen);
 //        if (foodId < 0) {
         if (false) {
             checkForFood();
@@ -110,7 +116,7 @@ public class Station {
         } else {
             return;
         }
-        Food gen = new Food(null, null);
+        Food gen = new Food(null, null, playScreen, game);
 //        Food gen = new Food(new Texture(texture), foodId);
         gen.setX(bounds.getX() - 10);
         gen.setY(bounds.getY() - 10);
@@ -147,5 +153,9 @@ public class Station {
             return "patty_cooked.png";
         }
         return null;
+    }
+
+    public void updatePlayScreen(PlayScreen playScreen) {
+        this.playScreen = playScreen;
     }
 }

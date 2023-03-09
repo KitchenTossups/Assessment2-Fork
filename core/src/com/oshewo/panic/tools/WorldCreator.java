@@ -5,7 +5,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.enums.*;
+import com.oshewo.panic.screens.PlayScreen;
 import com.oshewo.panic.sprites.Station;
 import com.oshewo.panic.stations.FoodCrate;
 
@@ -19,6 +21,7 @@ import java.util.*;
  * @author Oshewo, sl3416
  */
 public class WorldCreator {
+
     public static Set<Station> stoveArray = new HashSet<>();
     public static Set<Station> boardArray = new HashSet<>();
     public static Set<Station> servingArray = new HashSet<>();
@@ -33,7 +36,7 @@ public class WorldCreator {
      * @param world the world
      * @param map   the map
      */
-    public WorldCreator(World world, TiledMap map) {
+    public WorldCreator(World world, TiledMap map, PlayScreen playScreen, PiazzaPanic game) {
         this.world = world;
         this.map = map;
 
@@ -41,21 +44,21 @@ public class WorldCreator {
             if (mapLayer.getName().equals(TiledAssets.WALLS.getLayerName())) {
                 InitialiseWalls(mapLayer);
             } else if (mapLayer.getName().equals(TiledAssets.STOVES.getLayerName())) {
-                InitialiseStoves(mapLayer);
+                InitialiseStoves(mapLayer, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.CHOPPING_BOARD.getLayerName())) {
-                InitialiseChoppingCounter(mapLayer);
+                InitialiseChoppingCounter(mapLayer, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.SERVING_STATION.getLayerName())) {
-                InitialiseServiceStation(mapLayer);
+                InitialiseServiceStation(mapLayer, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.LETTUCE.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Item.LETTUCE);
+                InitialiseFoodObject(mapLayer, Item.LETTUCE, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.TOMATO.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Item.TOMATO);
+                InitialiseFoodObject(mapLayer, Item.TOMATO, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.ONION.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Item.ONION);
+                InitialiseFoodObject(mapLayer, Item.ONION, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.PATTY.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Item.PATTY);
+                InitialiseFoodObject(mapLayer, Item.PATTY, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.BUNS.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Item.TOP_BUN);
+                InitialiseFoodObject(mapLayer, Item.TOP_BUN, playScreen, game);
             }
         }
     }
@@ -79,31 +82,31 @@ public class WorldCreator {
         }
     }
 
-    private void InitialiseStoves(MapLayer mapLayer) {
+    private void InitialiseStoves(MapLayer mapLayer, PlayScreen playScreen, PiazzaPanic game) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            stoveArray.add(new Station(StationType.STOVE, rectangle));
+            stoveArray.add(new Station(StationType.STOVE, rectangle, playScreen, game));
         }
     }
 
-    private void InitialiseChoppingCounter(MapLayer mapLayer) {
+    private void InitialiseChoppingCounter(MapLayer mapLayer, PlayScreen playScreen, PiazzaPanic game) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            boardArray.add(new Station(StationType.CHOPPING_BOARD, rectangle));
+            boardArray.add(new Station(StationType.CHOPPING_BOARD, rectangle, playScreen, game));
         }
     }
 
-    private void InitialiseServiceStation(MapLayer mapLayer) {
+    private void InitialiseServiceStation(MapLayer mapLayer, PlayScreen playScreen, PiazzaPanic game) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            servingArray.add(new Station(StationType.SERVING, rectangle));
+            servingArray.add(new Station(StationType.SERVING, rectangle, playScreen, game));
         }
     }
 
-    private void InitialiseFoodObject(MapLayer mapLayer, Item item) {
+    private void InitialiseFoodObject(MapLayer mapLayer, Item item, PlayScreen playScreen, PiazzaPanic game) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            crateArray.add(new FoodCrate(rectangle, item));
+            crateArray.add(new FoodCrate(rectangle, item, playScreen, game));
         }
     }
 }
