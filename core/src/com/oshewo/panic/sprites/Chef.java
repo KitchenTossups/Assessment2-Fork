@@ -22,19 +22,28 @@ public class Chef extends Sprite {
     /**
      * Instantiates a new Chef.
      *
-     * @param world  the world
-     * @param id     the id
-     * @param screen the screen
+     * @param world      the world
+     * @param chefNumber the chef number
+     * @param screen     the screen
      */
-    public Chef(World world, int id, PlayScreen screen) {
+    public Chef(World world, int chefNumber, PlayScreen screen) {
         super(screen.getAtlas().findRegion("chef0"));
         this.world = world;
-        defineChef(id);
-        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * id, 0, 32, 32);
+        defineChef(chefNumber);
+        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * chefNumber, 0, 32, 32);
         setBounds(0, 0, 32, 32);
         setRegion(chefStand);
     }
 
+    public Chef(World world, int chefNumber, PlayScreen screen, float x, float y) {
+        super(screen.getAtlas().findRegion("chef0"));
+        this.world = world;
+        defineChef(chefNumber);
+        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * chefNumber, 0, 32, 32);
+        setBounds(0, 0, 32, 32);
+        setRegion(chefStand);
+        getBDef().position.set(x, y);
+    }
 
     /**
      * Updates position of where the chef is at
