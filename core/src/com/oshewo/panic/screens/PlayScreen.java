@@ -97,9 +97,9 @@ public class PlayScreen implements Screen {
         else
             chefs = new Chef[3];
 
-        this.chefs[0] = new Chef(world, 1, this, 120, 160);
-        this.chefs[1] = new Chef(world, 2, this, 160, 160);
-        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(world, 3, this, 200, 160);
+        this.chefs[0] = new Chef(world, 0, this, 120, 160);
+        this.chefs[1] = new Chef(world, 1, this, 160, 160);
+        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(world, 2, this, 200, 160);
 
         // sets up and positions both chefs in the game
 //        player0 = new Chef(world, 0, this);

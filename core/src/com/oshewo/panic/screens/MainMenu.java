@@ -84,6 +84,7 @@ public class MainMenu implements Screen {
         buttonPlay.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                dispose();
                 game.setScreen(new PlayScreen(game));
             }
         });
@@ -100,6 +101,7 @@ public class MainMenu implements Screen {
         buttonSetting.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                dispose();
                 game.setScreen(new SettingsScreen(game));
             }
         });
