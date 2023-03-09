@@ -12,8 +12,8 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import com.badlogic.gdx.utils.viewport.*;
 
-import com.oshewo.panic.enums.Difficulty;
-import com.oshewo.panic.enums.GameMode;
+import com.oshewo.panic.enums.*;
+import com.oshewo.panic.stations.*;
 import com.oshewo.panic.tools.*;
 import com.oshewo.panic.*;
 import com.oshewo.panic.scenes.*;
@@ -52,8 +52,11 @@ public class PlayScreen implements Screen {
     public static OrderHud orderHud;
 
     // Chef
-    public static Chef activePlayer;
-    private static Chef player0, player1, player2;
+    public final Chef[] chefs;
+    private int chefSelector = 0;
+    private boolean tabPressed = false;
+//    public static Chef activePlayer;
+//    private static Chef player0, player1, player2;
 
     // order
     private final OrderSystem orderSystem;
@@ -87,16 +90,25 @@ public class PlayScreen implements Screen {
 //        gameCam.position.set(120, 300, 0);
         world = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
-        new WorldCreator(world, map);
+        new WorldCreator(world, map, this, game);
+
+        if (game.MODE == GameMode.SCENARIO)
+            chefs = new Chef[2];
+        else
+            chefs = new Chef[3];
+
+        this.chefs[0] = new Chef(world, 1, this, 120, 160);
+        this.chefs[1] = new Chef(world, 2, this, 160, 160);
+        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(world, 3, this, 200, 160);
 
         // sets up and positions both chefs in the game
-        player0 = new Chef(world, 0, this);
-        player1 = new Chef(world, 1, this);
-        player2 = new Chef(world, 2, this);
-        player1.getBDef().position.set(160, 160);
-        player2.getBDef().position.set(200, 160);
+//        player0 = new Chef(world, 0, this);
+//        player1 = new Chef(world, 1, this);
+//        player2 = new Chef(world, 2, this);
+//        player1.getBDef().position.set(160, 160);
+//        player2.getBDef().position.set(200, 160);
         // current chef is set to player 0 by default
-        activePlayer = player0;
+//        activePlayer = player0;
 
         // order
         orderSystem = new OrderSystem(game);
@@ -113,61 +125,83 @@ public class PlayScreen implements Screen {
     }
 
     /**
-     * Swap chef
-     */
-    public static void swapChef() {
-        if (activePlayer == player0) {
-            activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
-            activePlayer = player1;
-        } else if (activePlayer == player1) {
-            activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
-            activePlayer = player2;
-        } else {
-            activePlayer.b2body.setLinearVelocity(new Vector2(0, 0));
-            activePlayer = player0;
-        }
-    }
-
-    /**
      * Updates positions of chefs, timer hud, food and stations
      *
-     * @param dt the dt
      */
-    public void update(float dt) {
+    public void update() {
         // updates according to user input
-        InputHandler.handleInput();
+        handleInput();
 
         world.step(1 / 60f, 6, 2);
 
-        player0.update();
-        player1.update();
-        player2.update();
-
-        for (CountdownTimer timer : new ArrayList<>(timerArray)) {
+        for (Chef chef : this.chefs)
+            chef.update();
+        for (CountdownTimer timer : new ArrayList<>(timerArray))
             timer.update();
-        }
-        for (Food food : foodArray) {
-            food.update(dt);
-        }
-        for (Station stove : stoveArray) {
-            stove.update();
-        }
-        for (Station board : boardArray) {
-            board.update();
-        }
-        for (Station servery : servingArray) {
-            servery.update();
-        }
+        for (Food food : foodArray)
+            food.update(this);
+        for (Station stove : stoveArray)
+            stove.update(this);
+        for (Station board : boardArray)
+            board.update(this);
+        for (Station servery : servingArray)
+            servery.update(this);
 
-        // Generates order and continues until all orders are completed
-//        if (currentOrder != null) {
-            orderSystem.update();
-//        } else if (ordersCompleted <= 5) {
-//            currentOrder = orderSystem.generateOrder();
-//        }
+        orderSystem.update();
 
         hud.update();
         renderer.setView(gameCam);
+    }
+
+    public int lastMove;
+
+    /**
+     * Handle input of picking up food that is nearest
+     */
+    public void handleInput() {
+        Food nearestFood = this.chefs[this.chefSelector].nearestFood(game.PICKUP_RADIUS);
+        // pickup item
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            if (nearestFood != null) {
+                nearestFood.onUse();
+            } else {
+                for (FoodCrate crate : crateArray) {
+                    crate.onUse(this);
+                }
+            }
+        }
+
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            lastMove = Input.Keys.D;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            lastMove = Input.Keys.A;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+            lastMove = Input.Keys.S;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            lastMove = Input.Keys.W;
+        }
+        // swap Chefs
+
+        if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+            if (!this.tabPressed) {
+                if (game.isVerbose()) System.out.println("Tab pressed");
+                switch (game.MODE) {
+                    case SCENARIO:
+                        this.chefSelector++;
+                        if (this.chefSelector == 2) this.chefSelector = 0;
+                        break;
+                    case ENDLESS:
+                        this.chefSelector++;
+                        if (this.chefSelector == 3) this.chefSelector = 0;
+                        break;
+                }
+            }
+            this.tabPressed = true;
+        } else
+            this.tabPressed = false;
     }
 
     @Override
@@ -182,7 +216,7 @@ public class PlayScreen implements Screen {
      */
     @Override
     public void render(float delta) {
-        update(delta);
+        update();
 
         // sets background of game to black and clears screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -199,13 +233,13 @@ public class PlayScreen implements Screen {
         game.batch.begin();
 
         // ensures the chef in front is drawn over the other
-        if (player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
-            player0.draw(game.batch);
-            player1.draw(game.batch);
-        } else {
-            player1.draw(game.batch);
-            player0.draw(game.batch);
-        }
+//        if (player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
+//            player0.draw(game.batch);
+//            player1.draw(game.batch);
+//        } else {
+//            player1.draw(game.batch);
+//            player0.draw(game.batch);
+//        }
         for (Food food : foodArray) {
             food.draw(game.batch);
         }
@@ -223,6 +257,15 @@ public class PlayScreen implements Screen {
         game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
         hud.stage.draw();
         orderHud.stage.draw();
+    }
+
+    /**
+     * Get the selected chef number
+     *
+     * @return int chefSelector
+     */
+    public int getChefSelector() {
+        return this.chefSelector;
     }
 
     /**
