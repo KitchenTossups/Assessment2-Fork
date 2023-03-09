@@ -2,9 +2,8 @@ package com.oshewo.panic;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.oshewo.panic.enums.Difficulty;
-import com.oshewo.panic.enums.GameMode;
-import com.oshewo.panic.screens.MainMenu;
+import com.oshewo.panic.enums.*;
+import com.oshewo.panic.screens.*;
 
 /**
  * The type Piazza panic.
@@ -12,9 +11,10 @@ import com.oshewo.panic.screens.MainMenu;
  */
 public class PiazzaPanic extends Game {
     // screen dimensions and zoom
-    public static final float V_ZOOM = 1.42f;
-    public static final float V_WIDTH = 1280;
-    public static final float V_HEIGHT = 720;
+    public final float V_ZOOM = 1.42f;
+    public final float V_WIDTH = 1280;
+    public final float V_HEIGHT = 720;
+    public final int PICKUP_RADIUS = 48;
     private final boolean verbose = true;
 
     public long worldTimer = 0;

@@ -44,7 +44,7 @@ public class Hud implements Disposable {
         score = 3;
         hudStartTime = TimeUtils.millis();
 
-        Viewport viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, new OrthographicCamera());
+        Viewport viewport = new FitViewport(game.V_WIDTH, game.V_HEIGHT, new OrthographicCamera());
         stage = new Stage(viewport, game.batch);
 
         // score and time HUD

@@ -31,12 +31,12 @@ public class OrderHud implements Disposable {
     /**
      * Instantiates a new Order hud by setting up the order labels, images as actors in a table to display on screen
      *
-     * @param sb the spritebatch to draw multiple sprites at once
+     * @param game PiazzaPanic game
      */
-    public OrderHud(SpriteBatch sb) {
+    public OrderHud(PiazzaPanic game) {
 
-        Viewport viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_WIDTH, new OrthographicCamera());
-        stage = new Stage(viewport, sb);
+        Viewport viewport = new FitViewport(game.V_WIDTH, game.V_WIDTH, new OrthographicCamera());
+        stage = new Stage(viewport, game.batch);
 
         // Order Hud Setup
         // Receipt image

@@ -22,7 +22,6 @@ import com.oshewo.panic.sprites.*;
 import java.util.*;
 
 import static com.oshewo.panic.sprites.Food.foodArray;
-import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
 import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
 import static com.oshewo.panic.tools.WorldCreator.*;
 
@@ -75,16 +74,16 @@ public class PlayScreen implements Screen {
 
         // HUD
         hud = new Hud(game);
-        orderHud = new OrderHud(game.batch);
+        orderHud = new OrderHud(game);
 
         // game, camera and map setup
-        gameCam = new OrthographicCamera(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT);
+        gameCam = new OrthographicCamera(game.V_WIDTH, game.V_HEIGHT);
 //        gamePort = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, gameCam);
-        gamePort = new FitViewport(PiazzaPanic.V_WIDTH / (V_ZOOM), PiazzaPanic.V_HEIGHT / (V_ZOOM), gameCam);
+        gamePort = new FitViewport(game.V_WIDTH / (game.V_ZOOM), game.V_HEIGHT / (game.V_ZOOM), gameCam);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("piazza-map-big.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
-        gameCam.position.set(gamePort.getWorldWidth() / (1.9f * V_ZOOM), gamePort.getWorldHeight() / (1.1f * V_ZOOM), 0);
+        gameCam.position.set(gamePort.getWorldWidth() / (1.9f * game.V_ZOOM), gamePort.getWorldHeight() / (1.1f * game.V_ZOOM), 0);
 //        gameCam.position.set(120, 300, 0);
         world = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();

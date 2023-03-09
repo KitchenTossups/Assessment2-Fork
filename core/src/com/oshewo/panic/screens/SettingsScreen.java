@@ -24,8 +24,8 @@ public class SettingsScreen implements Screen {
     public SettingsScreen(PiazzaPanic game) {
         this.game = game;
 
-        OrthographicCamera camera = new OrthographicCamera(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT);
-        this.viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, camera);
+        OrthographicCamera camera = new OrthographicCamera(game.V_WIDTH, game.V_HEIGHT);
+        this.viewport = new FitViewport(game.V_WIDTH, game.V_HEIGHT, camera);
     }
 
     /**
@@ -81,7 +81,7 @@ public class SettingsScreen implements Screen {
 
         // draws background and stage
         stage.getBatch().begin();
-        stage.getBatch().draw(background, 0, 0, PiazzaPanic.V_WIDTH/* * V_ZOOM*/, PiazzaPanic.V_HEIGHT/* * V_ZOOM*/);
+        stage.getBatch().draw(background, 0, 0, game.V_WIDTH/* * V_ZOOM*/, game.V_HEIGHT/* * V_ZOOM*/);
         stage.getBatch().end();
 
         stage.act(delta);
