@@ -22,7 +22,6 @@ import com.oshewo.panic.PiazzaPanic;
  */
 public class OrderHud implements Disposable {
 
-    PiazzaPanic game;
     public Stage stage;
 
     Label label;
@@ -42,9 +41,9 @@ public class OrderHud implements Disposable {
         // Order Hud Setup
         // Receipt image
         // variables for order - order image, recipe and ingredient labels for recipe
-        Image order_receipt = new Image(new Texture(Gdx.files.internal("order_receipt.png")));
-        order_receipt.setPosition(25, 400);
-        order_receipt.setSize(300, 600);
+        Image order_receipt = new Image(new Texture(Gdx.files.internal("order_receipt1.png")));
+        order_receipt.setPosition(25, 200);
+        order_receipt.setSize(300, 800);
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraftia-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
