@@ -6,19 +6,17 @@ import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.utils.*;
-import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
-import com.badlogic.gdx.utils.viewport.Viewport;
 import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.base.BaseActor;
 
 /**
  * The Hud displays the time and score counter
  *
  * @author Oshewo
  */
-public class Hud implements Disposable {
-    public Stage stage;
+public class Hud extends BaseActor {
 
     private final PiazzaPanic game;
 
@@ -39,13 +37,11 @@ public class Hud implements Disposable {
      *
      * @param game Piazza Panic
      */
-    public Hud(PiazzaPanic game) {
+    public Hud(float x, float y, Stage s, PiazzaPanic game) {
+        super(x, y, s);
         this.game = game;
         score = 3;
         hudStartTime = TimeUtils.millis();
-
-        Viewport viewport = new FitViewport(game.V_WIDTH, game.V_HEIGHT, new OrthographicCamera());
-        stage = new Stage(viewport, game.batch);
 
         // score and time HUD
         Table table = new Table();
@@ -77,7 +73,7 @@ public class Hud implements Disposable {
         table.add(livesLabel).expandX();
         table.add(countupLabel).expandX();
 
-        stage.addActor(table);
+        s.addActor(table);
     }
 
     /**
@@ -87,13 +83,5 @@ public class Hud implements Disposable {
         game.worldTimer = (int) TimeUtils.timeSinceMillis(hudStartTime) / 1000;
         countupLabel.setText(String.format("%03d", game.worldTimer));
         livesLabel.setText(String.format("%01d", score));
-    }
-
-    /**
-     * Disposes stage
-     */
-    @Override
-    public void dispose() {
-        stage.dispose();
     }
 }

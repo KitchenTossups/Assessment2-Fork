@@ -40,7 +40,8 @@ public class FoodCrate {
      * @return boolean
      */
     public boolean checkForChef() {
-        return bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) && !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding;
+//        return bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) && !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding;
+        return false;
     }
 
     /**

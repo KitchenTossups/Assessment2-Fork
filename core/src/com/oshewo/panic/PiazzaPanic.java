@@ -1,7 +1,6 @@
 package com.oshewo.panic;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.oshewo.panic.base.BaseGame;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.screens.*;
 
@@ -9,7 +8,7 @@ import com.oshewo.panic.screens.*;
  * The type Piazza panic.
  * Sets dimensions of game and initial screen when game loads
  */
-public class PiazzaPanic extends Game {
+public class PiazzaPanic extends BaseGame {
     // screen dimensions and zoom
     public final float V_ZOOM = 1.42f;
     public final float V_WIDTH = 1280;
@@ -22,28 +21,29 @@ public class PiazzaPanic extends Game {
     public GameMode MODE = GameMode.SCENARIO;
     public Difficulty DIFFICULTY = Difficulty.HARD;
 
-    public SpriteBatch batch;
+//    public SpriteBatch batch;
 
     /**
      * When game loads, sets screen to main menu screen
      */
-    @Override
+//    @Override
     public void create() {
-        batch = new SpriteBatch();
-        setScreen(new MainMenu(this));
+        super.create();
+//        batch = new SpriteBatch();
+        setActiveScreen(new MainMenu(this));
     }
 
     public boolean isVerbose() {
         return this.verbose;
     }
 
-    @Override
-    public void render() {
-        super.render();
-    }
+//    @Override
+//    public void render() {
+//        super.render();
+//    }
 
-    @Override
-    public void dispose() {
-        batch.dispose();
-    }
+//    @Override
+//    public void dispose() {
+//        batch.dispose();
+//    }
 }

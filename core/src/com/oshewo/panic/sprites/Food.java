@@ -7,7 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.screens.PlayScreen;
-import com.oshewo.panic.interfaces.Interactable;
 
 import java.util.*;
 
@@ -16,7 +15,7 @@ import java.util.*;
  *
  * @author Oshewo
  */
-public class Food extends Sprite implements Interactable {
+public class Food extends Sprite /*implements Interactable*/ {
 
     private final PiazzaPanic game;
     private final Item item;
@@ -93,7 +92,7 @@ public class Food extends Sprite implements Interactable {
             } else {
                 return;
             }
-            this.playScreen.chefs[this.chefToFollow].isHolding = false;
+//            this.playScreen.chefs[this.chefToFollow].isHolding = false;
         }
     }
 
@@ -107,14 +106,14 @@ public class Food extends Sprite implements Interactable {
     }
 
 
-    @Override
+//    @Override
     public void onUse() {
         float offsetX;
         float offsetY;
 
         // puts down food according to direction of chef which is what movement key was last pressed
         if (this.followingChef && this.chefToFollow == this.playScreen.getChefSelector()) {
-            this.playScreen.chefs[this.chefToFollow].isHolding = false;
+//            this.playScreen.chefs[this.chefToFollow].isHolding = false;
             followingChef = false;
             if (this.playScreen.lastMove == Input.Keys.S) {
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
@@ -135,11 +134,11 @@ public class Food extends Sprite implements Interactable {
         }
         // pickup food
         else {
-            if (!this.playScreen.chefs[this.chefToFollow].isHolding && chefToFollow == -1) {
-                this.chefToFollow = this.playScreen.getChefSelector();
-                this.playScreen.chefs[this.chefToFollow].isHolding = true;
-                this.followingChef = true;
-            }
+//            if (!this.playScreen.chefs[this.chefToFollow].isHolding && chefToFollow == -1) {
+//                this.chefToFollow = this.playScreen.getChefSelector();
+//                this.playScreen.chefs[this.chefToFollow].isHolding = true;
+//                this.followingChef = true;
+//            }
         }
     }
 

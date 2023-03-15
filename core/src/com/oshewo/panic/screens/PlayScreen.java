@@ -12,12 +12,16 @@ import com.badlogic.gdx.physics.box2d.*;
 
 import com.badlogic.gdx.utils.viewport.*;
 
+import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.stations.*;
 import com.oshewo.panic.tools.*;
 import com.oshewo.panic.*;
 import com.oshewo.panic.scenes.*;
-import com.oshewo.panic.sprites.*;
+import com.oshewo.panic.sprites.Food;
+import com.oshewo.panic.sprites.Station;
+import com.oshewo.panic.sprites.CountdownTimer;
+import com.oshewo.panic.actor.Chef;
 
 import java.util.*;
 
@@ -30,7 +34,7 @@ import static com.oshewo.panic.tools.WorldCreator.*;
  *
  * @author Oshewo, sl3416
  */
-public class PlayScreen implements Screen {
+public class PlayScreen extends BaseScreen {
     // sets up world and map for the game
     private final PiazzaPanic game;
     private final OrthographicCamera gameCam;
@@ -42,13 +46,14 @@ public class PlayScreen implements Screen {
     private final Box2DDebugRenderer b2dr;
     private final GameMode mode;
     private final Difficulty difficulty;
+//    private Background background;
 
     // tools
     private final TextureAtlas atlas;
     public static SpriteBatch batch;
 
     // Hud
-    private final Hud hud;
+    private Hud hud;
     public static OrderHud orderHud;
 
     // Chef
@@ -69,6 +74,7 @@ public class PlayScreen implements Screen {
      * @param game the game
      */
     public PlayScreen(PiazzaPanic game) {
+        super();
         this.mode = game.MODE;
         this.difficulty = game.DIFFICULTY;
         atlas = new TextureAtlas("sprites.txt");
@@ -76,36 +82,42 @@ public class PlayScreen implements Screen {
         this.game = game;
 
         // HUD
-        hud = new Hud(game);
-        orderHud = new OrderHud(game);
+        hud = new Hud(0, 0, uiStage, game);
+        orderHud = new OrderHud(20, 80, uiStage);
 
         // game, camera and map setup
         gameCam = new OrthographicCamera(game.V_WIDTH, game.V_HEIGHT);
+//        background = new Background();
 //        gamePort = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, gameCam);
         gamePort = new FitViewport(game.V_WIDTH / (game.V_ZOOM), game.V_HEIGHT / (game.V_ZOOM), gameCam);
         mapLoader = new TmxMapLoader();
         map = mapLoader.load("piazza-map-big.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
+        renderer.render();
         gameCam.position.set(gamePort.getWorldWidth() / (1.9f * game.V_ZOOM), gamePort.getWorldHeight() / (1.1f * game.V_ZOOM), 0);
 //        gameCam.position.set(120, 300, 0);
         world = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
-        new WorldCreator(world, map, this, game);
+        new WorldCreator(world, map, this, super.uiStage, game);
 
         if (game.MODE == GameMode.SCENARIO)
             chefs = new Chef[2];
         else
             chefs = new Chef[3];
 
-        this.chefs[0] = new Chef(world, 0, this, 120, 160);
-        this.chefs[1] = new Chef(world, 1, this, 160, 160);
-        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(world, 2, this, 200, 160);
+//        this.chefs[0] = new Chef(new Texture("ChefB1.png"), world, 200, 200);
+//        this.chefs[0].setPosition(180, 180);
+//        this.chefs[1] = new Chef(new Texture("ChefB2.png"), world, 240, 200);
+//        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(world, 2, this, 280, 200);
+        this.chefs[0] = new Chef(400, 100, super.uiStage, 1);
+        this.chefs[1] = new Chef(450, 100, super.uiStage, 2);
+        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(500, 100, super.uiStage, 3);
 
         // sets up and positions both chefs in the game
 //        player0 = new Chef(world, 0, this);
 //        player1 = new Chef(world, 1, this);
 //        player2 = new Chef(world, 2, this);
-//        player1.getBDef().position.set(160, 160);
+//        this.chefs[0].getBDef().position.set(180, 180);
 //        player2.getBDef().position.set(200, 160);
         // current chef is set to player 0 by default
 //        activePlayer = player0;
@@ -113,6 +125,8 @@ public class PlayScreen implements Screen {
         // order
         orderSystem = new OrderSystem(game);
         batch = new SpriteBatch();
+//        Food gen = new Food(new Texture("ChefB1.png"), Item.PATTY, this, game);
+//        gen.setPosition(200, 200);
     }
 
     /**
@@ -128,14 +142,22 @@ public class PlayScreen implements Screen {
      * Updates positions of chefs, timer hud, food and stations
      *
      */
-    public void update() {
+    public void update(float dt) {
+        Gdx.gl.glClearColor(0,0,0,1);
+        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        Gdx.gl.glEnable(GL20.GL_BLEND);
+        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+        gameCam.update();
+        renderer.setView(gameCam);
+        renderer.render();
+
         // updates according to user input
         handleInput();
 
         world.step(1 / 60f, 6, 2);
 
-        for (Chef chef : this.chefs)
-            chef.update();
+//        for (Chef chef : this.chefs)
+//            chef.update();
         for (CountdownTimer timer : new ArrayList<>(timerArray))
             timer.update();
         for (Food food : foodArray)
@@ -150,7 +172,6 @@ public class PlayScreen implements Screen {
         orderSystem.update();
 
         hud.update();
-        renderer.setView(gameCam);
     }
 
     public int lastMove;
@@ -159,64 +180,168 @@ public class PlayScreen implements Screen {
      * Handle input of picking up food that is nearest
      */
     public void handleInput() {
-        Food nearestFood = this.chefs[this.chefSelector].nearestFood(game.PICKUP_RADIUS);
+//        Food nearestFood = this.chefs[this.chefSelector].nearestFood(game.PICKUP_RADIUS);
         // pickup item
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            if (nearestFood != null) {
-                nearestFood.onUse();
-            } else {
-                for (FoodCrate crate : crateArray) {
-                    crate.onUse(this);
-                }
-            }
+//            if (nearestFood != null) {
+//                nearestFood.onUse();
+//            } else {
+//                for (FoodCrate crate : crateArray) {
+//                    crate.onUse(this);
+//                }
+//            }
         }
 
-        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            lastMove = Input.Keys.D;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            lastMove = Input.Keys.A;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-            lastMove = Input.Keys.S;
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            lastMove = Input.Keys.W;
-        }
-        // swap Chefs
-
-        if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-            if (!this.tabPressed) {
-                if (game.isVerbose()) System.out.println("Tab pressed");
-                switch (game.MODE) {
-                    case SCENARIO:
-                        this.chefSelector++;
-                        if (this.chefSelector == 2) this.chefSelector = 0;
-                        break;
-                    case ENDLESS:
-                        this.chefSelector++;
-                        if (this.chefSelector == 3) this.chefSelector = 0;
-                        break;
-                }
+        try {
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+                float oldY = this.chefs[this.chefSelector].getY();
+                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() + 300 * Gdx.graphics.getDeltaTime());
+                this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
+                lastMove = Input.Keys.W;
             }
-            this.tabPressed = true;
-        } else
-            this.tabPressed = false;
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+                float oldY = this.chefs[this.chefSelector].getY();
+                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() - 300 * Gdx.graphics.getDeltaTime());
+                this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
+                lastMove = Input.Keys.S;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+                float oldX = this.chefs[this.chefSelector].getX();
+                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() + 300 * Gdx.graphics.getDeltaTime());
+                this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
+                lastMove = Input.Keys.D;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+                float oldX = this.chefs[this.chefSelector].getX();
+                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() - 300 * Gdx.graphics.getDeltaTime());
+                this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
+                lastMove = Input.Keys.A;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+                if (!this.tabPressed) {
+                    if (game.isVerbose()) System.out.println("Tab pressed");
+                    switch (this.mode) {
+                        case SCENARIO:
+                            this.chefSelector++;
+                            if (this.chefSelector == 2) this.chefSelector = 0;
+                            break;
+                        case ENDLESS:
+                            this.chefSelector++;
+                            if (this.chefSelector == 3) this.chefSelector = 0;
+                            break;
+                    }
+                }
+                this.tabPressed = true;
+            } else
+                this.tabPressed = false;
+//            if (Gdx.input.isKeyJustPressed(Input.Keys.E))
+//                this.stationProximity();
+//            if (this.customers.size() == 0) {
+//                System.out.println("FINISHED");
+//                System.out.println("This game lasted " + (new Date().getTime() - startTime) / 1000 + " seconds");
+//                dispose();
+//                this.game.setActiveScreen(new EndScreen(this.width, this.height, getBinnedItems(), this.game.labelStyle, startTime));
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+//        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+//            lastMove = Input.Keys.A;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+//            lastMove = Input.Keys.S;
+//        }
+//        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+//            lastMove = Input.Keys.W;
+//        }
+//        // swap Chefs
+//
+//        if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+//            if (!this.tabPressed) {
+//                if (game.isVerbose()) System.out.println("Tab pressed");
+//                switch (game.MODE) {
+//                    case SCENARIO:
+//                        this.chefSelector++;
+//                        if (this.chefSelector == 2) this.chefSelector = 0;
+//                        break;
+//                    case ENDLESS:
+//                        this.chefSelector++;
+//                        if (this.chefSelector == 3) this.chefSelector = 0;
+//                        break;
+//                }
+//            }
+//            this.tabPressed = true;
+//        } else
+//            this.tabPressed = false;
     }
 
-    @Override
-    public void show() {
-
+    private void checkCollision(float oldX, float oldY) {
+        System.out.println(oldX + " " +  oldY);
+        if (this.chefs[this.chefSelector].getX() + this.chefs[this.chefSelector].getWidth() > game.V_WIDTH || this.chefs[this.chefSelector].getX() < 0)
+            this.chefs[this.chefSelector].setX(oldX);
+        if (this.chefs[this.chefSelector].getY() + this.chefs[this.chefSelector].getHeight() > game.V_HEIGHT || this.chefs[this.chefSelector].getY() < 0)
+            this.chefs[this.chefSelector].setY(oldY);
+        for (BaseActor counter : wallArray) {
+            if (counter.getBoundaryRectangle().overlaps(this.chefs[this.chefSelector].getBoundaryRectangle())) {
+                System.out.println(counter.getX() + " " + counter.getY());
+                System.out.println(counter.getWidth() + " " + counter.getHeight());
+                System.out.println(1);
+                this.chefs[this.chefSelector].setX(oldX);
+                this.chefs[this.chefSelector].setY(oldY);
+            }
+        }
+        switch (this.chefSelector) {
+            case 0:
+                if (this.mode == GameMode.ENDLESS)
+                    if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[2].getBoundaryRectangle())) {
+                        this.chefs[this.chefSelector].setX(oldX);
+                        this.chefs[this.chefSelector].setY(oldY);
+                    }
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[1].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                break;
+            case 1:
+                if (this.mode == GameMode.ENDLESS)
+                    if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[2].getBoundaryRectangle())) {
+                        this.chefs[this.chefSelector].setX(oldX);
+                        this.chefs[this.chefSelector].setY(oldY);
+                    }
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[0].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                break;
+            case 2:
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[0].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[1].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                break;
+        }
     }
 
     /**
      * Renders the play screen and all of its assets / objects
      *
-     * @param delta The time in seconds since the last render.
+     * @param dt The time in seconds since the last render.
      */
     @Override
-    public void render(float delta) {
-        update();
+    public void render(float dt) {
+        dt = Math.min(dt, 1 / 30f);
+
+        update(dt);
+
+        super.uiStage.act(dt);
+        super.mainStage.act(dt);
 
         // sets background of game to black and clears screen
         Gdx.gl.glClearColor(0, 0, 0, 1);
@@ -227,36 +352,39 @@ public class PlayScreen implements Screen {
 
         renderer.render();
 
+        super.mainStage.draw();
+        super.uiStage.draw();
+
         //b2dr.render(world,gameCam.combined); //uncomment to see hitboxes
 
-        game.batch.setProjectionMatrix(gameCam.combined);
-        game.batch.begin();
-
-        // ensures the chef in front is drawn over the other
-//        if (player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
-//            player0.draw(game.batch);
-//            player1.draw(game.batch);
-//        } else {
-//            player1.draw(game.batch);
-//            player0.draw(game.batch);
+//        game.batch.setProjectionMatrix(gameCam.combined);
+//        game.batch.begin();
+//
+//        // ensures the chef in front is drawn over the other
+////        if (player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
+////            player0.draw(game.batch);
+////            player1.draw(game.batch);
+////        } else {
+////            player1.draw(game.batch);
+////            player0.draw(game.batch);
+////        }
+//        for (Food food : foodArray) {
+//            food.draw(game.batch);
 //        }
-        for (Food food : foodArray) {
-            food.draw(game.batch);
-        }
-
-        // draws the timer
-        for (CountdownTimer timer : timerArray) {
-            game.batch.draw(new Texture("progressGrey.png"), timer.getX(), timer.getY(), 18, 4);
-            game.batch.draw(timer.getTexture(), timer.getX() + 1, timer.getY() + 1, 16 * timer.getProgressPercent(), 2);
-        }
-
-        game.batch.end();
+//
+//        // draws the timer
+//        for (CountdownTimer timer : timerArray) {
+//            game.batch.draw(new Texture("progressGrey.png"), timer.getX(), timer.getY(), 18, 4);
+//            game.batch.draw(timer.getTexture(), timer.getX() + 1, timer.getY() + 1, 16 * timer.getProgressPercent(), 2);
+//        }
+//
+//        game.batch.end();
 
         // draws the huds
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
-        hud.stage.draw();
-        orderHud.stage.draw();
+//        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
+//        game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
+//        hud.stage.draw();
+//        orderHud.stage.draw();
     }
 
     /**
@@ -279,21 +407,6 @@ public class PlayScreen implements Screen {
         gamePort.update(width, height);
     }
 
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
-    }
-
     /**
      * Disposes of resources in screen
      */
@@ -303,7 +416,8 @@ public class PlayScreen implements Screen {
         renderer.dispose();
         world.dispose();
         b2dr.dispose();
-        hud.dispose();
-        orderHud.dispose();
+//        orderHud.dispose();
+        mainStage.dispose();
+        uiStage.dispose();
     }
 }

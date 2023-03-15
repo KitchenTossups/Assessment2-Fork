@@ -5,7 +5,9 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.base.BaseActor;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.screens.PlayScreen;
 import com.oshewo.panic.sprites.Station;
@@ -22,6 +24,7 @@ import java.util.*;
  */
 public class WorldCreator {
 
+    public static Set<BaseActor> wallArray = new HashSet<>();
     public static Set<Station> stoveArray = new HashSet<>();
     public static Set<Station> boardArray = new HashSet<>();
     public static Set<Station> servingArray = new HashSet<>();
@@ -36,13 +39,13 @@ public class WorldCreator {
      * @param world the world
      * @param map   the map
      */
-    public WorldCreator(World world, TiledMap map, PlayScreen playScreen, PiazzaPanic game) {
+    public WorldCreator(World world, TiledMap map, PlayScreen playScreen, Stage s, PiazzaPanic game) {
         this.world = world;
         this.map = map;
 
         for (MapLayer mapLayer : map.getLayers()) {
             if (mapLayer.getName().equals(TiledAssets.WALLS.getLayerName())) {
-                InitialiseWalls(mapLayer);
+                InitialiseWalls(mapLayer, s);
             } else if (mapLayer.getName().equals(TiledAssets.STOVES.getLayerName())) {
                 InitialiseStoves(mapLayer, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.CHOPPING_BOARD.getLayerName())) {
@@ -63,7 +66,7 @@ public class WorldCreator {
         }
     }
 
-    private void InitialiseWalls(MapLayer mapLayer) {
+    private void InitialiseWalls(MapLayer mapLayer, Stage s) {
         BodyDef bodyDef = new BodyDef();
         PolygonShape shape = new PolygonShape();
         FixtureDef fixtureDef = new FixtureDef();
@@ -79,6 +82,10 @@ public class WorldCreator {
             shape.setAsBox(rectangle.getWidth() / 2, rectangle.getHeight() / 2);
             fixtureDef.shape = shape;
             body.createFixture(fixtureDef);
+            BaseActor baseActor = new BaseActor(rectangle.x, rectangle.y - 50, s);
+            baseActor.setSize(rectangle.width, rectangle.height);
+            baseActor.setBoundaryRectangle();
+            wallArray.add(baseActor);
         }
     }
 

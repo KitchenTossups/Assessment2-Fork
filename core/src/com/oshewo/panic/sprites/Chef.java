@@ -1,10 +1,12 @@
 package com.oshewo.panic.sprites;
 
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.oshewo.panic.screens.PlayScreen;
+import org.w3c.dom.Text;
 
 import static com.oshewo.panic.sprites.Food.foodArray;
 
@@ -14,6 +16,7 @@ import static com.oshewo.panic.sprites.Food.foodArray;
  * @author Oshewo
  */
 public class Chef extends Sprite {
+
     public World world;
     public Body b2body;
     public boolean isHolding = false;
@@ -26,30 +29,39 @@ public class Chef extends Sprite {
      * @param chefNumber the chef number
      * @param screen     the screen
      */
-    public Chef(World world, int chefNumber, PlayScreen screen) {
-        super(screen.getAtlas().findRegion("chef0"));
-        this.world = world;
-        defineChef(chefNumber);
-        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * chefNumber, 0, 32, 32);
-        setBounds(0, 0, 32, 32);
-        setRegion(chefStand);
-    }
+//    public Chef(World world, int chefNumber, PlayScreen screen) {
+//        super(screen.getAtlas().findRegion("chef0"));
+//        this.world = world;
+//        defineChef(chefNumber);
+//        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * chefNumber, 0, 32, 32);
+//        setBounds(0, 0, 32, 32);
+//        setRegion(chefStand);
+//    }
 
     public Chef(World world, int chefNumber, PlayScreen screen, float x, float y) {
         super(screen.getAtlas().findRegion("chef0"));
+//        super(new Texture("patty.png"));
         this.world = world;
-        defineChef(chefNumber);
-        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * chefNumber, 0, 32, 32);
+//        defineChef(chefNumber);
+//        TextureRegion chefStand = new TextureRegion(getTexture(), 128 * chefNumber, 0, 32, 32);
         setBounds(0, 0, 32, 32);
-        setRegion(chefStand);
-        getBDef().position.set(x, y);
+//        setRegion(chefStand);
+//        getBDef().position.set(x, y);
+        setPosition(x, y);
+    }
+
+    public Chef(Texture texture, World world, float x, float y) {
+        super(texture);
+        this.world = world;
+        setBounds(0, 0, 32, 32);
+        setPosition(x, y);
     }
 
     /**
      * Updates position of where the chef is at
      */
     public void update() {
-        setPosition(b2body.getPosition().x - (getWidth() / 2), b2body.getPosition().y - (getHeight() / 4));
+//        setPosition(b2body.getPosition().x - (getWidth() / 2), b2body.getPosition().y - (getHeight() / 4));
     }
 
     /**

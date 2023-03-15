@@ -35,7 +35,8 @@ public class OrderSystem {
      * @return the order
      */
     public Recipe generateOrder() {
-        return new Recipe(Product.getRandomProduct());
+        return new Recipe(Product.DOUBLE_CHEESEBURGER);
+//        return new Recipe(Product.getRandomProduct());
     }
 
     /**
@@ -72,7 +73,7 @@ public class OrderSystem {
                     customerNum = 5;
                     break;
                 case HARD:
-                    time = 10;
+                    time = 5; // testing value only
                     customerNum = 8;
                     break;
                 default:
