@@ -24,23 +24,22 @@ import java.util.*;
  */
 public class WorldCreator {
 
-    public static Set<BaseActor> wallArray = new HashSet<>();
-    public static Set<Station> stoveArray = new HashSet<>();
-    public static Set<Station> boardArray = new HashSet<>();
-    public static Set<Station> servingArray = new HashSet<>();
-    public static Set<FoodCrate> crateArray = new HashSet<>();
-    public World world;
+    public static List<BaseActor> wallArray = new ArrayList<>();
+    public static List<Station> stoveArray = new ArrayList<>();
+    public static List<Station> boardArray = new ArrayList<>();
+    public static List<Station> servingArray = new ArrayList<>();
+    public static List<FoodCrate> crateArray = new ArrayList<>();
+//    public World world;
     public TiledMap map;
-    public Body body;
+//    public Body body;
 
     /**
      * Instantiates a new World creator.
      *
-     * @param world the world
      * @param map   the map
      */
-    public WorldCreator(World world, TiledMap map, PlayScreen playScreen, Stage s, PiazzaPanic game) {
-        this.world = world;
+    public WorldCreator(TiledMap map, PlayScreen playScreen, Stage s, PiazzaPanic game) {
+//        this.world = world;
         this.map = map;
 
         for (MapLayer mapLayer : map.getLayers()) {
@@ -67,22 +66,22 @@ public class WorldCreator {
     }
 
     private void InitialiseWalls(MapLayer mapLayer, Stage s) {
-        BodyDef bodyDef = new BodyDef();
-        PolygonShape shape = new PolygonShape();
-        FixtureDef fixtureDef = new FixtureDef();
+//        BodyDef bodyDef = new BodyDef();
+//        PolygonShape shape = new PolygonShape();
+//        FixtureDef fixtureDef = new FixtureDef();
 
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
 
-            bodyDef.type = BodyDef.BodyType.StaticBody;
-            bodyDef.position.set(rectangle.getX() + rectangle.getWidth() / 2, rectangle.getY() + rectangle.getHeight() / 2);
-
-            body = world.createBody(bodyDef);
-
-            shape.setAsBox(rectangle.getWidth() / 2, rectangle.getHeight() / 2);
-            fixtureDef.shape = shape;
-            body.createFixture(fixtureDef);
-            BaseActor baseActor = new BaseActor(rectangle.x, rectangle.y - 50, s);
+//            bodyDef.type = BodyDef.BodyType.StaticBody;
+//            bodyDef.position.set(rectangle.getX(), rectangle.getY());
+//
+//            body = world.createBody(bodyDef);
+//
+//            shape.setAsBox(rectangle.getWidth(), rectangle.getHeight());
+//            fixtureDef.shape = shape;
+//            body.createFixture(fixtureDef);
+            BaseActor baseActor = new BaseActor(rectangle.x, rectangle.y, s);
             baseActor.setSize(rectangle.width, rectangle.height);
             baseActor.setBoundaryRectangle();
             wallArray.add(baseActor);

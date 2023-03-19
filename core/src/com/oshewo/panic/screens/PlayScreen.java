@@ -91,7 +91,7 @@ public class PlayScreen extends BaseScreen {
 //        gamePort = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, gameCam);
         gamePort = new FitViewport(game.V_WIDTH / (game.V_ZOOM), game.V_HEIGHT / (game.V_ZOOM), gameCam);
         mapLoader = new TmxMapLoader();
-        map = mapLoader.load("piazza-map-big.tmx");
+        map = mapLoader.load("piazza-map-big2.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
         renderer.render();
         gameCam.position.set(gamePort.getWorldWidth() / (1.9f * game.V_ZOOM), gamePort.getWorldHeight() / (1.1f * game.V_ZOOM), 0);
