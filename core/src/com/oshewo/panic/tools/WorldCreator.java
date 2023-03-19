@@ -4,7 +4,6 @@ import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.BaseActor;
@@ -60,7 +59,7 @@ public class WorldCreator {
             } else if (mapLayer.getName().equals(TiledAssets.PATTY.getLayerName())) {
                 InitialiseFoodObject(mapLayer, Item.PATTY, playScreen, game);
             } else if (mapLayer.getName().equals(TiledAssets.BUNS.getLayerName())) {
-                InitialiseFoodObject(mapLayer, Item.TOP_BUN, playScreen, game);
+                InitialiseFoodObject(mapLayer, Item.BUN, playScreen, game);
             }
         }
     }

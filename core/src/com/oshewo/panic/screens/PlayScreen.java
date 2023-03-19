@@ -42,7 +42,7 @@ public class PlayScreen extends BaseScreen {
     private final TiledMap map;
     private final TmxMapLoader mapLoader;
     private final OrthoCachedTiledMapRenderer renderer;
-    private final World world;
+//    private final World world;
     private final Box2DDebugRenderer b2dr;
     private final GameMode mode;
     private final Difficulty difficulty;
@@ -50,7 +50,7 @@ public class PlayScreen extends BaseScreen {
 
     // tools
     private final TextureAtlas atlas;
-    public static SpriteBatch batch;
+//    public static SpriteBatch batch;
 
     // Hud
     private Hud hud;
@@ -96,9 +96,9 @@ public class PlayScreen extends BaseScreen {
         renderer.render();
         gameCam.position.set(gamePort.getWorldWidth() / (1.9f * game.V_ZOOM), gamePort.getWorldHeight() / (1.1f * game.V_ZOOM), 0);
 //        gameCam.position.set(120, 300, 0);
-        world = new World(new Vector2(0, 0), true);
+//        world = new World(new Vector2(0, 0), true);
         b2dr = new Box2DDebugRenderer();
-        new WorldCreator(world, map, this, super.uiStage, game);
+        new WorldCreator(map, this, super.uiStage, game);
 
         if (game.MODE == GameMode.SCENARIO)
             chefs = new Chef[2];
@@ -154,7 +154,12 @@ public class PlayScreen extends BaseScreen {
         // updates according to user input
         handleInput();
 
-        world.step(1 / 60f, 6, 2);
+//        for (CountdownTimer timer : timerArray) {
+//            game.batch.draw(new Texture("progressGrey.png"), timer.getX(), timer.getY(), 18, 4);
+//            game.batch.draw(timer.getTexture(), timer.getX() + 1, timer.getY() + 1, 16 * timer.getProgressPercent(), 2);
+//        }
+
+//        world.step(1 / 60f, 6, 2);
 
 //        for (Chef chef : this.chefs)
 //            chef.update();
@@ -414,7 +419,7 @@ public class PlayScreen extends BaseScreen {
     public void dispose() {
         map.dispose();
         renderer.dispose();
-        world.dispose();
+//        world.dispose();
         b2dr.dispose();
 //        orderHud.dispose();
         mainStage.dispose();
