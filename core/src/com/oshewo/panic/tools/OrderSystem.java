@@ -97,6 +97,17 @@ public class OrderSystem {
                     }
                     break;
                 case ENDLESS:
+                    while (true) {
+                        Customer customer = new Customer(generateOrder(), game.worldTimer);
+                        customers.add(customer);
+                        if (game.isVerbose()) System.out.println(customer);
+                        try {
+                            Thread.sleep(time * 1000);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            break;
+                        }
+                    }
                     break;
             }
             if (game.isVerbose()) System.out.println("Finished CustomerCreate");
