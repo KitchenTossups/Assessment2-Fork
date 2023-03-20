@@ -30,7 +30,7 @@ public class OrderHud extends BaseActor {
         // variables for order - order image, recipe and ingredient labels for recipe
         Image order_receipt = new Image(new Texture(Gdx.files.internal("order_receipt1.png")));
         order_receipt.setPosition(x, y);
-        order_receipt.setSize(300, 500);
+        order_receipt.setSize(250, 500);
 
         FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraftia-Regular.ttf"));
         FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
@@ -43,15 +43,15 @@ public class OrderHud extends BaseActor {
 
         BitmapFont bitmap = fontGenerator.generateFont(fontParameters);
 
-        bitmap.getData().setScale(1, 0.87f);
+        bitmap.getData().setScale(1, 0.8f);
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.BLACK);
 
         label = new Label("", style);
-        label.setPosition(x + 80, y + 5);
+        label.setPosition(x + 65, y + 5);
         label.setWrap(true);
         label.setAlignment(Align.topLeft);
-        label.setSize(200, 390);
+        label.setSize(175, 390);
 
         // Lays out recipe and ingredients label onto the order image in a table
         Table image_table = new Table();
