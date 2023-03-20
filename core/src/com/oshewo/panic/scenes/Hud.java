@@ -68,9 +68,11 @@ public class Hud extends BaseActor {
         scoreLabel = new Label("LIVES", style);
 
         table.add(scoreLabel).expandX().padTop(10);
+        table.add(new Actor()).expandX().padTop(10); // spacer
         table.add(timeLabel).expandX().padTop(10);
         table.row().pad(10);
         table.add(livesLabel).expandX();
+        table.add(new Actor()).expandX().padTop(10); // spacer
         table.add(countupLabel).expandX();
 
         s.addActor(table);
