@@ -28,9 +28,6 @@ public class WorldCreator {
     public static List<Station> boardArray = new ArrayList<>();
     public static List<Station> servingArray = new ArrayList<>();
     public static List<FoodCrate> crateArray = new ArrayList<>();
-//    public World world;
-    public TiledMap map;
-//    public Body body;
 
     /**
      * Instantiates a new World creator.
@@ -38,9 +35,6 @@ public class WorldCreator {
      * @param map   the map
      */
     public WorldCreator(TiledMap map, PlayScreen playScreen, Stage s, PiazzaPanic game) {
-//        this.world = world;
-        this.map = map;
-
         for (MapLayer mapLayer : map.getLayers()) {
             if (mapLayer.getName().equals(TiledAssets.WALLS.getLayerName())) {
                 InitialiseWalls(mapLayer, s);
