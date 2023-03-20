@@ -158,4 +158,8 @@ public class Station {
     public void updatePlayScreen(PlayScreen playScreen) {
         this.playScreen = playScreen;
     }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
 }
