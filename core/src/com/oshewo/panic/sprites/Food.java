@@ -2,9 +2,10 @@ package com.oshewo.panic.sprites;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.base.BaseActor;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.screens.PlayScreen;
 
@@ -15,7 +16,7 @@ import java.util.*;
  *
  * @author Oshewo
  */
-public class Food extends Sprite /*implements Interactable*/ {
+public class Food extends BaseActor {
 
     private final PiazzaPanic game;
     private final Item item;
@@ -29,7 +30,7 @@ public class Food extends Sprite /*implements Interactable*/ {
     // what is being held by the chef
     public static ArrayList<Food> foodArray = new ArrayList<>();
     public boolean followingChef = false;
-    private int chefToFollow;
+    private int chefToFollow = -1;
 
     /**
      * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
@@ -37,11 +38,26 @@ public class Food extends Sprite /*implements Interactable*/ {
      * @param texture    the texture for the food
      * @param item the ingredient
      */
-    public Food(Texture texture, Item item, PlayScreen playScreen, PiazzaPanic game) {
-        super(texture);
+    public Food(float x, float y, Stage s, String texture, Item item, PlayScreen playScreen, PiazzaPanic game) {
+        super(x, y, s);
         this.playScreen = playScreen;
         this.game = game;
         this.item = item;
+        this.loadTexture(texture, 40, 40);
+//        if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
+//            this.choppable = true;
+//        } else if (item == Item.TOP_BUN || item == Item.PATTY) {
+//            this.grillable = true;
+//        }
+//        foodArray.add(this);
+    }
+
+    public Food(float x, float y, Stage s, Texture texture, Item item, PlayScreen playScreen, PiazzaPanic game) {
+        super(x, y, s);
+        this.playScreen = playScreen;
+        this.game = game;
+        this.item = item;
+//        this.loadTexture(texture);
         if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
             this.choppable = true;
         } else if (item == Item.TOP_BUN || item == Item.PATTY) {
@@ -111,34 +127,48 @@ public class Food extends Sprite /*implements Interactable*/ {
         float offsetX;
         float offsetY;
 
+        System.out.println(5);
         // puts down food according to direction of chef which is what movement key was last pressed
         if (this.followingChef && this.chefToFollow == this.playScreen.getChefSelector()) {
+            System.out.println(6);
 //            this.playScreen.chefs[this.chefToFollow].isHolding = false;
             followingChef = false;
             if (this.playScreen.lastMove == Input.Keys.S) {
+                System.out.println(7);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
                 offsetY = -10;
             } else if (this.playScreen.lastMove == Input.Keys.W) {
+                System.out.println(8);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
                 offsetY = this.playScreen.chefs[this.chefToFollow].getHeight();
             } else if (this.playScreen.lastMove == Input.Keys.A) {
+                System.out.println(9);
                 offsetX = -10;
                 offsetY = 2;
             } else {
+                System.out.println(10);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth();
                 offsetY = 2;
             }
+            System.out.println(11);
             this.setX(this.playScreen.chefs[this.chefToFollow].getX() + offsetX);
             this.setY(this.playScreen.chefs[this.chefToFollow].getY() + offsetY);
             chefToFollow = -1;
         }
         // pickup food
         else {
-//            if (!this.playScreen.chefs[this.chefToFollow].isHolding && chefToFollow == -1) {
-//                this.chefToFollow = this.playScreen.getChefSelector();
-//                this.playScreen.chefs[this.chefToFollow].isHolding = true;
-//                this.followingChef = true;
-//            }
+            System.out.println(12);
+            if (chefToFollow == -1) {
+                System.out.println(13);
+                this.chefToFollow = this.playScreen.getChefSelector();
+                this.playScreen.chefs[this.chefToFollow].isHolding = true;
+                this.followingChef = true;
+            } else if (!this.playScreen.chefs[this.chefToFollow].isHolding) {
+                System.out.println(14);
+                this.chefToFollow = this.playScreen.getChefSelector();
+                this.playScreen.chefs[this.chefToFollow].isHolding = true;
+                this.followingChef = true;
+            }
         }
     }
 
