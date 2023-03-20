@@ -9,8 +9,7 @@ import com.oshewo.panic.screens.*;
  * Sets dimensions of game and initial screen when game loads
  */
 public class PiazzaPanic extends BaseGame {
-    // screen dimensions and zoom
-    public final float V_ZOOM = 1.42f;
+    // screen dimensions
     public final float V_WIDTH = 1280;
     public final float V_HEIGHT = 720;
     public final int PICKUP_RADIUS = 48;
