@@ -35,8 +35,8 @@ public class OrderSystem {
      * @return the order
      */
     public Recipe generateOrder() {
-        return new Recipe(Product.DOUBLE_CHEESEBURGER);
-//        return new Recipe(Product.getRandomProduct());
+//        return new Recipe(Product.DOUBLE_CHEESEBURGER);
+        return new Recipe(Product.getRandomProduct());
     }
 
     /**
