@@ -3,11 +3,12 @@ package com.oshewo.panic.screens;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.physics.box2d.*;
 
 import com.badlogic.gdx.utils.viewport.*;
@@ -15,13 +16,11 @@ import com.badlogic.gdx.utils.viewport.*;
 import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.stations.*;
+import com.oshewo.panic.non_actor.*;
 import com.oshewo.panic.tools.*;
 import com.oshewo.panic.*;
 import com.oshewo.panic.scenes.*;
-import com.oshewo.panic.sprites.Food;
-import com.oshewo.panic.sprites.Station;
-import com.oshewo.panic.sprites.CountdownTimer;
-import com.oshewo.panic.actor.Chef;
+import com.oshewo.panic.actor.*;
 
 import java.util.*;
 
