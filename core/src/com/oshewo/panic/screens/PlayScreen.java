@@ -66,7 +66,8 @@ public class PlayScreen extends BaseScreen {
         super();
         this.mode = game.MODE;
         this.difficulty = game.DIFFICULTY;
-        atlas = new TextureAtlas("sprites.txt");
+        // tools
+//        TextureAtlas atlas = new TextureAtlas("sprites.txt");
 
         this.game = game;
 
@@ -118,14 +119,16 @@ public class PlayScreen extends BaseScreen {
 //        gen.setPosition(200, 200);
     }
 
-    /**
-     * Get texture atlas.
-     *
-     * @return the texture atlas
-     */
-    public TextureAtlas getAtlas() {
-        return atlas;
-    }
+//    Food gen;
+
+//    /**
+//     * Get texture atlas.
+//     *
+//     * @return the texture atlas
+//     */
+//    public TextureAtlas getAtlas() {
+//        return atlas;
+//    }
 
     /**
      * Updates positions of chefs, timer hud, food and stations
@@ -140,15 +143,10 @@ public class PlayScreen extends BaseScreen {
         renderer.setView(gameCam);
         renderer.render();
 
+//        gen.update(this);
+
         // updates according to user input
         handleInput();
-
-//        for (CountdownTimer timer : timerArray) {
-//            game.batch.draw(new Texture("progressGrey.png"), timer.getX(), timer.getY(), 18, 4);
-//            game.batch.draw(timer.getTexture(), timer.getX() + 1, timer.getY() + 1, 16 * timer.getProgressPercent(), 2);
-//        }
-
-//        world.step(1 / 60f, 6, 2);
 
 //        for (Chef chef : this.chefs)
 //            chef.update();
@@ -176,7 +174,7 @@ public class PlayScreen extends BaseScreen {
     public void handleInput() {
 //        Food nearestFood = this.chefs[this.chefSelector].nearestFood(game.PICKUP_RADIUS);
         // pickup item
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
 //            if (nearestFood != null) {
 //                nearestFood.onUse();
 //            } else {
@@ -184,7 +182,7 @@ public class PlayScreen extends BaseScreen {
 //                    crate.onUse(this);
 //                }
 //            }
-        }
+//        }
 
         try {
             if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
@@ -280,9 +278,9 @@ public class PlayScreen extends BaseScreen {
             this.chefs[this.chefSelector].setY(oldY);
         for (BaseActor counter : wallArray) {
             if (counter.getBoundaryRectangle().overlaps(this.chefs[this.chefSelector].getBoundaryRectangle())) {
-                System.out.println(counter.getX() + " " + counter.getY());
-                System.out.println(counter.getWidth() + " " + counter.getHeight());
-                System.out.println(1);
+//                System.out.println(oldX + " " + oldY + " " + this.chefs[this.chefSelector].getWidth() + " " + this.chefs[this.chefSelector].getHeight());
+//                System.out.println(counter.getX() + " " + counter.getY() + " " + counter.getWidth() + " " + counter.getHeight());
+//                System.out.println(1);
                 this.chefs[this.chefSelector].setX(oldX);
                 this.chefs[this.chefSelector].setY(oldY);
             }
