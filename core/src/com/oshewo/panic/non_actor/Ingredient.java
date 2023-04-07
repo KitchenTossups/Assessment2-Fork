@@ -1,19 +1,19 @@
-package com.oshewo.panic.non_sprite;
+package com.oshewo.panic.non_actor;
 
 import com.oshewo.panic.enums.*;
 
 public class Ingredient {
 
-    private final Item item;
+    private final Ingredients ingredients;
     private IngredientState state;
 
-    public Ingredient(Item item, IngredientState state) {
-        this.item = item;
+    public Ingredient(Ingredients ingredients, IngredientState state) {
+        this.ingredients = ingredients;
         this.state = state;
     }
 
-    public Item getItem() {
-        return this.item;
+    public Ingredients getItem() {
+        return this.ingredients;
     }
 
     public IngredientState getState() {
@@ -25,11 +25,11 @@ public class Ingredient {
     }
 
     public boolean notMatches(Ingredient ingredient) {
-        return this.state != ingredient.getState() || this.item != ingredient.getItem();
+        return this.state != ingredient.getState() || this.ingredients != ingredient.getItem();
     }
 
     @Override
     public String toString() {
-        return this.item.toString();
+        return this.ingredients.toString();
     }
 }
