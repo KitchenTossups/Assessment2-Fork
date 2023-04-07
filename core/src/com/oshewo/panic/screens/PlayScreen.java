@@ -219,7 +219,26 @@ public class PlayScreen extends BaseScreen {
                 this.tabPressed = true;
             } else
                 this.tabPressed = false;
-//            if (Gdx.input.isKeyJustPressed(Input.Keys.E))
+            if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                if (game.VERBOSE)
+                    System.out.println("E");
+                Food nearestFood = this.chefs[this.chefSelector].nearestFood(48);
+                if (game.VERBOSE)
+                    System.out.println(nearestFood);
+                if (nearestFood != null) {
+                    if (game.VERBOSE)
+                        System.out.println(1);
+                    nearestFood.onUse();
+                } else {
+                    if (game.VERBOSE)
+                        System.out.println(2);
+                    for (FoodCrate crate : foodCrates) {
+                        if (game.VERBOSE)
+                            System.out.println(crate.toString());
+                        crate.onUse(this, super.uiStage);
+                    }
+                }
+            }
 //                this.stationProximity();
 //            if (this.customers.size() == 0) {
 //                System.out.println("FINISHED");
