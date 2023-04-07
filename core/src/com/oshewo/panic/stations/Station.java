@@ -49,15 +49,16 @@ public class Station {
      */
     public void update(PlayScreen playScreen) {
         updatePlayScreen(playScreen);
+        if (this.ingredients == null) {
 //        if (foodId < 0) {
-        if (false) {
+//        if (false) {
             checkForFood();
-        } else if (timer.isComplete()) {
-            output();
-//            foodId = -1;
-            timerArray.remove(timer);
-        } else {
-            showProgress();
+//        } else if (timer.isComplete()) {
+//            output();
+//            this.item = null;
+//            timerArray.remove(timer);
+//        } else {
+//            showProgress();
         }
     }
 
