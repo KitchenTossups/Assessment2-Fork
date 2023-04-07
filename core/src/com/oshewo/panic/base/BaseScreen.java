@@ -73,7 +73,10 @@ public abstract class BaseScreen implements Screen, InputProcessor {
     public void dispose() {
         this.mainStage.dispose();
         this.uiStage.dispose();
+        disposing();
     }
+
+    public abstract void disposing();
 
     /**
      * Called when this becomes the active screen in a Game.
