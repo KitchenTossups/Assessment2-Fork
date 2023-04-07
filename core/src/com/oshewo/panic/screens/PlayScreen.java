@@ -204,7 +204,7 @@ public class PlayScreen extends BaseScreen {
             }
             if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
                 if (!this.tabPressed) {
-                    if (game.isVerbose()) System.out.println("Tab pressed");
+                    if (game.VERBOSE) System.out.println("Tab pressed");
                     switch (this.mode) {
                         case SCENARIO:
                             this.chefSelector++;
