@@ -283,12 +283,11 @@ public class PlayScreen extends BaseScreen {
     }
 
     private void checkCollision(float oldX, float oldY) {
-        System.out.println(oldX + " " +  oldY);
         if (this.chefs[this.chefSelector].getX() + this.chefs[this.chefSelector].getWidth() > game.V_WIDTH || this.chefs[this.chefSelector].getX() < 0)
             this.chefs[this.chefSelector].setX(oldX);
         if (this.chefs[this.chefSelector].getY() + this.chefs[this.chefSelector].getHeight() > game.V_HEIGHT || this.chefs[this.chefSelector].getY() < 0)
             this.chefs[this.chefSelector].setY(oldY);
-        for (BaseActor counter : wallArray) {
+        for (BaseActor counter : walls) {
             if (counter.getBoundaryRectangle().overlaps(this.chefs[this.chefSelector].getBoundaryRectangle())) {
 //                System.out.println(oldX + " " + oldY + " " + this.chefs[this.chefSelector].getWidth() + " " + this.chefs[this.chefSelector].getHeight());
 //                System.out.println(counter.getX() + " " + counter.getY() + " " + counter.getWidth() + " " + counter.getHeight());
