@@ -77,46 +77,38 @@ public class PlayScreen extends BaseScreen {
 
         // game, camera and map setup
         gameCam = new OrthographicCamera(game.V_WIDTH, game.V_HEIGHT);
-//        background = new Background();
-//        gamePort = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_HEIGHT, gameCam);
-        gamePort = new FitViewport(game.V_WIDTH / (game.V_ZOOM), game.V_HEIGHT / (game.V_ZOOM), gameCam);
-        mapLoader = new TmxMapLoader();
+        gamePort = new FitViewport(game.V_WIDTH, game.V_HEIGHT, gameCam);
+        TmxMapLoader mapLoader = new TmxMapLoader();
         map = mapLoader.load("piazza-map-big2.tmx");
         renderer = new OrthoCachedTiledMapRenderer(map);
         renderer.render();
-        gameCam.position.set(gamePort.getWorldWidth() / (1.9f * game.V_ZOOM), gamePort.getWorldHeight() / (1.1f * game.V_ZOOM), 0);
-//        gameCam.position.set(120, 300, 0);
-//        world = new World(new Vector2(0, 0), true);
+        gameCam.position.set((game.V_WIDTH / 2), (game.V_HEIGHT / 2), 0); // 0,0 is apparently in the centre of the screen maybe...
         b2dr = new Box2DDebugRenderer();
-        new WorldCreator(map, this, super.uiStage, game);
+        WorldCreator();
 
         if (game.MODE == GameMode.SCENARIO)
-            chefs = new Chef[2];
+            chefs = new ChefActor[2];
         else
-            chefs = new Chef[3];
+            chefs = new ChefActor[3];
 
-//        this.chefs[0] = new Chef(new Texture("ChefB1.png"), world, 200, 200);
-//        this.chefs[0].setPosition(180, 180);
-//        this.chefs[1] = new Chef(new Texture("ChefB2.png"), world, 240, 200);
-//        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(world, 2, this, 280, 200);
-        this.chefs[0] = new Chef(400, 100, super.uiStage, 1);
-        this.chefs[1] = new Chef(450, 100, super.uiStage, 2);
-        if (mode == GameMode.ENDLESS) this.chefs[2] = new Chef(500, 100, super.uiStage, 3);
-
-        // sets up and positions both chefs in the game
-//        player0 = new Chef(world, 0, this);
-//        player1 = new Chef(world, 1, this);
-//        player2 = new Chef(world, 2, this);
-//        this.chefs[0].getBDef().position.set(180, 180);
-//        player2.getBDef().position.set(200, 160);
-        // current chef is set to player 0 by default
-//        activePlayer = player0;
+        this.chefs[0] = new ChefActor(400, 200, super.uiStage, 0);
+        this.chefs[1] = new ChefActor(450, 200, super.uiStage, 1);
+        if (mode == GameMode.ENDLESS) this.chefs[2] = new ChefActor(500, 200, super.uiStage, 2);
 
         // order
         orderSystem = new OrderSystem(game);
-        batch = new SpriteBatch();
-//        Food gen = new Food(new Texture("ChefB1.png"), Item.PATTY, this, game);
-//        gen.setPosition(200, 200);
+        foods.add(new Food(500, 250, super.uiStage, "patty.png", new Ingredient(Ingredients.PATTY, IngredientState.UNCUT), this, game, -1));
+//        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
+//        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
+        int time = 10;
+        for (Station s : stoves) {
+            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getWidth() + 5, 40, 10, super.uiStage, time));
+            time += 5;
+        }
+        for (Station s : choppingBoards) {
+            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getWidth() + 5, 40, 10, super.uiStage, time));
+            time += 5;
+        }
     }
 
 //    Food gen;
