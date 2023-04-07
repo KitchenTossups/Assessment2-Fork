@@ -8,10 +8,7 @@ import com.oshewo.panic.screens.PlayScreen;
 
 import java.util.*;
 
-import static com.oshewo.panic.scenes.Hud.hudStartTime;
-import static com.oshewo.panic.screens.PlayScreen.*;
-import static com.oshewo.panic.sprites.Food.foodArray;
-import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
+import static com.oshewo.panic.lists.Lists.*;
 
 /**
  * The type Station.
@@ -63,21 +60,24 @@ public class Station {
      * Check whether food has been placed on a specific station then if so, starts timer for prepping
      */
     public void checkForFood() {
-        for (Food food : new ArrayList<>(foodArray)) {
-            if (bounds.contains(food.getX(), food.getY()) && !food.followingChef) {
-//                foodId = food.getId();
-                if (food.isChoppable() && this.type == StationType.CHOPPING_BOARD) {
-                    foodArray.remove(food);
-                    timer = new CountdownTimer(15, bounds);
-                } else if (food.isGrillable() && this.type == StationType.STOVE) {
-                    foodArray.remove(food);
-                    timer = new CountdownTimer(15, bounds);
-//                } else if (foodId == currentOrder.getOrderId() && this.type == StationType.SERVING) {
-                    foodArray.remove(food);
-                    timer = new CountdownTimer(0, bounds);
-                    submitOrder();
-                } else {
-//                    foodId = -1;
+        for (Food food : new ArrayList<>(foods)) {
+            if (bounds.contains(food.getX(), food.getY()) && !food.isCarried()) {
+                if (food.getIngredient().getState() == IngredientState.UNCUT && this.type == StationType.CHOPPING_BOARD) {
+                    foods.remove(food);
+                    timers.add(new StationTimer(bounds.x + (bounds.getWidth() - 18) / 2, bounds.y + bounds.getHeight(), 40, 10, this.s, 15));
+                } else if (food.getIngredient().getState() == IngredientState.UNCOOKED && this.type == StationType.STOVE) {
+                    foods.remove(food);
+                    timers.add(new StationTimer(bounds.x + (bounds.getWidth() - 18) / 2, bounds.y + bounds.getHeight(), 40, 10, this.s, 15));
+                } else if (this.type == StationType.SERVING)
+                    for (Customer customer : new ArrayList<>(customers))
+                        if (customer.getOrder().satisfied(food)) {
+                            customers.remove(customer);
+                            foods.remove(food);
+                            submitOrder();
+                            break;
+                        }
+                else {
+                    ingredients = null;
                 }
             }
         }

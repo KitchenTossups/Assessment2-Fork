@@ -7,6 +7,7 @@ import com.oshewo.panic.non_sprite.*;
 import java.util.*;
 
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
+import static com.oshewo.panic.lists.Lists.customers;
 
 /**
  * The type Order system.
@@ -15,7 +16,6 @@ import static com.oshewo.panic.screens.PlayScreen.orderHud;
  */
 public class OrderSystem {
 
-    private static final List<Customer> customers = new ArrayList<>();
     private final PiazzaPanic game;
 
     /**
@@ -84,7 +84,7 @@ public class OrderSystem {
             switch (game.MODE) {
                 case SCENARIO:
                     for (int i = 0; i < customerNum; i++) {
-                        Customer customer = new Customer(generateOrder(), game.worldTimer);
+                        Customer customer = new Customer(generateOrder());
                         customers.add(customer);
                         if (game.isVerbose()) System.out.println(customer);
                         if (i + 1 == customerNum)

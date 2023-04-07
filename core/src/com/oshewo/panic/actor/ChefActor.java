@@ -4,8 +4,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.base.BaseActor;
 import com.oshewo.panic.sprites.Food;
 
-import static com.oshewo.panic.sprites.Food.foodArray;
-//import com.eng1.non_actor.*;
+import static com.oshewo.panic.lists.Lists.foods;
 
 public class Chef extends BaseActor {
 
@@ -25,7 +24,7 @@ public class Chef extends BaseActor {
     public Food nearestFood(float distance) {
         Food nearestFood = null;
         float nearestDistance = Float.MAX_VALUE;
-        for (Food food : foodArray) {
+        for (Food food : foods) {
             float currentDistance = food.getPosition().dst(this.getX(), this.getY());
 //             this.getPosition().dst(food.getPosition());
             if (currentDistance <= distance && currentDistance < nearestDistance) {

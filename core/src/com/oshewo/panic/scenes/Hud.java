@@ -10,6 +10,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.BaseActor;
+import com.oshewo.panic.non_actor.Customer;
+
+import static com.oshewo.panic.lists.Lists.customers;
 
 /**
  * The Hud displays the time and score counter

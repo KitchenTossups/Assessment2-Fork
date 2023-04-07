@@ -25,9 +25,7 @@ import com.oshewo.panic.actor.Chef;
 
 import java.util.*;
 
-import static com.oshewo.panic.sprites.Food.foodArray;
-import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
-import static com.oshewo.panic.tools.WorldCreator.*;
+import static com.oshewo.panic.lists.Lists.*;
 
 /**
  * The Play screen is the screen featuring the actual game

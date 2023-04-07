@@ -11,6 +11,8 @@ import com.oshewo.panic.screens.PlayScreen;
 
 import java.util.*;
 
+import static com.oshewo.panic.lists.Lists.foods;
+
 /**
  * The food class sets the attributes for each ingredient and what preparation can be done to it
  *
@@ -76,9 +78,9 @@ public class Food extends BaseActor {
             this.setX(this.playScreen.chefs[this.chefToFollow].getX() + this.playScreen.chefs[this.chefToFollow].getWidth() / 4);
             this.setY(this.playScreen.chefs[this.chefToFollow].getY());
         } else {
-            List<Item> itemList = new ArrayList<>();
-            List<Food> foods = new ArrayList<>();
-            for (Food food : foodArray) {
+            List<Ingredients> ingredientsList = new ArrayList<>();
+            List<Food> food1 = new ArrayList<>();
+            for (Food food : foods) {
                 if (!food.isCarried()) {
                     float yDiff = food.getPosition().y - this.getPosition().y;
                     float xDiff = food.getPosition().x - this.getPosition().x;
@@ -102,8 +104,8 @@ public class Food extends BaseActor {
                 Food gen = null;
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
-                for (Food food : foods) {
-                    foodArray.remove(food);
+                for (Food food : food1) {
+                    foods.remove(food);
                 }
             } else {
                 return;
