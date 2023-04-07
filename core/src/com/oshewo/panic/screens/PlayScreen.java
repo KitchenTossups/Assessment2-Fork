@@ -161,8 +161,6 @@ public class PlayScreen extends BaseScreen {
         hud.update();
     }
 
-    public int lastMove;
-
     /**
      * Handle input of picking up food that is nearest
      */
