@@ -10,14 +10,18 @@ public enum TiledAssets {
     TOMATO("Tomato object layer"),
     ONION("Onion object layer"),
     PATTY("Patty object layer"),
-    BUNS("Buns object layer");
+    BUNS("Buns object layer"),
+    NULL("");
     private final String layerName;
 
     TiledAssets(String layerName) {
         this.layerName = layerName;
     }
 
-    public String getLayerName() {
-        return layerName;
+    public static TiledAssets getValueOf(String layerName) {
+        for (TiledAssets t : TiledAssets.values())
+            if (t.layerName.equals(layerName))
+                return t;
+        return NULL;
     }
 }

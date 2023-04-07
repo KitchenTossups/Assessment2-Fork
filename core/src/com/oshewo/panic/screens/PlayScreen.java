@@ -332,62 +332,78 @@ public class PlayScreen extends BaseScreen {
         }
     }
 
-    /**
-     * Renders the play screen and all of its assets / objects
-     *
-     * @param dt The time in seconds since the last render.
-     */
-    @Override
-    public void render(float dt) {
-        dt = Math.min(dt, 1 / 30f);
+    private void WorldCreator() {
+        for (MapLayer mapLayer : this.map.getLayers()) {
+            switch (TiledAssets.getValueOf(mapLayer.getName())) {
+                case WALLS:
+                    InitialiseWalls(mapLayer);
+                    break;
+                case STOVES:
+                    InitialiseStoves(mapLayer);
+                    break;
+                case CHOPPING_BOARD:
+                    InitialiseChoppingCounter(mapLayer);
+                    break;
+                case SERVING_STATION:
+                    InitialiseServiceStation(mapLayer);
+                    break;
+                case LETTUCE:
+                    InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
+                    break;
+                case TOMATO:
+                    InitialiseFoodObject(mapLayer, Ingredients.TOMATO);
+                    break;
+                case ONION:
+                    InitialiseFoodObject(mapLayer, Ingredients.ONION);
+                    break;
+                case PATTY:
+                    InitialiseFoodObject(mapLayer, Ingredients.PATTY);
+                    break;
+                case BUNS:
+                    InitialiseFoodObject(mapLayer, Ingredients.BUN);
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
 
-        update(dt);
+    private void InitialiseWalls(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            BaseActor baseActor = new BaseActor(rectangle.x, rectangle.y, super.uiStage);
+            baseActor.setSize(rectangle.width, rectangle.height);
+            baseActor.setBoundaryRectangle();
+            walls.add(baseActor);
+        }
+    }
 
-        super.uiStage.act(dt);
-        super.mainStage.act(dt);
+    private void InitialiseStoves(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            stoves.add(new Station(StationType.STOVE, rectangle, this, this.game, super.uiStage));
+        }
+    }
 
-        // sets background of game to black and clears screen
-        Gdx.gl.glClearColor(0, 0, 0, 1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+    private void InitialiseChoppingCounter(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            choppingBoards.add(new Station(StationType.CHOPPING_BOARD, rectangle, this, this.game, super.uiStage));
+        }
+    }
 
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+    private void InitialiseServiceStation(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            servingStations.add(new Station(StationType.SERVING, rectangle, this, this.game, super.uiStage));
+        }
+    }
 
-        renderer.render();
-
-        super.mainStage.draw();
-        super.uiStage.draw();
-
-        //b2dr.render(world,gameCam.combined); //uncomment to see hitboxes
-
-//        game.batch.setProjectionMatrix(gameCam.combined);
-//        game.batch.begin();
-//
-//        // ensures the chef in front is drawn over the other
-////        if (player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
-////            player0.draw(game.batch);
-////            player1.draw(game.batch);
-////        } else {
-////            player1.draw(game.batch);
-////            player0.draw(game.batch);
-////        }
-//        for (Food food : foodArray) {
-//            food.draw(game.batch);
-//        }
-//
-//        // draws the timer
-//        for (CountdownTimer timer : timerArray) {
-//            game.batch.draw(new Texture("progressGrey.png"), timer.getX(), timer.getY(), 18, 4);
-//            game.batch.draw(timer.getTexture(), timer.getX() + 1, timer.getY() + 1, 16 * timer.getProgressPercent(), 2);
-//        }
-//
-//        game.batch.end();
-
-        // draws the huds
-//        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-//        game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
-//        hud.stage.draw();
-//        orderHud.stage.draw();
+    private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            foodCrates.add(new FoodCrate(rectangle, ingredients, this, this.game));
+        }
     }
 
     /**
