@@ -63,8 +63,7 @@ public class PlayScreen extends BaseScreen {
 
     // order
     private final OrderSystem orderSystem;
-    //    public static Order currentOrder;
-    public static int ordersCompleted = 0;
+    private int ordersCompleted = 0;
 
     /**
      * Instantiates a new Play screen.
@@ -413,6 +412,14 @@ public class PlayScreen extends BaseScreen {
      */
     public int getChefSelector() {
         return this.chefSelector;
+    }
+
+    public int getLastMove() {
+        return lastMove;
+    }
+
+    public void incrementOrderCompleted() {
+        this.ordersCompleted++;
     }
 
     /**
