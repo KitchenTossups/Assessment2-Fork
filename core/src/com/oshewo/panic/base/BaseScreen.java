@@ -101,16 +101,16 @@ public abstract class BaseScreen implements Screen, InputProcessor {
 //    }
 
     public void removeRemainingFromInventorySpace(boolean verbose) {
-        BaseActor inPlace1 = (BaseActor) uiStage.hit(620, 20, true), inPlace2 = (BaseActor) uiStage.hit(620, 80, true);
+        BaseActor inPlace1 = (BaseActor) this.uiStage.hit(620, 20, true), inPlace2 = (BaseActor) this.uiStage.hit(620, 80, true);
         while (!Objects.equals(inPlace1.toString(), "Inventory")) {
             if (verbose) System.out.println(inPlace1);
             inPlace1.remove();
-            inPlace1 = (BaseActor) uiStage.hit(620, 20, true);
+            inPlace1 = (BaseActor) this.uiStage.hit(620, 20, true);
         }
         while (!Objects.equals(inPlace2.toString(), "Inventory")) {
             if (verbose) System.out.println(inPlace2);
             inPlace2.remove();
-            inPlace2 = (BaseActor) uiStage.hit(620, 80, true);
+            inPlace2 = (BaseActor) this.uiStage.hit(620, 80, true);
         }
     }
 

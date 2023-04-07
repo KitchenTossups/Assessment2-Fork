@@ -15,17 +15,17 @@ public class StationTimer extends BaseActor {
     public StationTimer(float x, float y, int width, int height, Stage s, int seconds) {
         super(x, y, s);
         this.duration = seconds;
-        timeStarted = new Date().getTime();
-        timerSub = new TimerSub(x + 2, y + 2, width - 4, height - 4, s);
+        this.timeStarted = new Date().getTime();
+        this.timerSub = new TimerSub(x + 2, y + 2, width - 4, height - 4, s);
         this.loadTexture("progressGrey.png", width, height);
     }
 
     public float getProgressPercent() {
-        return (float) TimeUtils.timeSinceMillis(timeStarted) / (duration * 1000);
+        return (float) TimeUtils.timeSinceMillis(this.timeStarted) / (this.duration * 1000);
     }
 
     public void delete() {
-        timerSub.remove();
+        this.timerSub.remove();
         this.remove();
     }
 

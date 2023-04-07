@@ -114,9 +114,9 @@ public class OrderSystem {
         }
 
         public void start() {
-            if (t == null) {
-                t = new Thread(this);
-                t.start();
+            if (this.t == null) {
+                this.t = new Thread(this);
+                this.t.start();
             }
         }
     }

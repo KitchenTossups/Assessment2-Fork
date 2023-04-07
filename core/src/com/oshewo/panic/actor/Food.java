@@ -121,42 +121,52 @@ public class Food extends BaseActor {
         float offsetX;
         float offsetY;
 
-        System.out.println(5);
+        if (this.game.VERBOSE)
+            System.out.println(5);
         // puts down food according to direction of chef which is what movement key was last pressed
         if (this.chefToFollow != -1 && this.chefToFollow == this.playScreen.getChefSelector()) {
-            System.out.println(6);
+            if (this.game.VERBOSE)
+                System.out.println(6);
             this.playScreen.chefs[this.chefToFollow].isHolding = false;
             if (this.playScreen.getLastMove() == Input.Keys.S) {
-                System.out.println(7);
+                if (this.game.VERBOSE)
+                    System.out.println(7);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
                 offsetY = -10;
             } else if (this.playScreen.getLastMove() == Input.Keys.W) {
-                System.out.println(8);
+                if (this.game.VERBOSE)
+                    System.out.println(8);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
                 offsetY = this.playScreen.chefs[this.chefToFollow].getHeight();
             } else if (this.playScreen.getLastMove() == Input.Keys.A) {
-                System.out.println(9);
+                if (this.game.VERBOSE)
+                    System.out.println(9);
                 offsetX = -10;
                 offsetY = 2;
             } else {
-                System.out.println(10);
+                if (this.game.VERBOSE)
+                    System.out.println(10);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth();
                 offsetY = 2;
             }
-            System.out.println(11);
+            if (this.game.VERBOSE)
+                System.out.println(11);
             this.setX(this.playScreen.chefs[this.chefToFollow].getX() + offsetX);
             this.setY(this.playScreen.chefs[this.chefToFollow].getY() + offsetY);
-            chefToFollow = -1;
+            this.chefToFollow = -1;
         }
         // pickup food
         else {
-            System.out.println(12);
-            if (chefToFollow == -1) {
-                System.out.println(13);
+            if (this.game.VERBOSE)
+                System.out.println(12);
+            if (this.chefToFollow == -1) {
+                if (this.game.VERBOSE)
+                    System.out.println(13);
                 this.chefToFollow = this.playScreen.getChefSelector();
                 this.playScreen.chefs[this.chefToFollow].isHolding = true;
             } else if (!this.playScreen.chefs[this.chefToFollow].isHolding) {
-                System.out.println(14);
+                if (this.game.VERBOSE)
+                    System.out.println(14);
                 this.chefToFollow = this.playScreen.getChefSelector();
                 this.playScreen.chefs[this.chefToFollow].isHolding = true;
             }
@@ -169,7 +179,7 @@ public class Food extends BaseActor {
      * @return id
      */
     public Ingredient getIngredient() {
-        return ingredient;
+        return this.ingredient;
     }
 
     /**

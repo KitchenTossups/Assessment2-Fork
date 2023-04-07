@@ -67,13 +67,13 @@ public class Station {
      */
     public void checkForFood() {
         for (Food food : new ArrayList<>(foods)) {
-            if (bounds.contains(food.getX(), food.getY()) && !food.isCarried()) {
+            if (this.bounds.contains(food.getX(), food.getY()) && !food.isCarried()) {
                 if (food.getIngredient().getState() == IngredientState.UNCUT && this.type == StationType.CHOPPING_BOARD) {
                     foods.remove(food);
-                    timers.add(new StationTimer(bounds.x + (bounds.getWidth() - 18) / 2, bounds.y + bounds.getHeight(), 40, 10, this.s, 15));
+                    timers.add(new StationTimer(this.bounds.x + (this.bounds.getWidth() - 18) / 2, this.bounds.y + this.bounds.getHeight(), 40, 10, this.s, 15));
                 } else if (food.getIngredient().getState() == IngredientState.UNCOOKED && this.type == StationType.STOVE) {
                     foods.remove(food);
-                    timers.add(new StationTimer(bounds.x + (bounds.getWidth() - 18) / 2, bounds.y + bounds.getHeight(), 40, 10, this.s, 15));
+                    timers.add(new StationTimer(this.bounds.x + (this.bounds.getWidth() - 18) / 2, this.bounds.y + this.bounds.getHeight(), 40, 10, this.s, 15));
                 } else if (this.type == StationType.SERVING)
                     for (Customer customer : new ArrayList<>(customers))
                         if (customer.getOrder().satisfied(food)) {
@@ -83,7 +83,7 @@ public class Station {
                             break;
                         }
                 else {
-                    ingredients = null;
+                    this.ingredients = null;
                 }
             }
         }
@@ -102,9 +102,9 @@ public class Station {
      */
     public void output() {
         String texture = "";
-        if (type == StationType.CHOPPING_BOARD) {
+        if (this.type == StationType.CHOPPING_BOARD) {
             texture = choppingOutput();
-        } else if (type == StationType.STOVE) {
+        } else if (this.type == StationType.STOVE) {
             texture = cookingOutput();
         } else {
             return;
@@ -139,9 +139,9 @@ public class Station {
      * @return the string for the png of the food
      */
     public String cookingOutput() {
-        if (ingredients == Ingredients.TOP_BUN) {
+        if (this.ingredients == Ingredients.TOP_BUN) {
             return "top_bun_toasted.png";
-        } else if (ingredients == Ingredients.PATTY) {
+        } else if (this.ingredients == Ingredients.PATTY) {
             return "patty_cooked.png";
         }
         return null;
@@ -152,6 +152,6 @@ public class Station {
     }
 
     public Rectangle getBounds() {
-        return bounds;
+        return this.bounds;
     }
 }

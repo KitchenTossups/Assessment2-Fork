@@ -211,7 +211,7 @@ public class BaseActor extends Actor {
      * @param pause true to pause animation, false to resume animation
      */
     public void setAnimationPaused(boolean pause) {
-        animationPaused = pause;
+        this.animationPaused = pause;
     }
 
     /**
@@ -251,8 +251,8 @@ public class BaseActor extends Actor {
     public void act(float dt) {
         super.act(dt);
 
-        if (!animationPaused)
-            elapsedTime += dt;
+        if (!this.animationPaused)
+            this.elapsedTime += dt;
     }
 
     /**

@@ -47,18 +47,18 @@ public class OrderHud extends BaseActor {
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.BLACK);
 
-        label = new Label("", style);
-        label.setPosition(x + 65, y + 5);
-        label.setWrap(true);
-        label.setAlignment(Align.topLeft);
-        label.setSize(175, 390);
+        this.label = new Label("", style);
+        this.label.setPosition(x + 65, y + 5);
+        this.label.setWrap(true);
+        this.label.setAlignment(Align.topLeft);
+        this.label.setSize(175, 390);
 
         // Lays out recipe and ingredients label onto the order image in a table
         Table image_table = new Table();
         image_table.addActor(order_receipt);
 
         Table labels_table = new Table();
-        labels_table.addActor(label);
+        labels_table.addActor(this.label);
 
         Stack stack = new Stack();
         stack.add(image_table);
@@ -73,6 +73,6 @@ public class OrderHud extends BaseActor {
      * @return the label for orders
      */
     public Label getLabel() {
-        return label;
+        return this.label;
     }
 }

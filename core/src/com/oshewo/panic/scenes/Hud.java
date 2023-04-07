@@ -38,8 +38,8 @@ public class Hud extends BaseActor {
     public Hud(float x, float y, Stage s, PiazzaPanic game) {
         super(x, y, s);
         this.game = game;
-        lives = 3;
-        startTime = TimeUtils.millis();
+        this.lives = 3;
+        this.startTime = TimeUtils.millis();
 
         // score and time HUD
         Table table = new Table();
@@ -60,22 +60,22 @@ public class Hud extends BaseActor {
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.WHITE);
 
-        countupLabel = new Label(String.format("%03d", game.worldTimer), style);
-        livesLabel = new Label(String.format("%01d", lives), style);
+        this.countupLabel = new Label(String.format("%03d", this.game.worldTimer), style);
+        this.livesLabel = new Label(String.format("%01d", this.lives), style);
         Label timeLabel = new Label("TIME", style);
-        orderLabel = new Label("OLDEST ORDER DURATION", style);
-        orderTimeLabel = new Label(String.format("%02d", 0), style);
-        orderLabel.setVisible(false);
-        orderTimeLabel.setVisible(false);
+        this.orderLabel = new Label("OLDEST ORDER DURATION", style);
+        this.orderTimeLabel = new Label(String.format("%02d", 0), style);
+        this.orderLabel.setVisible(false);
+        this.orderTimeLabel.setVisible(false);
         Label scoreLabel = new Label("LIVES", style);
 
         table.add(scoreLabel).expandX().padTop(10);
-        table.add(orderLabel).expandX().padTop(10);
+        table.add(this.orderLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.row().pad(10);
-        table.add(livesLabel).expandX();
-        table.add(orderTimeLabel).expandX();
-        table.add(countupLabel).expandX();
+        table.add(this.livesLabel).expandX();
+        table.add(this.orderTimeLabel).expandX();
+        table.add(this.countupLabel).expandX();
 
         s.addActor(table);
     }
@@ -85,19 +85,19 @@ public class Hud extends BaseActor {
      */
     public void update() {
         if (customers.size() > 0) {
-            orderLabel.setVisible(true);
-            orderTimeLabel.setVisible(true);
+            this.orderLabel.setVisible(true);
+            this.orderTimeLabel.setVisible(true);
             long oldest = Long.MAX_VALUE;
             for (Customer customer : customers) {
                 oldest = Math.min(oldest, customer.getOrderPlaced());
             }
-            orderTimeLabel.setText(String.format("%02d", TimeUtils.timeSinceMillis(oldest) / 1000));
-            game.worldTimer = (int) TimeUtils.timeSinceMillis(startTime) / 1000;
-            countupLabel.setText(String.format("%03d", game.worldTimer));
-            livesLabel.setText(String.format("%01d", lives));
+            this.orderTimeLabel.setText(String.format("%02d", TimeUtils.timeSinceMillis(oldest) / 1000));
+            this.game.worldTimer = (int) TimeUtils.timeSinceMillis(this.startTime) / 1000;
+            this.countupLabel.setText(String.format("%03d", this.game.worldTimer));
+            this.livesLabel.setText(String.format("%01d", this.lives));
         } else {
-            orderLabel.setVisible(false);
-            orderTimeLabel.setVisible(false);
+            this.orderLabel.setVisible(false);
+            this.orderTimeLabel.setVisible(false);
         }
     }
 }

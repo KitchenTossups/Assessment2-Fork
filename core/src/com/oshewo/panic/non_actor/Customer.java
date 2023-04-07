@@ -23,8 +23,8 @@ public class Customer {
     @Override
     public String toString() {
         return "Customer{" +
-                "order=" + order.toString() +
-                ", orderPlaced=" + orderPlaced +
+                "order=" + this.order.toString() +
+                ", orderPlaced=" + this.orderPlaced +
                 '}';
     }
 }

@@ -38,12 +38,12 @@ public class FoodCrate {
      * @return boolean
      */
     public boolean checkForChef() {
-        if (game.VERBOSE) {
+        if (this.game.VERBOSE) {
             System.out.println(4);
-            System.out.println(bounds);
+            System.out.println(this.bounds);
             System.out.println(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + " " + this.playScreen.chefs[this.playScreen.getChefSelector()].getY());
         }
-        return bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) &&
+        return this.bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) &&
                 !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding;
 //        return false;
     }
@@ -57,18 +57,18 @@ public class FoodCrate {
     public void onUse(PlayScreen playScreen, Stage s) {
         updatePlayScreen(playScreen);
         if (checkForChef()) {
-            if (game.VERBOSE)
+            if (this.game.VERBOSE)
                 System.out.println(3);
             String texture;
-            if (ingredients == Ingredients.LETTUCE) {
+            if (this.ingredients == Ingredients.LETTUCE) {
                 texture = "lettuce.png";
-            } else if (ingredients == Ingredients.TOMATO) {
+            } else if (this.ingredients == Ingredients.TOMATO) {
                 texture = "tomato.png";
-            } else if (ingredients == Ingredients.ONION) {
+            } else if (this.ingredients == Ingredients.ONION) {
                 texture = "onion.png";
-            } else if (ingredients == Ingredients.PATTY) {
+            } else if (this.ingredients == Ingredients.PATTY) {
                 texture = "meat.png";
-            } else if (ingredients == Ingredients.BUN) {
+            } else if (this.ingredients == Ingredients.BUN) {
                 texture = "bun.png";
             } else {
                 return;
@@ -85,8 +85,8 @@ public class FoodCrate {
     @Override
     public String toString() {
         return "FoodCrate{" +
-                "bounds=" + bounds +
-                ", item=" + ingredients +
+                "bounds=" + this.bounds +
+                ", item=" + this.ingredients +
                 '}';
     }
 }

@@ -40,8 +40,8 @@ public class SettingsScreen extends BaseScreen {
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, null);
 
-        modeLabel = new Label(String.format("The current game mode is: %s\nPress the button below to change it;", game.MODE), style);
-        modeLabel.setAlignment(Align.center);
+        this.modeLabel = new Label(String.format("The current game mode is: %s\nPress the button below to change it;", game.MODE), style);
+        this.modeLabel.setAlignment(Align.center);
 
         TextButton.TextButtonStyle button = new TextButton.TextButtonStyle();
         button.font = game.labelStyle[0].font;
@@ -54,7 +54,7 @@ public class SettingsScreen extends BaseScreen {
         this.uiTable.row().height(300);
         this.uiTable.add(new Actor()); // Program will add a space if there is something here, even if it's empty
         this.uiTable.row().height(100);
-        this.uiTable.add(modeLabel).center().expandX().pad(10);
+        this.uiTable.add(this.modeLabel).center().expandX().pad(10);
         this.uiTable.row().height(100);
         this.uiTable.add(buttonExit).center().size(buttonWidth, buttonHeight).pad(10);
 

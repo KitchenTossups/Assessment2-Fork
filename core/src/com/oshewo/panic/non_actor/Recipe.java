@@ -98,8 +98,8 @@ public class Recipe {
     @Override
     public String toString() {
         return "Recipe{" +
-                "endProduct=" + endProduct.toString() +
-                ", ingredients=" + ingredients.toString() +
+                "endProduct=" + this.endProduct.toString() +
+                ", ingredients=" + this.ingredients.toString() +
                 '}';
     }
 }
