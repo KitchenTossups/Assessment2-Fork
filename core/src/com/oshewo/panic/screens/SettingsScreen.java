@@ -46,4 +46,12 @@ public class SettingsScreen extends BaseScreen {
     public void update(float dt) {
 
     }
+
+    public void resizing(int width, int height) {
+
+    }
+
+    public void disposing() {
+
+    }
 }

@@ -418,24 +418,20 @@ public class PlayScreen extends BaseScreen {
     /**
      * Resizes screen accordingly
      *
-     * @param width width
+     * @param width  width
      * @param height height
      */
-    @Override
-    public void resize(int width, int height) {
+    public void resizing(int width, int height) {
         gamePort.update(width, height);
     }
 
     /**
      * Disposes of resources in screen
      */
-    @Override
-    public void dispose() {
+    public void disposing() {
         map.dispose();
         renderer.dispose();
-//        world.dispose();
         b2dr.dispose();
-//        orderHud.dispose();
         mainStage.dispose();
         uiStage.dispose();
     }
