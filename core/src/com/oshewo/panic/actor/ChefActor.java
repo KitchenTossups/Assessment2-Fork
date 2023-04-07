@@ -2,23 +2,17 @@ package com.oshewo.panic.actor;
 
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.base.BaseActor;
-import com.oshewo.panic.sprites.Food;
 
 import static com.oshewo.panic.lists.Lists.foods;
 
-public class Chef extends BaseActor {
+public class ChefActor extends BaseActor {
 
-    private Object inventoryItem;
     public boolean isHolding = false;
 
-    public Chef(float x, float y, Stage s, int chefNumber) {
+    public ChefActor(float x, float y, Stage s, int chefNumber) {
         super(x, y, s);
 
-        this.loadTexture("ChefB" + chefNumber + ".png");
-    }
-
-    public Object getInventoryItem() {
-        return this.inventoryItem;
+        this.loadTexture("ChefB" + (chefNumber + 1) + ".png");
     }
 
     public Food nearestFood(float distance) {
@@ -26,7 +20,6 @@ public class Chef extends BaseActor {
         float nearestDistance = Float.MAX_VALUE;
         for (Food food : foods) {
             float currentDistance = food.getPosition().dst(this.getX(), this.getY());
-//             this.getPosition().dst(food.getPosition());
             if (currentDistance <= distance && currentDistance < nearestDistance) {
                 System.out.println(currentDistance + " " + nearestDistance);
                 nearestDistance = currentDistance;
@@ -36,9 +29,4 @@ public class Chef extends BaseActor {
         }
         return nearestFood;
     }
-
-//    public void setInventoryItem(Object inventoryItem) {
-//        if (inventoryItem instanceof Food || inventoryItem instanceof Ingredient || inventoryItem == null)
-//            this.inventoryItem = inventoryItem;
-//    }
 }
