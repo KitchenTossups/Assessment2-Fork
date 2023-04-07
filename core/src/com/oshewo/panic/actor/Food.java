@@ -1,4 +1,4 @@
-package com.oshewo.panic.sprites;
+package com.oshewo.panic.actor;
 
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
@@ -7,6 +7,7 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.BaseActor;
 import com.oshewo.panic.enums.*;
+import com.oshewo.panic.non_actor.Ingredient;
 import com.oshewo.panic.screens.PlayScreen;
 
 import java.util.*;
@@ -21,51 +22,42 @@ import static com.oshewo.panic.lists.Lists.foods;
 public class Food extends BaseActor {
 
     private final PiazzaPanic game;
-    private final Item item;
+    private final Ingredient ingredient;
 
     private PlayScreen playScreen;
 
-    // how the foods can be prepped
-    private boolean choppable = false;
-    private boolean grillable = false;
-
     // what is being held by the chef
-    public static ArrayList<Food> foodArray = new ArrayList<>();
-    public boolean followingChef = false;
     private int chefToFollow = -1;
 
     /**
      * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
      *
      * @param texture    the texture for the food
-     * @param item the ingredient
+     * @param ingredient the ingredient
      */
-    public Food(float x, float y, Stage s, String texture, Item item, PlayScreen playScreen, PiazzaPanic game) {
+    public Food(float x, float y, Stage s, String texture, Ingredient ingredient, PlayScreen playScreen, PiazzaPanic game) {
         super(x, y, s);
         this.playScreen = playScreen;
         this.game = game;
-        this.item = item;
+        this.ingredient = ingredient;
         this.loadTexture(texture, 40, 40);
-//        if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
-//            this.choppable = true;
-//        } else if (item == Item.TOP_BUN || item == Item.PATTY) {
-//            this.grillable = true;
-//        }
-//        foodArray.add(this);
     }
 
-    public Food(float x, float y, Stage s, Texture texture, Item item, PlayScreen playScreen, PiazzaPanic game) {
+    public Food(float x, float y, Stage s, String texture, Ingredient ingredient, PlayScreen playScreen, PiazzaPanic game, int following) {
         super(x, y, s);
         this.playScreen = playScreen;
         this.game = game;
-        this.item = item;
-//        this.loadTexture(texture);
-        if (item == Item.TOMATO || item == Item.ONION || item == Item.LETTUCE) {
-            this.choppable = true;
-        } else if (item == Item.TOP_BUN || item == Item.PATTY) {
-            this.grillable = true;
-        }
-        foodArray.add(this);
+        this.ingredient = ingredient;
+        this.loadTexture(texture, 40, 40);
+        this.chefToFollow = following;
+    }
+
+    public Food(float x, float y, Stage s, Texture texture, Ingredient ingredients, PlayScreen playScreen, PiazzaPanic game) {
+        super(x, y, s);
+        this.playScreen = playScreen;
+        this.game = game;
+        this.ingredient = ingredients;
+//        foods.add(this);
     }
 
 
@@ -74,7 +66,7 @@ public class Food extends BaseActor {
      */
     public void update(PlayScreen playScreen) {
         updatePlayScreen(playScreen);
-        if (followingChef) {
+        if (this.chefToFollow != -1) {
             this.setX(this.playScreen.chefs[this.chefToFollow].getX() + this.playScreen.chefs[this.chefToFollow].getWidth() / 4);
             this.setY(this.playScreen.chefs[this.chefToFollow].getY());
         } else {
@@ -85,21 +77,21 @@ public class Food extends BaseActor {
                     float yDiff = food.getPosition().y - this.getPosition().y;
                     float xDiff = food.getPosition().x - this.getPosition().x;
                     if (yDiff >= -16 && yDiff <= 16 && xDiff >= -16 && xDiff <= 16) {
-                        Item item = food.getIngredient();
-                        itemList.add(item);
-                        foods.add(food);
+//                        Ingredients ingredients = food.getIngredient();
+//                        ingredientsList.add(ingredients);
+                        food1.add(food);
                     }
                 }
             }
-            if (itemList.size() == 3 && itemList.contains(Item.TOMATO) && itemList.contains(Item.ONION) && itemList.contains(Item.LETTUCE)) {
+            if (ingredientsList.size() == 3 && ingredientsList.contains(Ingredients.TOMATO) && ingredientsList.contains(Ingredients.ONION) && ingredientsList.contains(Ingredients.LETTUCE)) {
 //                Food gen = new Food(new Texture("salad.png"), Item.SALAD);
                 Food gen = null;
                 gen.setX(this.getPosition().x);
                 gen.setY(this.getPosition().y);
-                for (Food food : foods) {
-                    foodArray.remove(food);
+                for (Food food : food1) {
+                    foods.remove(food);
                 }
-            } else if (itemList.size() == 2 && itemList.contains(Item.TOP_BUN) && itemList.contains(Item.PATTY)) {
+            } else if (ingredientsList.size() == 2 && ingredientsList.contains(Ingredients.TOP_BUN) && ingredientsList.contains(Ingredients.PATTY)) {
 //                Food gen = new Food(new Texture("burger.png"), Item.BURGER);
                 Food gen = null;
                 gen.setX(this.getPosition().x);
@@ -131,19 +123,18 @@ public class Food extends BaseActor {
 
         System.out.println(5);
         // puts down food according to direction of chef which is what movement key was last pressed
-        if (this.followingChef && this.chefToFollow == this.playScreen.getChefSelector()) {
+        if (this.chefToFollow != -1 && this.chefToFollow == this.playScreen.getChefSelector()) {
             System.out.println(6);
-//            this.playScreen.chefs[this.chefToFollow].isHolding = false;
-            followingChef = false;
-            if (this.playScreen.lastMove == Input.Keys.S) {
+            this.playScreen.chefs[this.chefToFollow].isHolding = false;
+            if (this.playScreen.getLastMove() == Input.Keys.S) {
                 System.out.println(7);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
                 offsetY = -10;
-            } else if (this.playScreen.lastMove == Input.Keys.W) {
+            } else if (this.playScreen.getLastMove() == Input.Keys.W) {
                 System.out.println(8);
                 offsetX = this.playScreen.chefs[this.chefToFollow].getWidth() / 4;
                 offsetY = this.playScreen.chefs[this.chefToFollow].getHeight();
-            } else if (this.playScreen.lastMove == Input.Keys.A) {
+            } else if (this.playScreen.getLastMove() == Input.Keys.A) {
                 System.out.println(9);
                 offsetX = -10;
                 offsetY = 2;
@@ -164,12 +155,10 @@ public class Food extends BaseActor {
                 System.out.println(13);
                 this.chefToFollow = this.playScreen.getChefSelector();
                 this.playScreen.chefs[this.chefToFollow].isHolding = true;
-                this.followingChef = true;
             } else if (!this.playScreen.chefs[this.chefToFollow].isHolding) {
                 System.out.println(14);
                 this.chefToFollow = this.playScreen.getChefSelector();
                 this.playScreen.chefs[this.chefToFollow].isHolding = true;
-                this.followingChef = true;
             }
         }
     }
@@ -179,26 +168,8 @@ public class Food extends BaseActor {
      *
      * @return id
      */
-    public Item getIngredient() {
-        return item;
-    }
-
-    /**
-     * Determines whether food is choppable
-     *
-     * @return choppable boolean
-     */
-    public boolean isChoppable() {
-        return choppable;
-    }
-
-    /**
-     * Determines whether food is grillable.
-     *
-     * @return grillable boolean
-     */
-    public boolean isGrillable() {
-        return grillable;
+    public Ingredient getIngredient() {
+        return ingredient;
     }
 
     /**
@@ -207,7 +178,7 @@ public class Food extends BaseActor {
      * @return boolean of if it is carried
      */
     public boolean isCarried() {
-        return followingChef;
+        return this.chefToFollow != -1;
     }
 
     public void updatePlayScreen(PlayScreen playScreen) {
