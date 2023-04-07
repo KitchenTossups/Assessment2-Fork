@@ -30,14 +30,13 @@ import static com.oshewo.panic.lists.Lists.*;
  * @author Oshewo, sl3416
  */
 public class PlayScreen extends BaseScreen {
+
     // sets up world and map for the game
     private final PiazzaPanic game;
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
     private final TiledMap map;
     private final OrthoCachedTiledMapRenderer renderer;
-    private final Box2DDebugRenderer b2dr;
-    private final GameMode mode;
     private final Difficulty difficulty;
 
     // Hud
@@ -62,10 +61,7 @@ public class PlayScreen extends BaseScreen {
      */
     public PlayScreen(PiazzaPanic game) {
         super();
-        this.mode = game.MODE;
         this.difficulty = game.DIFFICULTY;
-        // tools
-//        TextureAtlas atlas = new TextureAtlas("sprites.txt");
 
         this.game = game;
 
@@ -109,17 +105,6 @@ public class PlayScreen extends BaseScreen {
         }
     }
 
-//    Food gen;
-
-//    /**
-//     * Get texture atlas.
-//     *
-//     * @return the texture atlas
-//     */
-//    public TextureAtlas getAtlas() {
-//        return atlas;
-//    }
-
     /**
      * Updates positions of chefs, timer hud, food and stations
      */
@@ -133,10 +118,6 @@ public class PlayScreen extends BaseScreen {
         // updates according to user input
         handleInput();
 
-//        for (Chef chef : this.chefs)
-//            chef.update();
-//        for (CountdownTimer timer : new ArrayList<>(timerArray))
-//            timer.update();
         for (Food food : new ArrayList<>(foods))
             food.update(this);
         for (Station stove : stoves)
@@ -247,37 +228,6 @@ public class PlayScreen extends BaseScreen {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-//        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-//            lastMove = Input.Keys.A;
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-//            lastMove = Input.Keys.S;
-//        }
-//        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-//            lastMove = Input.Keys.W;
-//        }
-//        // swap Chefs
-//
-//        if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
-//            if (!this.tabPressed) {
-//                if (game.isVerbose()) System.out.println("Tab pressed");
-//                switch (game.MODE) {
-//                    case SCENARIO:
-//                        this.chefSelector++;
-//                        if (this.chefSelector == 2) this.chefSelector = 0;
-//                        break;
-//                    case ENDLESS:
-//                        this.chefSelector++;
-//                        if (this.chefSelector == 3) this.chefSelector = 0;
-//                        break;
-//                }
-//            }
-//            this.tabPressed = true;
-//        } else
-//            this.tabPressed = false;
     }
 
     private void checkCollision(float oldX, float oldY) {
@@ -287,9 +237,6 @@ public class PlayScreen extends BaseScreen {
             this.chefs[this.chefSelector].setY(oldY);
         for (BaseActor counter : walls) {
             if (counter.getBoundaryRectangle().overlaps(this.chefs[this.chefSelector].getBoundaryRectangle())) {
-//                System.out.println(oldX + " " + oldY + " " + this.chefs[this.chefSelector].getWidth() + " " + this.chefs[this.chefSelector].getHeight());
-//                System.out.println(counter.getX() + " " + counter.getY() + " " + counter.getWidth() + " " + counter.getHeight());
-//                System.out.println(1);
                 this.chefs[this.chefSelector].setX(oldX);
                 this.chefs[this.chefSelector].setY(oldY);
             }
