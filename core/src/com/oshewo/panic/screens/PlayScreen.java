@@ -141,12 +141,20 @@ public class PlayScreen extends BaseScreen {
 //            timer.update();
         for (Food food : new ArrayList<>(foods))
             food.update(this);
-        for (Station stove : stoveArray)
+        for (Station stove : stoves)
             stove.update(this);
-        for (Station board : boardArray)
+        for (Station board : choppingBoards)
             board.update(this);
-        for (Station servery : servingArray)
+        for (Station servery : servingStations)
             servery.update(this);
+        for (StationTimer timer : new ArrayList<>(timers)) {
+            float percent = timer.getProgressPercent();
+            if (percent >= 1) {
+                timers.remove(timer);
+                timer.delete();
+            } else
+                timer.setInnerWidth(36 * percent);
+        }
 
         orderSystem.update();
 
