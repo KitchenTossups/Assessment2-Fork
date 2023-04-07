@@ -37,17 +37,10 @@ public class PlayScreen extends BaseScreen {
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
     private final TiledMap map;
-    private final TmxMapLoader mapLoader;
     private final OrthoCachedTiledMapRenderer renderer;
-//    private final World world;
     private final Box2DDebugRenderer b2dr;
     private final GameMode mode;
     private final Difficulty difficulty;
-//    private Background background;
-
-    // tools
-    private final TextureAtlas atlas;
-//    public static SpriteBatch batch;
 
     // Hud
     private Hud hud;
@@ -57,8 +50,6 @@ public class PlayScreen extends BaseScreen {
     public final Chef[] chefs;
     private int chefSelector = 0;
     private boolean tabPressed = false;
-//    public static Chef activePlayer;
-//    private static Chef player0, player1, player2;
 
     // order
     private final OrderSystem orderSystem;
