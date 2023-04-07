@@ -150,10 +150,9 @@ public class Station {
      * @return the string for the png of the food
      */
     public String cookingOutput() {
-//        if (item)
-        if (item == Item.TOP_BUN) {
+        if (ingredients == Ingredients.TOP_BUN) {
             return "top_bun_toasted.png";
-        } else if (item == Item.PATTY) {
+        } else if (ingredients == Ingredients.PATTY) {
             return "patty_cooked.png";
         }
         return null;
