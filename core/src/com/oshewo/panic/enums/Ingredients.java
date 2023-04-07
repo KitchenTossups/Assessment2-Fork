@@ -1,6 +1,6 @@
 package com.oshewo.panic.enums;
 
-public enum Item {
+public enum Ingredients {
     LETTUCE,
     TOMATO,
     ONION,
@@ -8,6 +8,7 @@ public enum Item {
     CHEDDAR,
     BOTTOM_BUN,
     TOP_BUN,
+    BUN,
     JACKET,
     BEANS,
     PIZZA_BASE,
@@ -17,10 +18,10 @@ public enum Item {
     @Override
     public String toString() {
         switch (this) {
-//            case TOP_BUN:
-//                return "Top Bun";
-//            case BOTTOM_BUN:
-//                return "Bottom Bun";
+            case TOP_BUN:
+                return "Top Bun";
+            case BOTTOM_BUN:
+                return "Bottom Bun";
             case PATTY:
                 return "Patty";
             case CHEDDAR:
@@ -31,10 +32,6 @@ public enum Item {
                 return "Tomato";
             case ONION:
                 return "Onion";
-            case BOTTOM_BUN:
-                return "Bottom Bun";
-            case TOP_BUN:
-                return "Top Bun";
             case BEANS:
                 return "Beans";
             case JACKET:
