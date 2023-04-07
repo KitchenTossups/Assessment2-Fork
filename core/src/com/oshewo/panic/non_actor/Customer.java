@@ -1,13 +1,15 @@
-package com.oshewo.panic.non_sprite;
+package com.oshewo.panic.non_actor;
+
+import java.util.Date;
 
 public class Customer {
 
     private final Recipe order;
     private final long orderPlaced;
 
-    public Customer(Recipe order, long timer) {
+    public Customer(Recipe order) {
         this.order = order;
-        this.orderPlaced = timer;
+        this.orderPlaced = new Date().getTime();
     }
 
     public Recipe getOrder() {

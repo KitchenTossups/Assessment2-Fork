@@ -2,9 +2,7 @@ package com.oshewo.panic.tools;
 
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.enums.*;
-import com.oshewo.panic.non_sprite.*;
-
-import java.util.*;
+import com.oshewo.panic.non_actor.*;
 
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
 import static com.oshewo.panic.lists.Lists.customers;
@@ -97,17 +95,19 @@ public class OrderSystem {
                     }
                     break;
                 case ENDLESS:
-                    while (true) {
-                        Customer customer = new Customer(generateOrder(), game.worldTimer);
-                        customers.add(customer);
-                        if (game.isVerbose()) System.out.println(customer);
-                        try {
-                            Thread.sleep(time * 1000);
-                        } catch (Exception e) {
-                            e.printStackTrace();
+                    while (true)
+                        if (game.RUNNING) {
+                            Customer customer = new Customer(generateOrder());
+                            customers.add(customer);
+                            if (game.VERBOSE) System.out.println(customer);
+                            try {
+                                Thread.sleep(time * 1000);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                break;
+                            }
+                        } else
                             break;
-                        }
-                    }
                     break;
             }
             if (game.VERBOSE) System.out.println("Finished CustomerCreate");
