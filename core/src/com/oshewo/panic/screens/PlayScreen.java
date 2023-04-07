@@ -66,32 +66,31 @@ public class PlayScreen extends BaseScreen {
         this.game = game;
 
         // HUD
-        hud = new Hud(0, 0, uiStage, game);
-        orderHud = new OrderHud(0, 80, uiStage);
+        this.hud = new Hud(0, 0, super.uiStage, this.game);
+        orderHud = new OrderHud(0, 80, super.uiStage);
 
         // game, camera and map setup
-        gameCam = new OrthographicCamera(game.V_WIDTH, game.V_HEIGHT);
-        gamePort = new FitViewport(game.V_WIDTH, game.V_HEIGHT, gameCam);
+        this.gameCam = new OrthographicCamera(this.game.V_WIDTH, this.game.V_HEIGHT);
+        this.gamePort = new FitViewport(this.game.V_WIDTH, this.game.V_HEIGHT, this.gameCam);
         TmxMapLoader mapLoader = new TmxMapLoader();
-        map = mapLoader.load("piazza-map-big2.tmx");
-        renderer = new OrthoCachedTiledMapRenderer(map);
-        renderer.render();
-        gameCam.position.set((game.V_WIDTH / 2), (game.V_HEIGHT / 2), 0); // 0,0 is apparently in the centre of the screen maybe...
-        b2dr = new Box2DDebugRenderer();
+        this.map = mapLoader.load("piazza-map-big2.tmx");
+        this.renderer = new OrthoCachedTiledMapRenderer(this.map);
+        this.renderer.render();
+        this.gameCam.position.set((this.game.V_WIDTH / 2), (this.game.V_HEIGHT / 2), 0); // 0,0 is apparently in the centre of the screen maybe...
         WorldCreator();
 
-        if (game.MODE == GameMode.SCENARIO)
-            chefs = new ChefActor[2];
+        if (this.game.MODE == GameMode.SCENARIO)
+            this.chefs = new ChefActor[2];
         else
-            chefs = new ChefActor[3];
+            this.chefs = new ChefActor[3];
 
-        this.chefs[0] = new ChefActor(400, 200, super.uiStage, 0);
-        this.chefs[1] = new ChefActor(450, 200, super.uiStage, 1);
-        if (mode == GameMode.ENDLESS) this.chefs[2] = new ChefActor(500, 200, super.uiStage, 2);
+        this.chefs[0] = new ChefActor(400, 200, super.uiStage, this.game, 0);
+        this.chefs[1] = new ChefActor(450, 200, super.uiStage, this.game, 1);
+        if (this.game.MODE == GameMode.ENDLESS) this.chefs[2] = new ChefActor(500, 200, super.uiStage, this.game, 2);
 
         // order
-        orderSystem = new OrderSystem(game);
-        foods.add(new Food(500, 250, super.uiStage, "patty.png", new Ingredient(Ingredients.PATTY, IngredientState.UNCUT), this, game, -1));
+        this.orderSystem = new OrderSystem(this.game);
+        foods.add(new Food(500, 250, super.uiStage, "patty.png", new Ingredient(Ingredients.PATTY, IngredientState.UNCUT), this, this.game, -1));
 //        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
 //        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
         int time = 10;
@@ -109,11 +108,9 @@ public class PlayScreen extends BaseScreen {
      * Updates positions of chefs, timer hud, food and stations
      */
     public void update(float dt) {
-        gameCam.update();
-        renderer.setView(gameCam);
-        renderer.render();
-
-//        gen.update(this);
+        this.gameCam.update();
+        this.renderer.setView(this.gameCam);
+        this.renderer.render();
 
         // updates according to user input
         handleInput();
@@ -135,9 +132,9 @@ public class PlayScreen extends BaseScreen {
                 timer.setInnerWidth(36 * percent);
         }
 
-        orderSystem.update();
+        this.orderSystem.update();
 
-        hud.update();
+        this.hud.update();
     }
 
     /**
@@ -161,30 +158,30 @@ public class PlayScreen extends BaseScreen {
                 float oldY = this.chefs[this.chefSelector].getY();
                 this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() + 300 * Gdx.graphics.getDeltaTime());
                 this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
-                lastMove = Input.Keys.W;
+                this.lastMove = Input.Keys.W;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
                 float oldY = this.chefs[this.chefSelector].getY();
                 this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() - 300 * Gdx.graphics.getDeltaTime());
                 this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
-                lastMove = Input.Keys.S;
+                this.lastMove = Input.Keys.S;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
                 float oldX = this.chefs[this.chefSelector].getX();
                 this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() + 300 * Gdx.graphics.getDeltaTime());
                 this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
-                lastMove = Input.Keys.D;
+                this.lastMove = Input.Keys.D;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
                 float oldX = this.chefs[this.chefSelector].getX();
                 this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() - 300 * Gdx.graphics.getDeltaTime());
                 this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
-                lastMove = Input.Keys.A;
+                this.lastMove = Input.Keys.A;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
                 if (!this.tabPressed) {
-                    if (game.VERBOSE) System.out.println("Tab pressed");
-                    switch (this.mode) {
+                    if (this.game.VERBOSE) System.out.println("Tab pressed");
+                    switch (this.game.MODE) {
                         case SCENARIO:
                             this.chefSelector++;
                             if (this.chefSelector == 2) this.chefSelector = 0;
@@ -199,20 +196,20 @@ public class PlayScreen extends BaseScreen {
             } else
                 this.tabPressed = false;
             if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
-                if (game.VERBOSE)
+                if (this.game.VERBOSE)
                     System.out.println("E");
                 Food nearestFood = this.chefs[this.chefSelector].nearestFood(48);
-                if (game.VERBOSE)
+                if (this.game.VERBOSE)
                     System.out.println(nearestFood);
                 if (nearestFood != null) {
-                    if (game.VERBOSE)
+                    if (this.game.VERBOSE)
                         System.out.println(1);
                     nearestFood.onUse();
                 } else {
-                    if (game.VERBOSE)
+                    if (this.game.VERBOSE)
                         System.out.println(2);
                     for (FoodCrate crate : foodCrates) {
-                        if (game.VERBOSE)
+                        if (this.game.VERBOSE)
                             System.out.println(crate.toString());
                         crate.onUse(this, super.uiStage);
                     }
@@ -231,9 +228,9 @@ public class PlayScreen extends BaseScreen {
     }
 
     private void checkCollision(float oldX, float oldY) {
-        if (this.chefs[this.chefSelector].getX() + this.chefs[this.chefSelector].getWidth() > game.V_WIDTH || this.chefs[this.chefSelector].getX() < 0)
+        if (this.chefs[this.chefSelector].getX() + this.chefs[this.chefSelector].getWidth() > this.game.V_WIDTH || this.chefs[this.chefSelector].getX() < 0)
             this.chefs[this.chefSelector].setX(oldX);
-        if (this.chefs[this.chefSelector].getY() + this.chefs[this.chefSelector].getHeight() > game.V_HEIGHT || this.chefs[this.chefSelector].getY() < 0)
+        if (this.chefs[this.chefSelector].getY() + this.chefs[this.chefSelector].getHeight() > this.game.V_HEIGHT || this.chefs[this.chefSelector].getY() < 0)
             this.chefs[this.chefSelector].setY(oldY);
         for (BaseActor counter : walls) {
             if (counter.getBoundaryRectangle().overlaps(this.chefs[this.chefSelector].getBoundaryRectangle())) {
@@ -243,7 +240,7 @@ public class PlayScreen extends BaseScreen {
         }
         switch (this.chefSelector) {
             case 0:
-                if (this.mode == GameMode.ENDLESS)
+                if (this.game.MODE == GameMode.ENDLESS)
                     if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[2].getBoundaryRectangle())) {
                         this.chefs[this.chefSelector].setX(oldX);
                         this.chefs[this.chefSelector].setY(oldY);
@@ -254,7 +251,7 @@ public class PlayScreen extends BaseScreen {
                 }
                 break;
             case 1:
-                if (this.mode == GameMode.ENDLESS)
+                if (this.game.MODE == GameMode.ENDLESS)
                     if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[2].getBoundaryRectangle())) {
                         this.chefs[this.chefSelector].setX(oldX);
                         this.chefs[this.chefSelector].setY(oldY);
@@ -361,7 +358,7 @@ public class PlayScreen extends BaseScreen {
     }
 
     public int getLastMove() {
-        return lastMove;
+        return this.lastMove;
     }
 
     public void incrementOrderCompleted() {
@@ -375,17 +372,16 @@ public class PlayScreen extends BaseScreen {
      * @param height height
      */
     public void resizing(int width, int height) {
-        gamePort.update(width, height);
+        this.gamePort.update(width, height);
     }
 
     /**
      * Disposes of resources in screen
      */
     public void disposing() {
-        map.dispose();
-        renderer.dispose();
-        b2dr.dispose();
-        mainStage.dispose();
-        uiStage.dispose();
+        this.map.dispose();
+        this.renderer.dispose();
+        this.mainStage.dispose();
+        this.uiStage.dispose();
     }
 }
