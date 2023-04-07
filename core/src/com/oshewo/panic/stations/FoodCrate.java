@@ -1,12 +1,10 @@
 package com.oshewo.panic.stations;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.PiazzaPanic;
-import com.oshewo.panic.enums.Item;
+import com.oshewo.panic.enums.Ingredients;
 import com.oshewo.panic.screens.PlayScreen;
-import com.oshewo.panic.sprites.Chef;
-import com.oshewo.panic.sprites.Food;
 
 /**
  * The type Food crate.
@@ -19,19 +17,19 @@ public class FoodCrate {
     private final PiazzaPanic game;
     private PlayScreen playScreen;
     private final Rectangle bounds;
-    private final Item item;
+    private final Ingredients ingredients;
 
     /**
      * Instantiates a new Food crate.
      *
      * @param bounds the bounds
-     * @param item the ingredient
+     * @param ingredients   the ingredient
      */
-    public FoodCrate(Rectangle bounds, Item item, PlayScreen playScreen, PiazzaPanic game) {
+    public FoodCrate(Rectangle bounds, Ingredients ingredients, PlayScreen playScreen, PiazzaPanic game) {
         this.game = game;
         this.playScreen = playScreen;
         this.bounds = bounds;
-        this.item = item;
+        this.ingredients = ingredients;
     }
 
     /**
@@ -56,31 +54,39 @@ public class FoodCrate {
      * @param playScreen active play screen
      */
 //    @Override
-    public void onUse(PlayScreen playScreen) {
+    public void onUse(PlayScreen playScreen, Stage s) {
         updatePlayScreen(playScreen);
         if (checkForChef()) {
             if (game.VERBOSE)
                 System.out.println(3);
             String texture;
-            if (item == Item.LETTUCE) {
+            if (ingredients == Ingredients.LETTUCE) {
                 texture = "lettuce.png";
-            } else if (item == Item.TOMATO) {
+            } else if (ingredients == Ingredients.TOMATO) {
                 texture = "tomato.png";
-            } else if (item == Item.ONION) {
+            } else if (ingredients == Ingredients.ONION) {
                 texture = "onion.png";
-            } else if (item == Item.PATTY) {
+            } else if (ingredients == Ingredients.PATTY) {
                 texture = "meat.png";
-            } else if (item == Item.TOP_BUN) {
+            } else if (ingredients == Ingredients.BUN) {
                 texture = "bun.png";
             } else {
                 return;
             }
-            Food gen = new Food(new Texture(texture), item, this.playScreen, game);
-            gen.onUse();
+//            Food gen = new Food(0, 0, s, new Texture(texture), ingredients, this.playScreen, game);
+//            gen.onUse();
         }
     }
 
     public void updatePlayScreen(PlayScreen playScreen) {
         this.playScreen = playScreen;
+    }
+
+    @Override
+    public String toString() {
+        return "FoodCrate{" +
+                "bounds=" + bounds +
+                ", item=" + ingredients +
+                '}';
     }
 }
