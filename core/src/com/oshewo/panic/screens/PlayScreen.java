@@ -43,12 +43,14 @@ public class PlayScreen extends BaseScreen {
     private final Difficulty difficulty;
 
     // Hud
-    private Hud hud;
+    private final Hud hud;
     public static OrderHud orderHud;
 
     // Chef
-    public final Chef[] chefs;
+    public final ChefActor[] chefs;
     private int chefSelector = 0;
+    private int lastMove;
+
     private boolean tabPressed = false;
 
     // Order
