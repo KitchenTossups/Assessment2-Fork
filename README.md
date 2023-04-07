@@ -1,7 +1,7 @@
 # ![image](https://user-images.githubusercontent.com/68441699/215606234-cde9b149-eb91-401c-bb5d-5fb7e019c137.png) Team: Magic 8-Balls
 
 ## Piazza Panic!
-In this game, you control chefs one at a time, switching using **TAB**. Move around the kitchen with **WASD**, picking up food from boxes using **SPACE** and take them to the correct prep station to turn them into delicious componenets. Combine food items by placing them on top of eachother then take the finished item to the serving counter to be served to your waiting customers!
+In this game, you control chefs one at a time, switching using **TAB**. Move around the kitchen with **WASD**, picking up food from boxes using **SPACE** and take them to the correct prep station to turn them into delicious componenets. Combine food ingredients by placing them on top of eachother then take the finished ingredients to the serving counter to be served to your waiting customers!
 ### Controls:
 - Switch Chef : TAB
 - Movement : W, A, S, D
