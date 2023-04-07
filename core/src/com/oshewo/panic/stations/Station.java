@@ -22,8 +22,9 @@ public class Station {
     private PlayScreen playScreen;
     private final StationType type;
     private final Rectangle bounds;
-    private Item item;
-    private CountdownTimer timer;
+    private Ingredients ingredients;
+//    private StationTimer timer;
+    private final Stage s;
 
 
     /**
@@ -32,11 +33,12 @@ public class Station {
      * @param stationType   the station type
      * @param bounds the bounds
      */
-    public Station(StationType stationType, Rectangle bounds, PlayScreen playScreen, PiazzaPanic game) {
+    public Station(StationType stationType, Rectangle bounds, PlayScreen playScreen, PiazzaPanic game, Stage s) {
         this.type = stationType;
         this.bounds = bounds;
         this.playScreen = playScreen;
         this.game = game;
+        this.s = s;
     }
 
     /**
