@@ -23,17 +23,12 @@ public class Hud extends BaseActor {
 
     private final PiazzaPanic game;
 
-//    private int worldTimer;
-    public static int score;
-    public static long hudStartTime;
+    // Label values that need to be accessed in the update
+    private int lives;
+    private final long startTime;
 
-    // HUD labels will be split into static labels and dynamic labels that will be combined into the hud in a way such as STATIC : DYNAMIC or Time: (S) 12 (D)
-    // Static labels (e.g. "Time:")
-    Label timeLabel;
-    Label scoreLabel;
-    // Dynamic labels (e.g. "9" -> "10" etc)
-    Label countupLabel;
-    Label livesLabel;
+    // HUD labels that need to be edited in update
+    private final Label countupLabel, livesLabel, orderLabel, orderTimeLabel;
 
     /**
      * Instantiates a new Hud which contains time and score
@@ -43,8 +38,8 @@ public class Hud extends BaseActor {
     public Hud(float x, float y, Stage s, PiazzaPanic game) {
         super(x, y, s);
         this.game = game;
-        score = 3;
-        hudStartTime = TimeUtils.millis();
+        lives = 3;
+        startTime = TimeUtils.millis();
 
         // score and time HUD
         Table table = new Table();
@@ -66,16 +61,20 @@ public class Hud extends BaseActor {
         Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.WHITE);
 
         countupLabel = new Label(String.format("%03d", game.worldTimer), style);
-        livesLabel = new Label(String.format("%01d", score), style);
-        timeLabel = new Label("TIME", style);
-        scoreLabel = new Label("LIVES", style);
+        livesLabel = new Label(String.format("%01d", lives), style);
+        Label timeLabel = new Label("TIME", style);
+        orderLabel = new Label("OLDEST ORDER DURATION", style);
+        orderTimeLabel = new Label(String.format("%02d", 0), style);
+        orderLabel.setVisible(false);
+        orderTimeLabel.setVisible(false);
+        Label scoreLabel = new Label("LIVES", style);
 
         table.add(scoreLabel).expandX().padTop(10);
-        table.add(new Actor()).expandX().padTop(10); // spacer
+        table.add(orderLabel).expandX().padTop(10);
         table.add(timeLabel).expandX().padTop(10);
         table.row().pad(10);
         table.add(livesLabel).expandX();
-        table.add(new Actor()).expandX().padTop(10); // spacer
+        table.add(orderTimeLabel).expandX();
         table.add(countupLabel).expandX();
 
         s.addActor(table);
@@ -85,8 +84,20 @@ public class Hud extends BaseActor {
      * Updates time and score as the game progresses
      */
     public void update() {
-        game.worldTimer = (int) TimeUtils.timeSinceMillis(hudStartTime) / 1000;
-        countupLabel.setText(String.format("%03d", game.worldTimer));
-        livesLabel.setText(String.format("%01d", score));
+        if (customers.size() > 0) {
+            orderLabel.setVisible(true);
+            orderTimeLabel.setVisible(true);
+            long oldest = Long.MAX_VALUE;
+            for (Customer customer : customers) {
+                oldest = Math.min(oldest, customer.getOrderPlaced());
+            }
+            orderTimeLabel.setText(String.format("%02d", TimeUtils.timeSinceMillis(oldest) / 1000));
+            game.worldTimer = (int) TimeUtils.timeSinceMillis(startTime) / 1000;
+            countupLabel.setText(String.format("%03d", game.worldTimer));
+            livesLabel.setText(String.format("%01d", lives));
+        } else {
+            orderLabel.setVisible(false);
+            orderTimeLabel.setVisible(false);
+        }
     }
 }
