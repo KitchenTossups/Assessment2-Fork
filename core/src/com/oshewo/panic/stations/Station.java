@@ -98,17 +98,6 @@ public class Station {
     }
 
     /**
-     * Show progress of timer.
-     */
-    public void showProgress() {
-        float progress = timer.getProgressPercent();
-        float x = this.bounds.x;
-        float y = this.bounds.y + this.bounds.height;
-        float width = 32;
-        float height = 5;
-    }
-
-    /**
      * Outputs finished food and the correct texture of cooked food.
      */
     public void output() {
@@ -120,10 +109,10 @@ public class Station {
         } else {
             return;
         }
-        Food gen = new Food(null, null, playScreen, game);
+//        Food gen = new Food(bounds.getX() - 10, bounds.getY() - 10, , null, null, playScreen, game);
 //        Food gen = new Food(new Texture(texture), foodId);
-        gen.setX(bounds.getX() - 10);
-        gen.setY(bounds.getY() - 10);
+//        gen.setX(bounds.getX() - 10);
+//        gen.setY(bounds.getY() - 10);
     }
 
     /**
