@@ -73,7 +73,7 @@ public class PlayScreen extends BaseScreen {
 
         // HUD
         hud = new Hud(0, 0, uiStage, game);
-        orderHud = new OrderHud(20, 80, uiStage);
+        orderHud = new OrderHud(0, 80, uiStage);
 
         // game, camera and map setup
         gameCam = new OrthographicCamera(game.V_WIDTH, game.V_HEIGHT);
