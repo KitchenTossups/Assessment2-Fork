@@ -3,13 +3,11 @@ package com.oshewo.panic.screens;
 import com.badlogic.gdx.*;
 import com.badlogic.gdx.graphics.*;
 
-import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.physics.box2d.*;
 
 import com.badlogic.gdx.utils.viewport.*;
 
