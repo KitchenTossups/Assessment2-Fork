@@ -51,7 +51,7 @@ public class PlayScreen extends BaseScreen {
     private int chefSelector = 0;
     private boolean tabPressed = false;
 
-    // order
+    // Order
     private final OrderSystem orderSystem;
     private int ordersCompleted = 0;
 
