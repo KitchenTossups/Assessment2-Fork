@@ -20,29 +20,15 @@ public class PiazzaPanic extends BaseGame {
     public GameMode MODE = GameMode.SCENARIO;
     public Difficulty DIFFICULTY = Difficulty.HARD;
 
-//    public SpriteBatch batch;
+    PiazzaPanic(boolean verbose) {
+        this.VERBOSE = verbose;
+    }
 
     /**
      * When game loads, sets screen to main menu screen
      */
-//    @Override
     public void create() {
         super.create();
-//        batch = new SpriteBatch();
         setActiveScreen(new MainMenu(this));
     }
-
-    public boolean isVerbose() {
-        return this.verbose;
-    }
-
-//    @Override
-//    public void render() {
-//        super.render();
-//    }
-
-//    @Override
-//    public void dispose() {
-//        batch.dispose();
-//    }
 }
