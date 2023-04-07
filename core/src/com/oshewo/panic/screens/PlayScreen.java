@@ -124,13 +124,8 @@ public class PlayScreen extends BaseScreen {
 
     /**
      * Updates positions of chefs, timer hud, food and stations
-     *
      */
     public void update(float dt) {
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         gameCam.update();
         renderer.setView(gameCam);
         renderer.render();
@@ -142,9 +137,9 @@ public class PlayScreen extends BaseScreen {
 
 //        for (Chef chef : this.chefs)
 //            chef.update();
-        for (CountdownTimer timer : new ArrayList<>(timerArray))
-            timer.update();
-        for (Food food : foodArray)
+//        for (CountdownTimer timer : new ArrayList<>(timerArray))
+//            timer.update();
+        for (Food food : new ArrayList<>(foods))
             food.update(this);
         for (Station stove : stoveArray)
             stove.update(this);
