@@ -56,11 +56,11 @@ public class OrderSystem {
         private Thread t;
 
         CustomerCreator() {
-            if (game.isVerbose()) System.out.println("Starting CustomerCreator");
+            if (game.VERBOSE) System.out.println("Starting CustomerCreator");
         }
 
         public void run() {
-            if (game.isVerbose()) System.out.println("Running CustomerCreator");
+            if (game.VERBOSE) System.out.println("Running CustomerCreator");
             int time, customerNum;
 
             switch (game.DIFFICULTY) {
@@ -86,7 +86,7 @@ public class OrderSystem {
                     for (int i = 0; i < customerNum; i++) {
                         Customer customer = new Customer(generateOrder());
                         customers.add(customer);
-                        if (game.isVerbose()) System.out.println(customer);
+                        if (game.VERBOSE) System.out.println(customer);
                         if (i + 1 == customerNum)
                             break;
                         try {
@@ -110,7 +110,7 @@ public class OrderSystem {
                     }
                     break;
             }
-            if (game.isVerbose()) System.out.println("Finished CustomerCreate");
+            if (game.VERBOSE) System.out.println("Finished CustomerCreate");
         }
 
         public void start() {

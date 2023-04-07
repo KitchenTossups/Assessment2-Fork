@@ -12,8 +12,8 @@ public class PiazzaPanic extends BaseGame {
     // screen dimensions
     public final float V_WIDTH = 1280;
     public final float V_HEIGHT = 720;
-    public final int PICKUP_RADIUS = 48;
-    private final boolean verbose = true;
+    public final boolean VERBOSE;
+    public boolean RUNNING = true;
 
     public long worldTimer = 0;
 

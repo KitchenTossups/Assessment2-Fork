@@ -40,8 +40,14 @@ public class FoodCrate {
      * @return boolean
      */
     public boolean checkForChef() {
-//        return bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) && !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding;
-        return false;
+        if (game.VERBOSE) {
+            System.out.println(4);
+            System.out.println(bounds);
+            System.out.println(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + " " + this.playScreen.chefs[this.playScreen.getChefSelector()].getY());
+        }
+        return bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) &&
+                !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding;
+//        return false;
     }
 
     /**
@@ -53,6 +59,8 @@ public class FoodCrate {
     public void onUse(PlayScreen playScreen) {
         updatePlayScreen(playScreen);
         if (checkForChef()) {
+            if (game.VERBOSE)
+                System.out.println(3);
             String texture;
             if (item == Item.LETTUCE) {
                 texture = "lettuce.png";
