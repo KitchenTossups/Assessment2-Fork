@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="23" nextobjectid="34">
+ <tileset firstgid="1" source="piazza_assets2.tsx"/>
+ <tileset firstgid="101" source="Room2.tsx"/>
+ <layer id="2" name="Floor layer" width="16" height="9">
+  <data encoding="csv">
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="1" name="Wall layer" width="16" height="9">
+  <data encoding="csv">
+129,425,425,425,425,425,425,425,425,425,425,425,425,425,425,131,
+146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,
+146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,
+146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,
+146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,
+146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,
+146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,
+146,0,0,0,0,0,0,0,0,0,0,0,0,0,0,148,
+163,164,164,164,164,164,164,164,164,164,164,164,164,164,164,165
+</data>
+ </layer>
+ <layer id="17" name="Food layer" width="16" height="9">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,62,63,64,65,0,0,0,0,0,0,0,
+0,0,0,0,0,72,73,74,75,76,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="14" name="Text object layer">
+  <object id="27" x="550" y="100" width="200" height="50">
+   <text fontfamily="MS Shell Dlg 2" pixelsize="36" wrap="1" halign="center">Food Chest
+(Click food to select)</text>
+  </object>
+ </objectgroup>
+ <objectgroup id="18" name="Tomato object layer">
+  <object id="28" name="Tomato" x="400" y="200" width="80" height="100"/>
+ </objectgroup>
+ <objectgroup id="19" name="Lettuce object layer">
+  <object id="30" name="Lettuce" x="480.5" y="200" width="78" height="100"/>
+ </objectgroup>
+ <objectgroup id="20" name="Bun object layer">
+  <object id="31" name="Bun" x="561.136" y="199.818" width="78" height="100"/>
+ </objectgroup>
+ <objectgroup id="21" name="Onion object layer">
+  <object id="32" name="Onion" x="640.667" y="200" width="78" height="100"/>
+ </objectgroup>
+ <objectgroup id="22" name="Patty object layer">
+  <object id="33" name="Patty" x="720.667" y="200" width="78" height="100"/>
+ </objectgroup>
+</map>

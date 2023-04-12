@@ -99,7 +99,7 @@ public class PlayScreen extends BaseScreen {
             time += 5;
         }
         for (Station s : choppingBoards) {
-            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getWidth() + 5, 40, 10, super.uiStage, time));
+            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
             time += 5;
         }
     }
