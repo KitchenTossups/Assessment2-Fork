@@ -95,7 +95,7 @@ public class PlayScreen extends BaseScreen {
         if (this.game.MODE == GameMode.ENDLESS) this.chefs[2] = new ChefActor(500, 200, super.uiStage, this.game, 2);
 
         // order
-        this.orderSystem = new OrderSystem(this.game);
+        this.orderSystem = new OrderSystem(this, this.game);
         foodActors.add(new FoodActor(500, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
 //        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
 //        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
