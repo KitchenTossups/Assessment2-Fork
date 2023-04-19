@@ -9,11 +9,12 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.utils.viewport.*;
 
 import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.*;
-import com.oshewo.panic.powerups.ExtraLife;
 import com.oshewo.panic.stations.*;
 import com.oshewo.panic.non_actor.*;
 import com.oshewo.panic.tools.*;
@@ -41,7 +42,7 @@ public class PlayScreen extends BaseScreen {
     private final Difficulty difficulty;
 
     // Hud
-    private final Hud hud;
+    public Hud hud;
     public static OrderHud orderHud;
 
     // Chef
@@ -54,7 +55,10 @@ public class PlayScreen extends BaseScreen {
     // Order
     private final OrderSystem orderSystem;
     private int ordersCompleted = 0;
-    private ArrayList<BasePowerUp> powerups;
+
+    private long timeUntilNextPowerUp;
+    private PowerUpActor powerUp;
+    private final Random random = new Random();
 
     /**
      * Instantiates a new Play screen.
@@ -69,7 +73,7 @@ public class PlayScreen extends BaseScreen {
 
         // HUD
         this.hud = new Hud(0, 0, super.uiStage, this.game);
-        orderHud = new OrderHud(0, 80, super.uiStage);
+        this.orderHud = new OrderHud(0, 80, super.uiStage);
 
         // game, camera and map setup
         this.gameCam = new OrthographicCamera(this.game.V_WIDTH, this.game.V_HEIGHT);
@@ -104,7 +108,7 @@ public class PlayScreen extends BaseScreen {
 //            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
 //            time += 5;
 //        }
-        powerups.add(new ExtraLife(game));
+        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(30) + 45) * 1000;
     }
 
     /**
@@ -139,6 +143,28 @@ public class PlayScreen extends BaseScreen {
         this.orderSystem.update();
 
         this.hud.update();
+
+        if (this.powerUp == null) {
+            if (this.timeUntilNextPowerUp < new Date().getTime()) {
+                this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.getRandomPowerUp());
+            }
+        } else if (!this.powerUp.listenerInit) {
+            this.powerUp.listenerInit = true;
+            this.powerUp.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
+
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    powerUp.activate();
+                    powerUp.remove();
+                    powerUp = null;
+                    timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(30) + 45) * 1000;
+                }
+            });
+        }
     }
 
     /**

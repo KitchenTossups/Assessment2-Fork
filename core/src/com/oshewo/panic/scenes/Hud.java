@@ -104,4 +104,6 @@ public class Hud extends BaseActor {
     public void reduceLives() {
         this.lives--;
     }
+
+    public void increaseLives() {this.lives++;}
 }
