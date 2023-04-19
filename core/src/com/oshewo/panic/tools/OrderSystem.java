@@ -18,12 +18,14 @@ import static com.oshewo.panic.lists.Lists.customers;
 public class OrderSystem {
 
     private PiazzaPanic game;
+    private PlayScreen playScreen;
 
     /**
      * Instantiates a new Order system.
      * Creates recipes
      */
-    public OrderSystem(PiazzaPanic game) {
+    public OrderSystem(PlayScreen playScreen, PiazzaPanic game) {
+        this.playScreen = playScreen;
         this.game = game;
 
         CustomerCreator customerCreator = new CustomerCreator();
@@ -49,7 +51,7 @@ public class OrderSystem {
             for (Customer customer : customers) {
                 if (((new Date().getTime()) - customer.getOrderPlaced()) / 1000 > 180 && !customer.isPenalty()) {
                     customer.setPenalty();
-//                    this.game.reduceLives();
+                    this.playScreen.hud.reduceLives();
                 }
             }
             for (int i = 0; i < Math.min(3, customers.size()); i++)

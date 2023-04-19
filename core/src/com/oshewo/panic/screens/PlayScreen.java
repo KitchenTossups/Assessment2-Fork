@@ -41,7 +41,7 @@ public class PlayScreen extends BaseScreen {
     private final Difficulty difficulty;
 
     // Hud
-    private final Hud hud;
+    public final Hud hud;
     public static OrderHud orderHud;
 
     // Chef
@@ -91,7 +91,7 @@ public class PlayScreen extends BaseScreen {
         if (this.game.MODE == GameMode.ENDLESS) this.chefs[2] = new ChefActor(500, 200, super.uiStage, this.game, 2);
 
         // order
-        this.orderSystem = new OrderSystem(this.game);
+        this.orderSystem = new OrderSystem(this, this.game);
         foodActors.add(new FoodActor(500, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
 //        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
 //        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
@@ -104,7 +104,7 @@ public class PlayScreen extends BaseScreen {
 //            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
 //            time += 5;
 //        }
-        powerUps.add(new ExtraLife(game));
+//        powerUps.add(new ExtraLife(game));
     }
 
     /**
