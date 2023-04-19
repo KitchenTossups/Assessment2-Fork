@@ -146,7 +146,7 @@ public class PlayScreen extends BaseScreen {
 
         if (this.powerUp == null) {
             if (this.timeUntilNextPowerUp < new Date().getTime()) {
-                this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.getRandomPowerUp());
+                this.powerUp = new PowerUpActor(super.uiStage, this, PowerUps.getRandomPowerUp());
             }
         } else if (!this.powerUp.listenerInit) {
             this.powerUp.listenerInit = true;

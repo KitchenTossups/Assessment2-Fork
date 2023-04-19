@@ -10,14 +10,14 @@ public class PowerUpActor extends BaseActor {
     PlayScreen playScreen;
     public boolean listenerInit = false;
 
-    public PowerUpActor(float x, float y, Stage s, PlayScreen playScreen, PowerUps powerUpType){
-        super(x, y, s);
+    public PowerUpActor(Stage s, PlayScreen playScreen, PowerUps powerUpType){
+        super(700, 340, s);
         this.powerUpType = powerUpType;
         this.playScreen = playScreen;
 
         switch (powerUpType){
             case EXTRA_LIFE:
-                loadTexture("heart.png", 60, 60);
+                loadTexture("heart.png", 40, 40);
                 break;
         }
 
