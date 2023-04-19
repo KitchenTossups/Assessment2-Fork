@@ -101,15 +101,13 @@ public class Hud extends BaseActor {
         }
     }
 
+    public int getLives() {
+        return lives;
+    }
+
     public void reduceLives() {
         this.lives--;
     }
 
-    public void increaseLives() {
-        this.lives++;
-    }
-
-    public int getLives() {
-        return lives;
-    }
+    public void increaseLives() {this.lives++;}
 }
