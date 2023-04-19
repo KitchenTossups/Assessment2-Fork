@@ -2,12 +2,12 @@ package com.oshewo.panic.non_actor;
 
 import com.oshewo.panic.enums.*;
 
-public class Ingredient {
+public class Food {
 
     private final Ingredients ingredients;
     private IngredientState state;
 
-    public Ingredient(Ingredients ingredients, IngredientState state) {
+    public Food(Ingredients ingredients, IngredientState state) {
         this.ingredients = ingredients;
         this.state = state;
     }
@@ -24,12 +24,15 @@ public class Ingredient {
         this.state = state;
     }
 
-    public boolean notMatches(Ingredient ingredient) {
-        return this.state != ingredient.getState() || this.ingredients != ingredient.getItem();
+    public boolean notMatches(Food food) {
+        return this.state != food.getState() || this.ingredients != food.getItem();
     }
 
     @Override
     public String toString() {
-        return this.ingredients.toString();
+        return "Food{" +
+                "ingredients=" + ingredients +
+                ", state=" + state +
+                '}';
     }
 }

@@ -3,6 +3,9 @@ package com.oshewo.panic.tools;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.non_actor.*;
+import com.oshewo.panic.screens.PlayScreen;
+
+import java.util.Date;
 
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
 import static com.oshewo.panic.lists.Lists.customers;
@@ -14,7 +17,7 @@ import static com.oshewo.panic.lists.Lists.customers;
  */
 public class OrderSystem {
 
-    private final PiazzaPanic game;
+    private PiazzaPanic game;
 
     /**
      * Instantiates a new Order system.
@@ -33,8 +36,8 @@ public class OrderSystem {
      * @return the order
      */
     public Recipe generateOrder() {
-//        return new Recipe(Product.DOUBLE_CHEESEBURGER);
-        return new Recipe(Product.getRandomProduct());
+        return new Recipe(Product.CHEESEBURGER);
+//        return new Recipe(Product.getRandomProduct());
     }
 
     /**
@@ -42,10 +45,16 @@ public class OrderSystem {
      */
     public void update() {
         StringBuilder sb = new StringBuilder();
-        if (customers.size() != 0)
+        if (customers.size() != 0) {
+            for (Customer customer : customers) {
+                if (((new Date().getTime()) - customer.getOrderPlaced()) / 1000 > 180 && !customer.isPenalty()) {
+                    customer.setPenalty();
+//                    this.game.reduceLives();
+                }
+            }
             for (int i = 0; i < Math.min(3, customers.size()); i++)
                 sb.append(customers.get(i).getOrder().getEndProduct().toString()).append("\n").append(customers.get(i).getOrder().getIngredients()).append("\n");
-        else
+        } else
             sb.append("CONGRATULATIONS!").append("\n").append("    ").append("You've completed").append("\n").append("    ").append("level 1!");
         orderHud.getLabel().setText(sb.toString());
     }
@@ -119,5 +128,9 @@ public class OrderSystem {
                 this.t.start();
             }
         }
+    }
+
+    public void updateGameScreen(PiazzaPanic game) {
+        this.game = game;
     }
 }

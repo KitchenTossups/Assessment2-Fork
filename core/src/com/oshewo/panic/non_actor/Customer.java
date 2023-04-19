@@ -6,6 +6,7 @@ public class Customer {
 
     private final Recipe order;
     private final long orderPlaced;
+    private boolean penalty = false;
 
     public Customer(Recipe order) {
         this.order = order;
@@ -18,6 +19,14 @@ public class Customer {
 
     public long getOrderPlaced() {
         return this.orderPlaced;
+    }
+
+    public boolean isPenalty() {
+        return this.penalty;
+    }
+
+    public void setPenalty() {
+        this.penalty = true;
     }
 
     @Override
