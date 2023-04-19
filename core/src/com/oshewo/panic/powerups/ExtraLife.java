@@ -1,9 +1,9 @@
 package com.oshewo.panic.powerups;
 
 import com.oshewo.panic.PiazzaPanic;
-import com.oshewo.panic.base.BasePowerup;
+import com.oshewo.panic.base.BasePowerUp;
 
-public class ExtraLife extends BasePowerup {
+public class ExtraLife extends BasePowerUp {
 
     PiazzaPanic game;
 
@@ -13,6 +13,7 @@ public class ExtraLife extends BasePowerup {
     }
 
     @Override
-    public void usePowerup() {
+    public void usePowerUp() {
 
+    }
 }

@@ -54,7 +54,7 @@ public class PlayScreen extends BaseScreen {
     // Order
     private final OrderSystem orderSystem;
     private int ordersCompleted = 0;
-    private ArrayList<BasePowerup> powerups;
+    private ArrayList<BasePowerUp> powerups;
 
     /**
      * Instantiates a new Play screen.

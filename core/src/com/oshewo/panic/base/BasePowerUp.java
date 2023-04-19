@@ -3,20 +3,20 @@ package com.oshewo.panic.base;
 import com.badlogic.gdx.graphics.Texture;
 import com.oshewo.panic.PiazzaPanic;
 
-public abstract class BasePowerup {
+public abstract class BasePowerUp {
 
     boolean active = false;
     String imageURL;
     Texture texture;
     PiazzaPanic game;
 
-    public BasePowerup(PiazzaPanic game, String imageURL){
+    public BasePowerUp(PiazzaPanic game, String imageURL){
         this.imageURL = imageURL;
         this.texture = new Texture(imageURL);
         this.game = game;
     }
 
-    public abstract void usePowerup();
+    public abstract void usePowerUp();
 
     public void show(){
 
