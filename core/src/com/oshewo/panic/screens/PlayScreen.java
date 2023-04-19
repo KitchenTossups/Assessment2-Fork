@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.viewport.*;
 
 import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.*;
+import com.oshewo.panic.powerups.ExtraLife;
 import com.oshewo.panic.stations.*;
 import com.oshewo.panic.non_actor.*;
 import com.oshewo.panic.tools.*;
@@ -53,6 +54,7 @@ public class PlayScreen extends BaseScreen {
     // Order
     private final OrderSystem orderSystem;
     private int ordersCompleted = 0;
+    private ArrayList<BasePowerup> powerups;
 
     /**
      * Instantiates a new Play screen.
@@ -102,6 +104,7 @@ public class PlayScreen extends BaseScreen {
 //            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
 //            time += 5;
 //        }
+        powerups.add(new ExtraLife(game));
     }
 
     /**
