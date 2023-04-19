@@ -15,6 +15,6 @@ public class Lists {
     public static final List<Station> servingStations = new ArrayList<>();
     public static final List<FoodCrate> foodCrates = new ArrayList<>();
     public static final List<StationTimer> timers = new ArrayList<>();
-    public static final List<Food> foods = new ArrayList<>();
+    public static final List<FoodActor> foodActors = new ArrayList<>();
     public static final List<Customer> customers = new ArrayList<>();
 }

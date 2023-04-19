@@ -92,7 +92,7 @@ public class PlayScreen extends BaseScreen {
 
         // order
         this.orderSystem = new OrderSystem(this.game);
-        foods.add(new Food(500, 250, super.uiStage, "patty.png", new Ingredient(Ingredients.PATTY, IngredientState.UNCUT), this, this.game, -1));
+        foodActors.add(new FoodActor(500, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
 //        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
 //        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
 //        int time = 10;
@@ -104,7 +104,6 @@ public class PlayScreen extends BaseScreen {
 //            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
 //            time += 5;
 //        }
-
         powerups.add(new ExtraLife(game));
     }
 
@@ -119,17 +118,18 @@ public class PlayScreen extends BaseScreen {
         // updates according to user input
         handleInput();
 
-        for (Food food : new ArrayList<>(foods))
-            food.update(this);
+        for (FoodActor foodActor : new ArrayList<>(foodActors))
+            foodActor.update(this);
         for (Station stove : stoves)
             stove.update(this);
-        for (Station board : choppingBoards)
-            board.update(this);
-        for (Station servery : servingStations)
-            servery.update(this);
+        for (Station choppingBoard : choppingBoards)
+            choppingBoard.update(this);
+        for (Station servingStation : servingStations)
+            servingStation.update(this);
         for (StationTimer timer : new ArrayList<>(timers)) {
             float percent = timer.getProgressPercent();
             if (percent >= 1) {
+                foodActors.add(new FoodActor(timer.getHeldFoodX(), timer.getHeldFoodY(), super.uiStage, timer.getHeldFood(), this, this.game, -1));
                 timers.remove(timer);
                 timer.delete();
             } else
@@ -202,13 +202,13 @@ public class PlayScreen extends BaseScreen {
             if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 if (this.game.VERBOSE)
                     System.out.println("E");
-                Food nearestFood = this.chefs[this.chefSelector].nearestFood(48);
+                FoodActor nearestFoodActor = this.chefs[this.chefSelector].nearestFood(48);
                 if (this.game.VERBOSE)
-                    System.out.println(nearestFood);
-                if (nearestFood != null) {
+                    System.out.println(nearestFoodActor);
+                if (nearestFoodActor != null) {
                     if (this.game.VERBOSE)
                         System.out.println(1);
-                    nearestFood.onUse();
+                    nearestFoodActor.onUse();
                 } else {
                     if (this.game.VERBOSE)
                         System.out.println(2);
@@ -327,21 +327,21 @@ public class PlayScreen extends BaseScreen {
     private void InitialiseStoves(MapLayer mapLayer) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            stoves.add(new Station(StationType.STOVE, rectangle, this, this.game, super.uiStage));
+            stoves.add(new Station(StationType.STOVE, rectangle, this, super.uiStage));
         }
     }
 
     private void InitialiseChoppingCounter(MapLayer mapLayer) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            choppingBoards.add(new Station(StationType.CHOPPING_BOARD, rectangle, this, this.game, super.uiStage));
+            choppingBoards.add(new Station(StationType.CHOPPING_BOARD, rectangle, this,  super.uiStage));
         }
     }
 
     private void InitialiseServiceStation(MapLayer mapLayer) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            servingStations.add(new Station(StationType.SERVING, rectangle, this, this.game, super.uiStage));
+            servingStations.add(new Station(StationType.SERVING, rectangle, this, super.uiStage));
         }
     }
 

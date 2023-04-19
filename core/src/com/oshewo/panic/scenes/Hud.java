@@ -100,4 +100,8 @@ public class Hud extends BaseActor {
             this.orderTimeLabel.setVisible(false);
         }
     }
+
+    public void reduceLives() {
+        this.lives--;
+    }
 }
