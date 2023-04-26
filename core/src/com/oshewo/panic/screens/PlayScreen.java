@@ -182,7 +182,11 @@ public class PlayScreen extends BaseScreen {
         }
         if (this.powerUp == null) {
             if (this.timeUntilNextPowerUp < new Date().getTime()) {
-                this.powerUp = new PowerUpActor(super.uiStage, this, PowerUps.getRandomPowerUp());
+                PowerUps powerUp;
+                do {
+                    powerUp = PowerUps.getRandomPowerUp();
+                } while (powerUp != PowerUps.EXTRA_LIFE || this.hud.getLives() >= 4);
+                this.powerUp = new PowerUpActor(super.uiStage, this, powerUp);
             }
         } else if (!this.powerUp.listenerInit) {
             this.powerUp.listenerInit = true;
