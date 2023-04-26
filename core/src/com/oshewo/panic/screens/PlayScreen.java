@@ -115,7 +115,7 @@ public class PlayScreen extends BaseScreen {
 //            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
 //            time += 5;
 //        }
-        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(5) + 1) * 1000;
+        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(45) + 30) * 1000;
     }
 
     /**
@@ -160,7 +160,7 @@ public class PlayScreen extends BaseScreen {
                 this.movementMultiplier = 1;
                 this.timeUntilResetChefSpeed = -1;
                 this.powerUp = null;
-                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
             }
         }
         if (this.timeUntilResetChoppingMultiplier != -1) {
@@ -168,7 +168,7 @@ public class PlayScreen extends BaseScreen {
                 this.choppingTimerMultiplier = 1;
                 this.timeUntilResetChoppingMultiplier = -1;
                 this.powerUp = null;
-                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
             }
         }
         if (this.timeUntilResetCookingMultiplier != -1) {
@@ -176,13 +176,12 @@ public class PlayScreen extends BaseScreen {
                 this.cookingTimerMultiplier = 1;
                 this.timeUntilResetCookingMultiplier = -1;
                 this.powerUp = null;
-                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
             }
         }
         if (this.powerUp == null) {
             if (this.timeUntilNextPowerUp < new Date().getTime()) {
-                //this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.getRandomPowerUp());
-                this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.DECREASE_COOKING_TIME);
+                this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.getRandomPowerUp());
             }
         } else if (!this.powerUp.listenerInit) {
             this.powerUp.listenerInit = true;
@@ -197,7 +196,7 @@ public class PlayScreen extends BaseScreen {
                     powerUp.activate();
                     powerUp.remove();
                     powerUp = null;
-                    timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
+                    timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
                 }
             });
         }
