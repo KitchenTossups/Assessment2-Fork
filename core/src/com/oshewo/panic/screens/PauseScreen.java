@@ -102,6 +102,8 @@ public class PauseScreen extends BaseScreen {
 
         TextButton buttonExit = new TextButton("", button);
 
+        //Test
+
         this.uiTable.pad(50);
         this.uiTable.row().height(300);
         this.uiTable.add(new Actor()); // Program will add a space if there is something here, even if it's empty
