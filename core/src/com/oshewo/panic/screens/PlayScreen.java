@@ -104,6 +104,7 @@ public class PlayScreen extends BaseScreen {
         // order
         this.orderSystem = new OrderSystem(this, this.game);
         foodActors.add(new FoodActor(500, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
+        foodActors.add(new FoodActor(600, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
 //        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
 //        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
 //        int time = 10;
@@ -181,7 +182,7 @@ public class PlayScreen extends BaseScreen {
         }
         if (this.powerUp == null) {
             if (this.timeUntilNextPowerUp < new Date().getTime()) {
-                this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.getRandomPowerUp());
+                this.powerUp = new PowerUpActor(super.uiStage, this, PowerUps.getRandomPowerUp());
             }
         } else if (!this.powerUp.listenerInit) {
             this.powerUp.listenerInit = true;

@@ -1,25 +1,31 @@
 package com.oshewo.panic.screens;
 
-import com.badlogic.gdx.*;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.*;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.*;
-import com.badlogic.gdx.scenes.scene2d.ui.*;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.Skin;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.oshewo.panic.*;
-import com.oshewo.panic.base.*;
+import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.base.BaseActor;
+import com.oshewo.panic.base.BaseScreen;
 import com.oshewo.panic.enums.Difficulty;
 import com.oshewo.panic.enums.GameMode;
 
-public class SettingsScreen extends BaseScreen {
+public class PauseScreen extends BaseScreen {
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;
     private final Label modeLabel, difficultyLabel;
 
-    public SettingsScreen(PiazzaPanic game) {
+    public PauseScreen(PiazzaPanic game) {
         BaseActor background = new BaseActor(0, 0, this.mainStage);
         background.loadTexture("piazza_panic_main_menu_background.png");
         background.setSize(game.V_WIDTH, game.V_HEIGHT);
@@ -75,6 +81,20 @@ public class SettingsScreen extends BaseScreen {
             }
         });
 
+//        Label difficultyChangeLabel = new Label("CHANGE GAME DIFFICULTY", style);
+//        difficultyChangeLabel.addListener(new ClickListener() {
+//            @Override
+//            public void clicked(InputEvent event, float x, float y) {
+//                if (game.DIFFICULTY == Difficulty.EASY)
+//                    game.DIFFICULTY = Difficulty.MEDIUM;
+//                else if (game.DIFFICULTY == Difficulty.MEDIUM)
+//                    game.DIFFICULTY = Difficulty.HARD;
+//                else
+//                    game.DIFFICULTY = Difficulty.EASY;
+//                difficultyLabel.setText(String.format("The current game difficulty is: %s\nPress the button below to change it;", game.DIFFICULTY));
+//            }
+//        });
+
         TextButton.TextButtonStyle button = new TextButton.TextButtonStyle();
         button.font = game.labelStyle[0].font;
         button.up = skin.getDrawable("exit_button_inactive");
@@ -93,6 +113,8 @@ public class SettingsScreen extends BaseScreen {
         this.uiTable.add(this.difficultyLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
         this.uiTable.add(difficultyChangeLabel).center().expandX().pad(10);
+        this.uiTable.row().height(50);
+//        this.uiTable.add(returnLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
         this.uiTable.add(buttonExit).center().size(buttonWidth, buttonHeight).pad(10);
 

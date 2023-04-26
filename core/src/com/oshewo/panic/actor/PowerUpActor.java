@@ -14,14 +14,14 @@ public class PowerUpActor extends BaseActor {
     public boolean listenerInit = false;
     private long timeUntilResetChefSpeed;
 
-    public PowerUpActor(float x, float y, Stage s, PlayScreen playScreen, PowerUps powerUpType){
-        super(x, y, s);
+    public PowerUpActor(Stage s, PlayScreen playScreen, PowerUps powerUpType){
+        super(700, 340, s);
         this.powerUpType = powerUpType;
         this.playScreen = playScreen;
 
         switch (powerUpType){
             case EXTRA_LIFE:
-                loadTexture("heart.png", 60, 60);
+                loadTexture("heart.png", 40, 40);
                 break;
             case INCREASE_CHEF_SPEED:
                 loadTexture("bolt-icon-button-yellow.png", 60, 60);

@@ -32,12 +32,12 @@ public class FoodActor extends BaseActor {
     // what is being held by the chef
     private int chefToFollow = -1;
 
-    /**
-     * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
-     *
+//    /**
+//     * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
+//     *
 //     * @param texture    the texture for the food
-     * @param food the ingredient
-     */
+//     * @param food the ingredient
+//     */
 //    public FoodActor(float x, float y, Stage s, String texture, Food food, PlayScreen playScreen, PiazzaPanic game) {
 //        super(x, y, s);
 //        this.playScreen = playScreen;
@@ -253,6 +253,9 @@ public class FoodActor extends BaseActor {
 
         if (this.game.VERBOSE)
             System.out.println(5);
+        for (FoodActor foodActor : foodActors)
+            if (foodActor.chefToFollow == this.playScreen.getChefSelector())
+                return;
         // puts down food according to direction of chef which is what movement key was last pressed
         if (this.chefToFollow != -1 && this.chefToFollow == this.playScreen.getChefSelector()) {
             if (this.game.VERBOSE)
