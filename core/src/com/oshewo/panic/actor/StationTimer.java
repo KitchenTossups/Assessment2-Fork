@@ -12,12 +12,12 @@ public class StationTimer extends BaseActor {
 
     private final long timeStarted;
     private final TimerSub timerSub;
-    private final int duration;
+    private final float duration;
     private final String stationId;
     private final Food heldFood;
     private final float foodX, foodY;
 
-    public StationTimer(float x, float y, int width, int height, String stationId, Food heldFood, float foodX, float foodY, Stage s, int seconds) {
+    public StationTimer(float x, float y, int width, int height, String stationId, Food heldFood, float foodX, float foodY, Stage s, float seconds) {
         super(x, y, s);
         this.stationId = stationId;
         this.duration = seconds;

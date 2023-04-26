@@ -11,6 +11,7 @@ import com.badlogic.gdx.math.Rectangle;
 
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.*;
 
 import com.oshewo.panic.base.*;
@@ -57,10 +58,14 @@ public class PlayScreen extends BaseScreen {
     private int ordersCompleted = 0;
 
     private long timeUntilNextPowerUp;
-    private long timeMovementMultiplierActive;
     private PowerUpActor powerUp;
     private final Random random = new Random();
     public float movementMultiplier = 1;
+    public long timeUntilResetChefSpeed = -1;
+    public float choppingTimerMultiplier = 1;
+    public long timeUntilResetChoppingMultiplier;
+    public float cookingTimerMultiplier = 1;
+    public long timeUntilResetCookingMultiplier;
 
     /**
      * Instantiates a new Play screen.
@@ -110,7 +115,7 @@ public class PlayScreen extends BaseScreen {
 //            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
 //            time += 5;
 //        }
-        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(30) + 45) * 1000;
+        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(5) + 1) * 1000;
     }
 
     /**
@@ -146,9 +151,38 @@ public class PlayScreen extends BaseScreen {
 
         this.hud.update();
 
+        powerUpHandler();
+    }
+
+    private void powerUpHandler() {
+        if (this.timeUntilResetChefSpeed != -1) {
+            if (((int) TimeUtils.timeSinceMillis(this.timeUntilResetChefSpeed) / 1000) >= 30) {
+                this.movementMultiplier = 1;
+                this.timeUntilResetChefSpeed = -1;
+                this.powerUp = null;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
+            }
+        }
+        if (this.timeUntilResetChoppingMultiplier != -1) {
+            if (((int) TimeUtils.timeSinceMillis(this.timeUntilResetChoppingMultiplier) / 1000) >= 30) {
+                this.choppingTimerMultiplier = 1;
+                this.timeUntilResetChoppingMultiplier = -1;
+                this.powerUp = null;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
+            }
+        }
+        if (this.timeUntilResetCookingMultiplier != -1) {
+            if (((int) TimeUtils.timeSinceMillis(this.timeUntilResetCookingMultiplier) / 1000) >= 30) {
+                this.cookingTimerMultiplier = 1;
+                this.timeUntilResetCookingMultiplier = -1;
+                this.powerUp = null;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
+            }
+        }
         if (this.powerUp == null) {
             if (this.timeUntilNextPowerUp < new Date().getTime()) {
-                this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.getRandomPowerUp());
+                //this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.getRandomPowerUp());
+                this.powerUp = new PowerUpActor(300, 300, super.uiStage, this, PowerUps.DECREASE_COOKING_TIME);
             }
         } else if (!this.powerUp.listenerInit) {
             this.powerUp.listenerInit = true;
@@ -163,7 +197,7 @@ public class PlayScreen extends BaseScreen {
                     powerUp.activate();
                     powerUp.remove();
                     powerUp = null;
-                    timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(30) + 45) * 1000;
+                    timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(5) + 1) * 1000;
                 }
             });
         }
@@ -395,11 +429,6 @@ public class PlayScreen extends BaseScreen {
 
     public void incrementOrderCompleted() {
         this.ordersCompleted++;
-    }
-
-    public void clearNextOrderPowerUp(){
-        customers.remove(0);
-        incrementOrderCompleted();
     }
 
     /**

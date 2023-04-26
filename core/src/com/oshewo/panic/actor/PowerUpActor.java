@@ -28,37 +28,58 @@ public class PowerUpActor extends BaseActor {
                 break;
             case CLEAR_NEXT_ORDER:
                 loadTexture("green-tick-icon.jpg", 60, 60);
+                break;
+            case DECREASE_CHOPPING_TIME:
+                loadTexture("Knife.png", 60, 60);
+                break;
+            case DECREASE_COOKING_TIME:
+                loadTexture("frying-pan.png", 60, 60);
+                break;
         }
 
     }
 
     public void activate() {
         switch (this.powerUpType) {
-//            case EXTRA_LIFE:
-//                this.activateExtraLife();
-//                break;
-//            case INCREASE_CHEF_SPEED:
-//                this.activeIncreaseChefSpeed();
-//                break;
+            case EXTRA_LIFE:
+                this.activateExtraLife();
+                break;
+            case INCREASE_CHEF_SPEED:
+                this.activateIncreaseChefSpeed();
+                break;
             case CLEAR_NEXT_ORDER:
-                this.activeClearNextOrder();
+                this.activateClearNextOrder();
+                break;
+            case DECREASE_CHOPPING_TIME:
+                this.activateDecreaseChoppingTime();
+                break;
+            case DECREASE_COOKING_TIME:
+                this.activateDecreaseCookingTime();
                 break;
 
         }
     }
 
-    private void activeIncreaseChefSpeed(){
-        playScreen.movementMultiplier = 1.25F;
-        this.timeUntilResetChefSpeed = new Date().getTime() + 30 * 1000;
-        //Need to implement a while loop using delta time and reset chef speed after given time
-        playScreen.movementMultiplier = 1;
+    private void activateIncreaseChefSpeed(){
+        playScreen.movementMultiplier = 1.5F;
+        playScreen.timeUntilResetChefSpeed = new Date().getTime() + 30 * 1000;
     }
 
-    private void activeClearNextOrder(){
+    private void activateClearNextOrder(){
         Lists.customers.remove(0);
         this.playScreen.incrementOrderCompleted();
     }
     private void activateExtraLife(){
         playScreen.hud.increaseLives();
+    }
+
+    private void activateDecreaseChoppingTime(){
+        this.playScreen.choppingTimerMultiplier = 0.5F;
+        playScreen.timeUntilResetChoppingMultiplier = new Date().getTime() + 30 * 1000;
+    }
+
+    private void activateDecreaseCookingTime(){
+        this.playScreen.cookingTimerMultiplier = 0.5F;
+        playScreen.timeUntilResetCookingMultiplier = new Date().getTime() + 30 * 1000;
     }
 }
