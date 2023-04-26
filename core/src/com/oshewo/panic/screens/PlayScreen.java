@@ -57,8 +57,10 @@ public class PlayScreen extends BaseScreen {
     private int ordersCompleted = 0;
 
     private long timeUntilNextPowerUp;
+    private long timeMovementMultiplierActive;
     private PowerUpActor powerUp;
     private final Random random = new Random();
+    public float movementMultiplier = 1;
 
     /**
      * Instantiates a new Play screen.
@@ -186,25 +188,25 @@ public class PlayScreen extends BaseScreen {
         try {
             if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
                 float oldY = this.chefs[this.chefSelector].getY();
-                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() + 300 * Gdx.graphics.getDeltaTime());
+                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() + 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
                 this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
                 this.lastMove = Input.Keys.W;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
                 float oldY = this.chefs[this.chefSelector].getY();
-                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() - 300 * Gdx.graphics.getDeltaTime());
+                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() - 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
                 this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
                 this.lastMove = Input.Keys.S;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
                 float oldX = this.chefs[this.chefSelector].getX();
-                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() + 300 * Gdx.graphics.getDeltaTime());
+                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() + 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
                 this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
                 this.lastMove = Input.Keys.D;
             }
             if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
                 float oldX = this.chefs[this.chefSelector].getX();
-                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() - 300 * Gdx.graphics.getDeltaTime());
+                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() - 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
                 this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
                 this.lastMove = Input.Keys.A;
             }
@@ -393,6 +395,11 @@ public class PlayScreen extends BaseScreen {
 
     public void incrementOrderCompleted() {
         this.ordersCompleted++;
+    }
+
+    public void clearNextOrderPowerUp(){
+        customers.remove(0);
+        incrementOrderCompleted();
     }
 
     /**
