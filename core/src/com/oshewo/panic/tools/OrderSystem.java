@@ -1,47 +1,35 @@
 package com.oshewo.panic.tools;
 
-import com.badlogic.gdx.math.RandomXS128;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.enums.*;
+import com.oshewo.panic.non_actor.*;
+import com.oshewo.panic.screens.PlayScreen;
 
-import java.util.*;
+import java.util.Date;
 
-import static com.oshewo.panic.screens.PlayScreen.currentOrder;
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
+import static com.oshewo.panic.lists.Lists.customers;
 
 /**
  * The type Order system.
+ *
  * @author sl3416, Oshewo
  */
 public class OrderSystem {
-    private final RandomXS128 random;
-    public static HashMap<String, List<String>> recipes;
-    public static Queue<Object> orders = new LinkedList<>();
-    private final int orderId;
-    private com.badlogic.gdx.utils.Timer timer;
+
+    private PiazzaPanic game;
+    private PlayScreen playScreen;
 
     /**
      * Instantiates a new Order system.
      * Creates recipes
      */
-    public OrderSystem() {
-        random = new RandomXS128();
-        recipes = new HashMap<String, List<String>>();
+    public OrderSystem(PlayScreen playScreen, PiazzaPanic game) {
+        this.playScreen = playScreen;
+        this.game = game;
 
-        // burger
-        recipes.put("Burger", Arrays.asList("bun, toasted", "beef, formed then fried"));
-
-        // salad
-        recipes.put("Salad", Arrays.asList("lettuce, chopped", "tomato, chopped", "onion, chopped"));
-        orderId = 1;
-    }
-
-    /**
-     * Gets recipes.
-     *
-     * @return the recipes
-     */
-    public static HashMap<String, List<String>> getRecipes() {
-        return recipes;
+        CustomerCreator customerCreator = new CustomerCreator();
+        customerCreator.start();
     }
 
     /**
@@ -49,52 +37,102 @@ public class OrderSystem {
      *
      * @return the order
      */
-    public Order generateOrder() {
-        Set<String> recipeTypes = recipes.keySet();
-        int recipeSize = recipeTypes.size();
-        int randomIndex = new Random().nextInt(recipeSize);
-        String recipeType = (String)recipeTypes.toArray()[randomIndex];
-        return new Order(recipeType);
+    public Recipe generateOrder() {
+//        return new Recipe(Product.CHEESEBURGER);
+        return new Recipe(Product.getRandomProduct());
     }
 
     /**
      * Updates order hud
      */
-    public void update(){
-        timer = new com.badlogic.gdx.utils.Timer();
-        final Label recipeLabel = orderHud.getRecipeLabel();
-        final Label ingredient1Label = orderHud.getIngredient1Label();
-        final Label ingredient2Label = orderHud.getIngredient2Label();
-        final Label ingredient3Label = orderHud.getIngredient3Label();
-
-        timer.scheduleTask(new com.badlogic.gdx.utils.Timer.Task() {
-
-            @Override
-            public void run() {
-                if(currentOrder!=null) {
-                    recipeLabel.setText(currentOrder.getRecipeType());
-
-                    switch (currentOrder.getRecipeType()) {
-                        case "Burger":
-                            ingredient1Label.setText("bun");
-                            ingredient2Label.setText("patty");
-                            ingredient3Label.setText("");
-                            break;
-                        case "Salad":
-                            ingredient1Label.setText("lettuce");
-                            ingredient2Label.setText("tomato");
-                            ingredient3Label.setText("onion");
-                            break;
-                    }
-                }
-                else{
-                    recipeLabel.setText("CONGRATULATIONS!");
-                    ingredient1Label.setText("You've completed");
-                    ingredient2Label.setText("level 1!");
-                    ingredient3Label.setText("");
+    public void update() {
+        StringBuilder sb = new StringBuilder();
+        if (customers.size() != 0) {
+            for (Customer customer : customers) {
+                if (((new Date().getTime()) - customer.getOrderPlaced()) / 1000 > 180 && !customer.isPenalty()) {
+                    customer.setPenalty();
+                    this.playScreen.hud.reduceLives();
                 }
             }
-        }, 1);
+            for (int i = 0; i < Math.min(3, customers.size()); i++)
+                sb.append(customers.get(i).getOrder().getEndProduct().toString()).append("\n").append(customers.get(i).getOrder().getIngredients()).append("\n");
+        } else
+            sb.append("CONGRATULATIONS!").append("\n").append("    ").append("You've completed").append("\n").append("    ").append("level 1!");
+        orderHud.getLabel().setText(sb.toString());
+    }
 
+    private class CustomerCreator implements Runnable {
+        private Thread t;
+
+        CustomerCreator() {
+            if (game.VERBOSE) System.out.println("Starting CustomerCreator");
+        }
+
+        public void run() {
+            if (game.VERBOSE) System.out.println("Running CustomerCreator");
+            int time, customerNum;
+
+            switch (game.DIFFICULTY) {
+                case EASY:
+                    time = 60;
+                    customerNum = 3;
+                    break;
+                case MEDIUM:
+                    time = 45;
+                    customerNum = 5;
+                    break;
+                case HARD:
+                    time = 5; // testing value only
+                    customerNum = 8;
+                    break;
+                default:
+                    System.out.println("Error difficulty");
+                    return;
+            }
+
+            switch (game.MODE) {
+                case SCENARIO:
+                    for (int i = 0; i < customerNum; i++) {
+                        Customer customer = new Customer(generateOrder());
+                        customers.add(customer);
+                        if (game.VERBOSE) System.out.println(customer);
+                        if (i + 1 == customerNum)
+                            break;
+                        try {
+                            Thread.sleep(time * 1000);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                case ENDLESS:
+                    while (true)
+                        if (game.RUNNING) {
+                            Customer customer = new Customer(generateOrder());
+                            customers.add(customer);
+                            if (game.VERBOSE) System.out.println(customer);
+                            try {
+                                Thread.sleep(time * 1000);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                break;
+                            }
+                        } else
+                            break;
+                    break;
+            }
+            if (game.VERBOSE) System.out.println("Finished CustomerCreate");
+        }
+
+        public void start() {
+            if (this.t == null) {
+                this.t = new Thread(this);
+                this.t.start();
+            }
+        }
+    }
+
+    public void updateGameScreen(PiazzaPanic game) {
+        this.game = game;
     }
 }

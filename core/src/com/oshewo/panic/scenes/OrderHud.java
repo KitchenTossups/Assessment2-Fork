@@ -1,147 +1,78 @@
 package com.oshewo.panic.scenes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
-import com.badlogic.gdx.utils.Disposable;
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
-import com.oshewo.panic.PiazzaPanic;
+import com.badlogic.gdx.utils.Align;
+import com.oshewo.panic.base.BaseActor;
 
 /**
  * The Order Hud displays the info of recipe name and ingredients of current order to do on the order sheet
+ *
  * @author sl3416
  */
-public class OrderHud implements Disposable {
+public class OrderHud extends BaseActor {
 
-    PiazzaPanic game;
-    public Stage stage;
-    private final Viewport viewport;
-
-    // variables for order - order image, recipe and ingredient labels for recipe
-    private final Image order_receipt;
-    Label recipeLabel;
-    Label ingredient1Label;
-    Label ingredient2Label;
-    Label ingredient3Label;
-
+    Label label;
 
     /**
      * Instantiates a new Order hud by setting up the order labels, images as actors in a table to display on screen
      *
-     * @param sb the spritebatch to draw multiple sprites at once
      */
-    public OrderHud(SpriteBatch sb){
-
-        viewport = new FitViewport(PiazzaPanic.V_WIDTH, PiazzaPanic.V_WIDTH, new OrthographicCamera());
-        stage = new Stage(viewport, sb);
+    public OrderHud(float x, float y, Stage s) {
+        super(x, y, s);
 
         // Order Hud Setup
         // Receipt image
-        order_receipt = new Image(new Texture(Gdx.files.internal("order_receipt.png")));
-        order_receipt.setPosition(25, 400);
-        order_receipt.setSize(150, 350);
+        // variables for order - order image, recipe and ingredient labels for recipe
+        Image order_receipt = new Image(new Texture(Gdx.files.internal("order_receipt1.png")));
+        order_receipt.setPosition(x, y);
+        order_receipt.setSize(250, 500);
 
-        // Creating order labels
-        recipeLabel = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        recipeLabel.setPosition(65, 570);
-        recipeLabel.setSize(150, 150);
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraftia-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameters.size = 14;
+        fontParameters.color = Color.BLACK;
+        fontParameters.borderColor = Color.WHITE;
+        fontParameters.borderStraight = true;
+        fontParameters.minFilter = Texture.TextureFilter.Linear;
+        fontParameters.magFilter = Texture.TextureFilter.Linear;
 
-        ingredient1Label = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        ingredient1Label.setPosition(75, 535);
-        ingredient1Label.setSize(150, 150);
+        BitmapFont bitmap = fontGenerator.generateFont(fontParameters);
 
-        ingredient2Label = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        ingredient2Label.setPosition(75, 500);
-        ingredient2Label.setSize(150, 150);
+        bitmap.getData().setScale(1, 0.8f);
 
-        ingredient3Label = new Label("", new Label.LabelStyle(new BitmapFont(Gdx.files.internal("arcade_classic.fnt")), Color.BLACK));
-        ingredient3Label.setPosition(75, 465);
-        ingredient3Label.setSize(150, 150);
+        Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.BLACK);
+
+        this.label = new Label("", style);
+        this.label.setPosition(x + 65, y + 5);
+        this.label.setWrap(true);
+        this.label.setAlignment(Align.topLeft);
+        this.label.setSize(175, 390);
 
         // Lays out recipe and ingredients label onto the order image in a table
         Table image_table = new Table();
         image_table.addActor(order_receipt);
 
         Table labels_table = new Table();
-        labels_table.addActor(recipeLabel);
-        labels_table.addActor(ingredient1Label);
-        labels_table.addActor(ingredient2Label);
-        labels_table.addActor(ingredient3Label);
+        labels_table.addActor(this.label);
 
         Stack stack = new Stack();
         stack.add(image_table);
         stack.add(labels_table);
 
-        stage.addActor(stack);
+        s.addActor(stack);
     }
 
     /**
-     * Get recipe label.
+     * Get label.
      *
-     * @return the label for recipe of order
+     * @return the label for orders
      */
-    public Label getRecipeLabel(){
-        return recipeLabel;
-    }
-
-    /**
-     * Get ingredient 1 label of order recipe.
-     *
-     * @return the label for ingredient 1
-     */
-    public Label getIngredient1Label(){
-        return ingredient1Label;
-    }
-
-    /**
-     * Get ingredient 2 label of order recipe.
-     *
-     * @return the label for ingredient 2
-     */
-    public Label getIngredient2Label(){
-        return ingredient2Label;
-    }
-
-    /**
-     * Get ingredient 3 label of order recipe.
-     *
-     * @return the label for ingredient 3
-     */
-    public Label getIngredient3Label(){
-        return ingredient3Label;
-    }
-
-    /**
-     * Renders stage
-     *
-     * @param delta the delta
-     */
-    public void render(float delta) {
-        stage.act(delta);
-        stage.draw();
-    }
-
-    /**
-     * Resizes stage so it maintains aspect ratio.
-     *
-     * @param width  the width of screen
-     * @param height the height of screen
-     */
-    public void resize(int width, int height) {
-        stage.getViewport().update(width, height, true);
-    }
-
-    /**
-     * Disposes stage
-     */
-    @Override
-    public void dispose() {
-        stage.dispose();
+    public Label getLabel() {
+        return this.label;
     }
 }

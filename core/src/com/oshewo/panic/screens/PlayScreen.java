@@ -1,273 +1,457 @@
 package com.oshewo.panic.screens;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.*;
+import com.badlogic.gdx.graphics.*;
 
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.MapLayer;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
+import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.*;
+import com.badlogic.gdx.math.Rectangle;
 
-import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.Viewport;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.utils.TimeUtils;
+import com.badlogic.gdx.utils.viewport.*;
 
-import com.oshewo.panic.tools.Order;
-import com.oshewo.panic.tools.OrderSystem;
-import com.oshewo.panic.PiazzaPanic;
-import com.oshewo.panic.scenes.Hud;
-import com.oshewo.panic.scenes.OrderHud;
-import com.oshewo.panic.sprites.Chef;
-import com.oshewo.panic.sprites.Food;
-import com.oshewo.panic.sprites.Station;
-import com.oshewo.panic.sprites.CountdownTimer;
-import com.oshewo.panic.tools.WorldCreator;
-import com.oshewo.panic.tools.InputHandler;
+import com.oshewo.panic.base.*;
+import com.oshewo.panic.enums.*;
+import com.oshewo.panic.stations.*;
+import com.oshewo.panic.non_actor.*;
+import com.oshewo.panic.tools.*;
+import com.oshewo.panic.*;
+import com.oshewo.panic.scenes.*;
+import com.oshewo.panic.actor.*;
 
-import java.util.ArrayList;
+import java.util.*;
 
-import static com.oshewo.panic.sprites.Food.foodArray;
-import static com.oshewo.panic.PiazzaPanic.V_ZOOM;
-import static com.oshewo.panic.sprites.CountdownTimer.timerArray;
-import static com.oshewo.panic.tools.WorldCreator.*;
+import static com.oshewo.panic.lists.Lists.*;
 
 /**
  * The Play screen is the screen featuring the actual game
+ *
  * @author Oshewo, sl3416
  */
-public class PlayScreen implements Screen {
+public class PlayScreen extends BaseScreen {
+
     // sets up world and map for the game
     private final PiazzaPanic game;
     private final OrthographicCamera gameCam;
     private final Viewport gamePort;
-    private final TmxMapLoader mapLoader;
     private final TiledMap map;
     private final OrthoCachedTiledMapRenderer renderer;
-    private final World world;
-    private final Box2DDebugRenderer b2dr;
-
-    // tools
-    private final TextureAtlas atlas;
-    private final BitmapFont font;
-    public static SpriteBatch batch;
+    private final Difficulty difficulty;
 
     // Hud
-    private final Hud hud;
+    public Hud hud;
     public static OrderHud orderHud;
 
     // Chef
-    public static Chef activePlayer;
-    private static Chef player0;
-    private static Chef player1;
+    public final ChefActor[] chefs;
+    private int chefSelector = 0;
+    private int lastMove;
 
-    // order
+    private boolean tabPressed = false;
+
+    // Order
     private final OrderSystem orderSystem;
-    public static Order currentOrder;
-    public static int ordersCompleted = 0;
+    private int ordersCompleted = 0;
+
+    private long timeUntilNextPowerUp;
+    private PowerUpActor powerUp;
+    private final Random random = new Random();
+    public float movementMultiplier = 1;
+    public long timeUntilResetChefSpeed = -1;
+    public float choppingTimerMultiplier = 1;
+    public long timeUntilResetChoppingMultiplier;
+    public float cookingTimerMultiplier = 1;
+    public long timeUntilResetCookingMultiplier;
 
     /**
      * Instantiates a new Play screen.
      *
      * @param game the game
      */
-    public PlayScreen(PiazzaPanic game){
-        atlas = new TextureAtlas("sprites.txt");
+    public PlayScreen(PiazzaPanic game) {
+        super();
+        this.difficulty = game.DIFFICULTY;
 
         this.game = game;
 
         // HUD
-        hud = new Hud(game.batch);
-        orderHud = new OrderHud(game.batch);
+        this.hud = new Hud(0, 0, super.uiStage, this.game);
+        this.orderHud = new OrderHud(0, 80, super.uiStage);
 
         // game, camera and map setup
-        gameCam = new OrthographicCamera();
-        gamePort = new FitViewport(PiazzaPanic.V_WIDTH*V_ZOOM,PiazzaPanic.V_HEIGHT*V_ZOOM, gameCam);
-        mapLoader = new TmxMapLoader();
-        map = mapLoader.load("piazza2.tmx");
-        renderer = new OrthoCachedTiledMapRenderer(map);
-        gameCam.position.set(gamePort.getWorldWidth()/(4*V_ZOOM),gamePort.getWorldHeight()/(2.2f*V_ZOOM),0);
-        world = new World(new Vector2(0,0),true);
-        b2dr = new Box2DDebugRenderer();
-        new WorldCreator(world,map);
+        this.gameCam = new OrthographicCamera(this.game.V_WIDTH, this.game.V_HEIGHT);
+        this.gamePort = new FitViewport(this.game.V_WIDTH, this.game.V_HEIGHT, this.gameCam);
+        TmxMapLoader mapLoader = new TmxMapLoader();
+        this.map = mapLoader.load("piazza-map-big2.tmx");
+        this.renderer = new OrthoCachedTiledMapRenderer(this.map);
+        this.renderer.render();
+        this.gameCam.position.set((this.game.V_WIDTH / 2), (this.game.V_HEIGHT / 2), 0); // 0,0 is apparently in the centre of the screen maybe...
+        WorldCreator();
 
-        // sets up and positions both chefs in the game
-        player0 = new Chef(world, 0,this);
-        player1 = new Chef(world, 1,this);
-        player1.getBDef().position.set(160,160);
-        // current chef is set to player 0 by default
-        activePlayer = player0;
+        if (this.game.MODE == GameMode.SCENARIO)
+            this.chefs = new ChefActor[2];
+        else
+            this.chefs = new ChefActor[3];
+
+        this.chefs[0] = new ChefActor(400, 200, super.uiStage, this.game, 0);
+        this.chefs[1] = new ChefActor(450, 200, super.uiStage, this.game, 1);
+        if (this.game.MODE == GameMode.ENDLESS) this.chefs[2] = new ChefActor(500, 200, super.uiStage, this.game, 2);
 
         // order
-        orderSystem = new OrderSystem();
-        font = new BitmapFont();
-        batch = new SpriteBatch();
-
-    }
-
-    /**
-     * Get texture atlas.
-     *
-     * @return the texture atlas
-     */
-    public TextureAtlas getAtlas(){
-        return atlas;
-    }
-
-    /**
-     * Swap chef
-     */
-    public static void swapChef(){
-        if(activePlayer == player0){
-            activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
-            activePlayer = player1;
-        }
-        else{
-            activePlayer.b2body.setLinearVelocity(new Vector2(0,0));
-            activePlayer = player0;
-        }
+        this.orderSystem = new OrderSystem(this, this.game);
+        foodActors.add(new FoodActor(500, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
+        foodActors.add(new FoodActor(600, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
+//        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
+//        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
+//        int time = 10;
+//        for (Station s : stoves) {
+//            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
+//            time += 5;
+//        }
+//        for (Station s : choppingBoards) {
+//            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
+//            time += 5;
+//        }
+        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(45) + 30) * 1000;
     }
 
     /**
      * Updates positions of chefs, timer hud, food and stations
-     *
-     * @param dt the dt
      */
-    public void update(float dt){
+    public void update(float dt) {
+        this.gameCam.update();
+        this.renderer.setView(this.gameCam);
+        this.renderer.render();
+
         // updates according to user input
-        InputHandler.handleInput(dt);
+        handleInput();
 
-        world.step(1/60f,6,2);
-
-        player0.update(dt);
-        player1.update(dt);
-
-        for(CountdownTimer timer : new ArrayList<>(timerArray)){
-            timer.update();
-        }
-        for(Food food : foodArray){
-            food.update(dt);
-        }
-        for(Station stove : stoveArray){
-            stove.update();
-        }
-        for(Station board : boardArray){
-            board.update();
-        }
-        for(Station servery : servingArray){
-            servery.update();
+        for (FoodActor foodActor : new ArrayList<>(foodActors))
+            foodActor.update(this);
+        for (Station stove : stoves)
+            stove.update(this);
+        for (Station choppingBoard : choppingBoards)
+            choppingBoard.update(this);
+        for (Station servingStation : servingStations)
+            servingStation.update(this);
+        for (StationTimer timer : new ArrayList<>(timers)) {
+            float percent = timer.getProgressPercent();
+            if (percent >= 1) {
+                foodActors.add(new FoodActor(timer.getHeldFoodX(), timer.getHeldFoodY(), super.uiStage, timer.getHeldFood(), this, this.game, -1));
+                timers.remove(timer);
+                timer.delete();
+            } else
+                timer.setInnerWidth(36 * percent);
         }
 
-        // Generates order and continues until all orders are completed
-        if(currentOrder!=null) {
-            orderSystem.update();
-        } else if(ordersCompleted <= 5){
-            currentOrder = orderSystem.generateOrder();
-        }
+        this.orderSystem.update();
 
-        hud.update();
-        renderer.setView(gameCam);
+        this.hud.update();
+
+        powerUpHandler();
     }
 
-    @Override
-    public void show() {
+    private void powerUpHandler() {
+        if (this.timeUntilResetChefSpeed != -1) {
+            if (((int) TimeUtils.timeSinceMillis(this.timeUntilResetChefSpeed) / 1000) >= 30) {
+                this.movementMultiplier = 1;
+                this.timeUntilResetChefSpeed = -1;
+                this.powerUp = null;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
+            }
+        }
+        if (this.timeUntilResetChoppingMultiplier != -1) {
+            if (((int) TimeUtils.timeSinceMillis(this.timeUntilResetChoppingMultiplier) / 1000) >= 30) {
+                this.choppingTimerMultiplier = 1;
+                this.timeUntilResetChoppingMultiplier = -1;
+                this.powerUp = null;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
+            }
+        }
+        if (this.timeUntilResetCookingMultiplier != -1) {
+            if (((int) TimeUtils.timeSinceMillis(this.timeUntilResetCookingMultiplier) / 1000) >= 30) {
+                this.cookingTimerMultiplier = 1;
+                this.timeUntilResetCookingMultiplier = -1;
+                this.powerUp = null;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
+            }
+        }
+        if (this.powerUp == null) {
+            if (this.timeUntilNextPowerUp < new Date().getTime()) {
+                PowerUps powerUp;
+                do {
+                    powerUp = PowerUps.getRandomPowerUp();
+                } while (powerUp != PowerUps.EXTRA_LIFE || this.hud.getLives() >= 4);
+                this.powerUp = new PowerUpActor(super.uiStage, this, powerUp);
+            }
+        } else if (!this.powerUp.listenerInit) {
+            this.powerUp.listenerInit = true;
+            this.powerUp.addListener(new InputListener() {
+                @Override
+                public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    return true;
+                }
 
+                @Override
+                public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                    powerUp.activate();
+                    powerUp.remove();
+                    powerUp = null;
+                    timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
+                }
+            });
+        }
     }
 
     /**
-     * Renders the play screen and all of its assets / objects
-     *
-     * @param delta The time in seconds since the last render.
+     * Handle input of picking up food that is nearest
      */
-    @Override
-    public void render(float delta) {
-        update(delta);
+    public void handleInput() {
+//        Food nearestFood = this.chefs[this.chefSelector].nearestFood(game.PICKUP_RADIUS);
+        // pickup item
+//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+//            if (nearestFood != null) {
+//                nearestFood.onUse();
+//            } else {
+//                for (FoodCrate crate : crateArray) {
+//                    crate.onUse(this);
+//                }
+//            }
+//        }
 
-        // sets background of game to black and clears screen
-        Gdx.gl.glClearColor(0,0,0,1);
-        Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-
-        Gdx.gl.glEnable(GL20.GL_BLEND);
-        Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
-
-        renderer.render();
-
-        //b2dr.render(world,gameCam.combined); //uncomment to see hitboxes
-
-        game.batch.setProjectionMatrix(gameCam.combined);
-        game.batch.begin();
-
-        // ensures the chef in front is drawn over the other
-        if(player0.b2body.getPosition().y >= player1.b2body.getPosition().y) {
-            player0.draw(game.batch);
-            player1.draw(game.batch);
+        try {
+            if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+                float oldY = this.chefs[this.chefSelector].getY();
+                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() + 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
+                this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
+                this.lastMove = Input.Keys.W;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+                float oldY = this.chefs[this.chefSelector].getY();
+                this.chefs[this.chefSelector].setY(this.chefs[this.chefSelector].getY() - 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
+                this.checkCollision(this.chefs[this.chefSelector].getX(), oldY);
+                this.lastMove = Input.Keys.S;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+                float oldX = this.chefs[this.chefSelector].getX();
+                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() + 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
+                this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
+                this.lastMove = Input.Keys.D;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+                float oldX = this.chefs[this.chefSelector].getX();
+                this.chefs[this.chefSelector].setX(this.chefs[this.chefSelector].getX() - 300 * Gdx.graphics.getDeltaTime() * movementMultiplier);
+                this.checkCollision(oldX, this.chefs[this.chefSelector].getY());
+                this.lastMove = Input.Keys.A;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.TAB) && !Gdx.input.isKeyJustPressed(Input.Keys.TAB)) {
+                if (!this.tabPressed) {
+                    if (this.game.VERBOSE) System.out.println("Tab pressed");
+                    switch (this.game.MODE) {
+                        case SCENARIO:
+                            this.chefSelector++;
+                            if (this.chefSelector == 2) this.chefSelector = 0;
+                            break;
+                        case ENDLESS:
+                            this.chefSelector++;
+                            if (this.chefSelector == 3) this.chefSelector = 0;
+                            break;
+                    }
+                }
+                this.tabPressed = true;
+            } else
+                this.tabPressed = false;
+            if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                if (this.game.VERBOSE)
+                    System.out.println("E");
+                FoodActor nearestFoodActor = this.chefs[this.chefSelector].nearestFood(48);
+                if (this.game.VERBOSE)
+                    System.out.println(nearestFoodActor);
+                if (nearestFoodActor != null) {
+                    if (this.game.VERBOSE)
+                        System.out.println(1);
+                    nearestFoodActor.onUse();
+                } else {
+                    if (this.game.VERBOSE)
+                        System.out.println(2);
+                    for (FoodCrate crate : foodCrates) {
+                        if (this.game.VERBOSE)
+                            System.out.println(crate.toString());
+                        crate.onUse(this, super.uiStage);
+                    }
+                }
+            }
+//                this.stationProximity();
+//            if (this.customers.size() == 0) {
+//                System.out.println("FINISHED");
+//                System.out.println("This game lasted " + (new Date().getTime() - startTime) / 1000 + " seconds");
+//                dispose();
+//                this.game.setActiveScreen(new EndScreen(this.width, this.height, getBinnedItems(), this.game.labelStyle, startTime));
+//            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        else{
-            player1.draw(game.batch);
-            player0.draw(game.batch);
+    }
+
+    private void checkCollision(float oldX, float oldY) {
+        if (this.chefs[this.chefSelector].getX() + this.chefs[this.chefSelector].getWidth() > this.game.V_WIDTH || this.chefs[this.chefSelector].getX() < 0)
+            this.chefs[this.chefSelector].setX(oldX);
+        if (this.chefs[this.chefSelector].getY() + this.chefs[this.chefSelector].getHeight() > this.game.V_HEIGHT || this.chefs[this.chefSelector].getY() < 0)
+            this.chefs[this.chefSelector].setY(oldY);
+        for (BaseActor counter : walls) {
+            if (counter.getBoundaryRectangle().overlaps(this.chefs[this.chefSelector].getBoundaryRectangle())) {
+                this.chefs[this.chefSelector].setX(oldX);
+                this.chefs[this.chefSelector].setY(oldY);
+            }
         }
-        for (Food food : foodArray ) {
-            food.draw(game.batch);
+        switch (this.chefSelector) {
+            case 0:
+                if (this.game.MODE == GameMode.ENDLESS)
+                    if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[2].getBoundaryRectangle())) {
+                        this.chefs[this.chefSelector].setX(oldX);
+                        this.chefs[this.chefSelector].setY(oldY);
+                    }
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[1].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                break;
+            case 1:
+                if (this.game.MODE == GameMode.ENDLESS)
+                    if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[2].getBoundaryRectangle())) {
+                        this.chefs[this.chefSelector].setX(oldX);
+                        this.chefs[this.chefSelector].setY(oldY);
+                    }
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[0].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                break;
+            case 2:
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[0].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(this.chefs[1].getBoundaryRectangle())) {
+                    this.chefs[this.chefSelector].setX(oldX);
+                    this.chefs[this.chefSelector].setY(oldY);
+                }
+                break;
         }
+    }
 
-        // draws the timer
-        for (CountdownTimer timer : timerArray){
-            game.batch.draw(new Texture("progressGrey.png"),timer.getX(),timer.getY(),18,4);
-            game.batch.draw(timer.getTexture(),timer.getX()+1,timer.getY()+1,16*timer.getProgressPercent(),2);
+    private void WorldCreator() {
+        for (MapLayer mapLayer : this.map.getLayers()) {
+            switch (TiledAssets.getValueOf(mapLayer.getName())) {
+                case WALLS:
+                    InitialiseWalls(mapLayer);
+                    break;
+                case STOVES:
+                    InitialiseStoves(mapLayer);
+                    break;
+                case CHOPPING_BOARD:
+                    InitialiseChoppingCounter(mapLayer);
+                    break;
+                case SERVING_STATION:
+                    InitialiseServiceStation(mapLayer);
+                    break;
+                case LETTUCE:
+                    InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
+                    break;
+                case TOMATO:
+                    InitialiseFoodObject(mapLayer, Ingredients.TOMATO);
+                    break;
+                case ONION:
+                    InitialiseFoodObject(mapLayer, Ingredients.ONION);
+                    break;
+                case PATTY:
+                    InitialiseFoodObject(mapLayer, Ingredients.PATTY);
+                    break;
+                case BUNS:
+                    InitialiseFoodObject(mapLayer, Ingredients.BUN);
+                    break;
+                default:
+                    break;
+            }
         }
+    }
 
-        game.batch.end();
+    private void InitialiseWalls(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            BaseActor baseActor = new BaseActor(rectangle.x, rectangle.y, super.uiStage);
+            baseActor.setSize(rectangle.width, rectangle.height);
+            baseActor.setBoundaryRectangle();
+            walls.add(baseActor);
+        }
+    }
 
-        // draws the huds
-        game.batch.setProjectionMatrix(hud.stage.getCamera().combined);
-        game.batch.setProjectionMatrix(orderHud.stage.getCamera().combined);
-        hud.stage.draw();
-        orderHud.stage.draw();
+    private void InitialiseStoves(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            stoves.add(new Station(StationType.STOVE, rectangle, this, super.uiStage));
+        }
+    }
 
+    private void InitialiseChoppingCounter(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            choppingBoards.add(new Station(StationType.CHOPPING_BOARD, rectangle, this,  super.uiStage));
+        }
+    }
+
+    private void InitialiseServiceStation(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            servingStations.add(new Station(StationType.SERVING, rectangle, this, super.uiStage));
+        }
+    }
+
+    private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            foodCrates.add(new FoodCrate(rectangle, ingredients, this, this.game));
+        }
+    }
+
+    /**
+     * Get the selected chef number
+     *
+     * @return int chefSelector
+     */
+    public int getChefSelector() {
+        return this.chefSelector;
+    }
+
+    public int getLastMove() {
+        return this.lastMove;
+    }
+
+    public void incrementOrderCompleted() {
+        this.ordersCompleted++;
     }
 
     /**
      * Resizes screen accordingly
-     * @param width
-     * @param height
+     *
+     * @param width  width
+     * @param height height
      */
-    @Override
-    public void resize(int width, int height) {
-        gamePort.update(width,height);
-    }
-
-    @Override
-    public void pause() {
-
-    }
-
-    @Override
-    public void resume() {
-
-    }
-
-    @Override
-    public void hide() {
-
+    public void resizing(int width, int height) {
+        this.gamePort.update(width, height);
     }
 
     /**
      * Disposes of resources in screen
      */
-    @Override
-    public void dispose() {
-        map.dispose();
-        renderer.dispose();
-        world.dispose();
-        b2dr.dispose();
-        hud.dispose();
-        orderHud.dispose();
-
+    public void disposing() {
+        this.map.dispose();
+        this.renderer.dispose();
+        this.mainStage.dispose();
+        this.uiStage.dispose();
     }
 }

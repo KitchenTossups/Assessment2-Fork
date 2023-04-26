@@ -1,0 +1,37 @@
+package com.oshewo.panic.actor;
+
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.base.BaseActor;
+
+import static com.oshewo.panic.lists.Lists.foodActors;
+
+public class ChefActor extends BaseActor {
+
+    public boolean isHolding = false;
+
+    private final PiazzaPanic game;
+
+    public ChefActor(float x, float y, Stage s, PiazzaPanic game, int chefNumber) {
+        super(x, y, s);
+        this.game = game;
+        this.loadTexture("ChefB" + (chefNumber + 1) + ".png");
+    }
+
+    public FoodActor nearestFood(float distance) {
+        FoodActor nearestFoodActor = null;
+        float nearestDistance = Float.MAX_VALUE;
+        for (FoodActor foodActor : foodActors) {
+            float currentDistance = foodActor.getPosition().dst(this.getX(), this.getY());
+            if (currentDistance <= distance && currentDistance < nearestDistance) {
+                if (this.game.VERBOSE)
+                    System.out.println(currentDistance + " " + nearestDistance);
+                nearestDistance = currentDistance;
+                nearestFoodActor = foodActor;
+                if (this.game.VERBOSE)
+                    System.out.println(nearestFoodActor);
+            }
+        }
+        return nearestFoodActor;
+    }
+}

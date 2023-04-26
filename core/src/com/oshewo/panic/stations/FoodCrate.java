@@ -1,14 +1,10 @@
 package com.oshewo.panic.stations;
 
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
-import com.oshewo.panic.interfaces.Interactable;
-import com.oshewo.panic.sprites.Chef;
-import com.oshewo.panic.sprites.Food;
-
-
-import static com.oshewo.panic.screens.PlayScreen.activePlayer;
-
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.enums.Ingredients;
+import com.oshewo.panic.screens.PlayScreen;
 
 /**
  * The type Food crate.
@@ -16,58 +12,81 @@ import static com.oshewo.panic.screens.PlayScreen.activePlayer;
  *
  * @author Oshewo
  */
-public class FoodCrate implements Interactable {
+public class FoodCrate {
+
+    private final PiazzaPanic game;
+    private PlayScreen playScreen;
     private final Rectangle bounds;
-    private final int foodId;
+    private final Ingredients ingredients;
 
     /**
      * Instantiates a new Food crate.
      *
      * @param bounds the bounds
-     * @param foodId the food id
+     * @param ingredients   the ingredient
      */
-    public FoodCrate(Rectangle bounds, int foodId) {
+    public FoodCrate(Rectangle bounds, Ingredients ingredients, PlayScreen playScreen, PiazzaPanic game) {
+        this.game = game;
+        this.playScreen = playScreen;
         this.bounds = bounds;
-        this.foodId = foodId;
+        this.ingredients = ingredients;
     }
 
     /**
      * Checks whether chef is nearby and has free hands to get ingredient
      *
-     * @return the chef
+     * @return boolean
      */
-    public Chef checkForChef() {
-        if (bounds.contains(activePlayer.getX()+activePlayer.getWidth()/2, activePlayer.getY()) && !activePlayer.isHolding) {
-            return activePlayer;
-        }else{
-            return null;
+    public boolean checkForChef() {
+        if (this.game.VERBOSE) {
+            System.out.println(4);
+            System.out.println(this.bounds);
+            System.out.println(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + " " + this.playScreen.chefs[this.playScreen.getChefSelector()].getY());
         }
+        return this.bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) &&
+                !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding;
+//        return false;
     }
 
     /**
      * Sets texture of ingredient according to ID of food
-     * @param chefInUse
+     *
+     * @param playScreen active play screen
      */
-    @Override
-    public void onUse(Chef chefInUse) {
-        if(checkForChef()!=null) {
-            String tex = "";
-            if (foodId == 1) {
-                tex = "lettuce.png";
-            } else if (foodId == 2) {
-                tex = "tomato.png";
-            } else if (foodId == 3) {
-                tex = "onion.png";
-            } else if (foodId == 4) {
-                tex = "meat.png";
-            } else if (foodId == 5) {
-                tex = "bun.png";
-            }
-            if (tex == "" || tex == null) {
+//    @Override
+    public void onUse(PlayScreen playScreen, Stage s) {
+        updatePlayScreen(playScreen);
+        if (checkForChef()) {
+            if (this.game.VERBOSE)
+                System.out.println(3);
+            String texture;
+            if (this.ingredients == Ingredients.LETTUCE) {
+                texture = "lettuce.png";
+            } else if (this.ingredients == Ingredients.TOMATO) {
+                texture = "tomato.png";
+            } else if (this.ingredients == Ingredients.ONION) {
+                texture = "onion.png";
+            } else if (this.ingredients == Ingredients.PATTY) {
+                texture = "meat.png";
+            } else if (this.ingredients == Ingredients.BUN) {
+                texture = "bun.png";
+            } else {
                 return;
             }
-            Food gen = new Food(new Texture(tex), foodId);
-            gen.onUse(activePlayer);
+//            Food gen = new Food(0, 0, s, new Texture(texture), ingredients, this.playScreen, game);
+//            gen.onUse();
         }
+    }
+
+    public void updatePlayScreen(PlayScreen playScreen) {
+        this.playScreen = playScreen;
+    }
+
+    @Override
+    public String toString() {
+        return "FoodCrate{" +
+                "bounds=" + this.bounds +
+                ", item=" + this.ingredients +
+                '}';
     }
 }
