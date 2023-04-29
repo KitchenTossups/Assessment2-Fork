@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="23" nextobjectid="34">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="33" nextobjectid="44">
  <tileset firstgid="1" source="piazza_assets2.tsx"/>
  <tileset firstgid="101" source="Room2.tsx"/>
+ <tileset firstgid="492" source="food-assets.tsx"/>
  <layer id="2" name="Floor layer" width="16" height="9">
   <data encoding="csv">
 0,429,429,429,429,429,429,429,429,429,429,429,429,429,429,0,
@@ -41,6 +42,19 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
+ <layer id="24" name="Second food layer" width="16" height="9" offsetx="20" offsety="-20">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,494,499,500,495,493,0,0,0,0,0,0,
+0,0,0,0,0,498,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
  <objectgroup id="14" name="Text object layer">
   <object id="27" x="550" y="100" width="200" height="50">
    <text fontfamily="MS Shell Dlg 2" pixelsize="36" wrap="1" halign="center">Food Chest
@@ -50,6 +64,7 @@
  <objectgroup id="18" name="Tomato object layer">
   <object id="28" name="Tomato" x="400" y="200" width="80" height="100"/>
  </objectgroup>
+ <objectgroup id="23" name="Cheese object layer"/>
  <objectgroup id="19" name="Lettuce object layer">
   <object id="30" name="Lettuce" x="480.5" y="200" width="78" height="100"/>
  </objectgroup>
@@ -61,5 +76,23 @@
  </objectgroup>
  <objectgroup id="22" name="Patty object layer">
   <object id="33" name="Patty" x="720.667" y="200" width="78" height="100"/>
+ </objectgroup>
+ <objectgroup id="27" name="Pepperoni object layer">
+  <object id="41" name="Pepperoni" x="561.667" y="319" width="78" height="80.6667"/>
+ </objectgroup>
+ <objectgroup id="28" name="Pizza base object layer">
+  <object id="42" name="Pizza base" x="640.75" y="319.167" width="78" height="80.6667"/>
+ </objectgroup>
+ <objectgroup id="25" name="Cheddar object layer">
+  <object id="38" name="Cheddar" x="481" y="319.667" width="78" height="80.6667"/>
+ </objectgroup>
+ <objectgroup id="26" name="Mozzarella object layer">
+  <object id="39" name="Mozzarella" x="400.667" y="319.667" width="78" height="80.6667"/>
+ </objectgroup>
+ <objectgroup id="31" name="Beans object layer">
+  <object id="43" name="Beans" x="721.333" y="318.5" width="78" height="80.6667"/>
+ </objectgroup>
+ <objectgroup id="32" name="Potato object layer">
+  <object id="40" name="Potato" x="400.818" y="401.576" width="78" height="80.6667"/>
  </objectgroup>
 </map>

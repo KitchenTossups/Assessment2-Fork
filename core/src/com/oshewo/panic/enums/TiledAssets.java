@@ -11,6 +11,12 @@ public enum TiledAssets {
     ONION("Onion object layer"),
     PATTY("Patty object layer"),
     BUNS("Buns object layer"),
+    JACKET("Potato object layer"),
+    BEANS("Beans object layer"),
+    PIZZA_BASE("Pizza base object layer"),
+    MOZZARELLA("Mozzarella object layer"),
+    PEPERONI("Pepperoni object layer"),
+    OVEN("Oven object layer"),
     NULL("");
     private final String layerName;
 

@@ -374,6 +374,8 @@ public class PlayScreen extends BaseScreen {
                 case BUNS:
                     InitialiseFoodObject(mapLayer, Ingredients.BUN);
                     break;
+                case OVEN:
+                    InitialiseOvens(mapLayer);
                 default:
                     break;
             }
@@ -394,6 +396,13 @@ public class PlayScreen extends BaseScreen {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
             stoves.add(new Station(StationType.STOVE, rectangle, this, super.uiStage));
+        }
+    }
+
+    private void InitialiseOvens(MapLayer mapLayer){
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            ovens.add(new Station(StationType.OVEN, rectangle, this, super.uiStage));
         }
     }
 

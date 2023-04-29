@@ -65,6 +65,21 @@ public class FoodChestScreen extends BaseScreen {
                 case BUNS:
                     InitialiseFoodObject(mapLayer, Ingredients.BUN);
                     break;
+                case PEPERONI:
+                    InitialiseFoodObject(mapLayer, Ingredients.PEPERONI);
+                    break;
+                case BEANS:
+                    InitialiseFoodObject(mapLayer, Ingredients.BEANS);
+                    break;
+                case JACKET:
+                    InitialiseFoodObject(mapLayer, Ingredients.JACKET);
+                    break;
+                case MOZZARELLA:
+                    InitialiseFoodObject(mapLayer, Ingredients.MOZZARELLA);
+                    break;
+                case PIZZA_BASE:
+                    InitialiseFoodObject(mapLayer, Ingredients.PIZZA_BASE);
+                    break;
                 default:
                     break;
             }

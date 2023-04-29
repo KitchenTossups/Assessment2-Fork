@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="14" nextobjectid="27">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="16" nextobjectid="31">
  <tileset firstgid="1" source="piazza_assets2.tsx"/>
  <tileset firstgid="101" source="Room2.tsx"/>
  <layer id="2" name="Floor layer" width="16" height="9">
@@ -44,12 +44,12 @@
  <layer id="4" name="Cooking layer" width="16" height="9">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,42,0,42,0,0,42,0,42,0,0,0,
-0,0,0,3221225497,0,52,0,52,0,0,52,0,52,0,0,0,
+0,0,0,0,0,42,0,42,0,0,41,0,41,0,0,0,
+0,0,0,3221225497,0,52,0,52,0,0,51,0,51,0,0,0,
 0,0,0,3221225497,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,3221225497,0,2684354621,0,2684354621,0,0,2684354621,0,2684354621,0,0,0,
-0,0,0,3221225497,0,0,0,0,0,0,0,0,0,0,64,0,
-0,0,0,3221225497,0,62,0,63,0,0,65,0,0,0,74,0,
+0,0,0,3221225497,0,0,0,0,0,0,0,0,0,0,14,0,
+0,0,0,3221225497,0,62,0,63,0,0,65,0,0,0,24,0,
 0,0,0,0,0,72,0,73,0,0,75,0,76,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
@@ -64,8 +64,13 @@
  <objectgroup id="6" name="Stove object layer">
   <object id="6" x="400.422" y="80.1796" width="79.742" height="94.1946"/>
   <object id="7" x="560.428" y="80.3039" width="79.8825" height="93.9516"/>
-  <object id="8" x="799.357" y="80.0473" width="80.6928" height="94.2864"/>
-  <object id="9" x="959.916" y="79.9149" width="80.2714" height="95.0185"/>
+ </objectgroup>
+ <objectgroup id="14" name="Oven object layer">
+  <object id="27" x="798.795" y="81.4222" width="80.6928" height="94.2864"/>
+  <object id="28" x="959.354" y="81.2898" width="80.2714" height="95.0185"/>
+ </objectgroup>
+ <objectgroup id="15" name="Pantry object layer">
+  <object id="30" name="Pantry" x="1080" y="430" width="120" height="89"/>
  </objectgroup>
  <objectgroup id="7" name="Chopping object layer">
   <object id="12" x="960.481" y="332.46" width="79.1277" height="55.6132"/>
@@ -89,7 +94,5 @@
  <objectgroup id="12" name="Patty object layer">
   <object id="25" x="959.916" y="491.945" width="79.5934" height="111.239"/>
  </objectgroup>
- <objectgroup id="13" name="Bun object layer">
-  <object id="26" x="1089.37" y="449.751" width="94.9367" height="72.8807"/>
- </objectgroup>
+ <objectgroup id="13" name="Bun object layer"/>
 </map>

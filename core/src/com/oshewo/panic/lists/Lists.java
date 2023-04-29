@@ -11,6 +11,7 @@ public class Lists {
     // Object lists
     public static final List<BaseActor> walls = new ArrayList<>();
     public static final List<Station> stoves = new ArrayList<>();
+    public static final List<Station> ovens = new ArrayList<>();
     public static final List<Station> choppingBoards = new ArrayList<>();
     public static final List<Station> servingStations = new ArrayList<>();
     public static final List<FoodCrate> foodCrates = new ArrayList<>();
