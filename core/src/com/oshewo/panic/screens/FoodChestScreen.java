@@ -15,11 +15,13 @@ import static com.oshewo.panic.lists.Lists.*;
 
 public class FoodChestScreen extends BaseScreen {
     private final PiazzaPanic game;
+    private final PlayScreen playScreen;
     private final TiledMap map;
     private final OrthoCachedTiledMapRenderer renderer;
 
-    public FoodChestScreen(PiazzaPanic game){
+    public FoodChestScreen(PiazzaPanic game, PlayScreen playScreen) {
         this.game = game;
+        this.playScreen = playScreen;
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         this.map = mapLoader.load("piazza-map-big2-chest-screen.tmx");
@@ -45,9 +47,8 @@ public class FoodChestScreen extends BaseScreen {
     private void WorldCreator() {
         for (MapLayer mapLayer : this.map.getLayers()) {
             switch (TiledAssets.getValueOf(mapLayer.getName())) {
-                case WALLS:
-                    InitialiseWalls(mapLayer);
-                    break;
+                case TEXT:
+
                 case LETTUCE:
                     InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
                     break;
