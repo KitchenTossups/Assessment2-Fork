@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="33" nextobjectid="44">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="33" nextobjectid="48">
  <tileset firstgid="1" source="piazza_assets2.tsx"/>
  <tileset firstgid="101" source="Room2.tsx"/>
  <tileset firstgid="492" source="food-assets.tsx"/>
@@ -42,7 +42,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="24" name="Second food layer" width="16" height="9" offsetx="20" offsety="-20">
+ <layer id="24" name="Second food layer" width="16" height="9" offsetx="20" offsety="-15">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -59,6 +59,9 @@
   <object id="27" x="550" y="100" width="200" height="50">
    <text fontfamily="MS Shell Dlg 2" pixelsize="36" wrap="1" halign="center">Food Chest
 (Click food to select)</text>
+  </object>
+  <object id="46" x="566.5" y="482.5" width="184" height="85">
+   <text pixelsize="24" wrap="1" halign="center" valign="center">Click on any food item to pick it up</text>
   </object>
  </objectgroup>
  <objectgroup id="18" name="Tomato object layer">
