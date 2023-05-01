@@ -84,20 +84,14 @@ public class FoodChestScreen extends BaseScreen {
         }
     }
 
-    private void InitialiseWalls(MapLayer mapLayer) {
-        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
-            Rectangle rectangle = object.getRectangle();
-            BaseActor baseActor = new BaseActor(rectangle.x, rectangle.y, super.uiStage);
-            baseActor.setSize(rectangle.width, rectangle.height);
-            baseActor.setBoundaryRectangle();
-            walls.add(baseActor);
-        }
-    }
-
     private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-//            foodCrates.add(new FoodCrate(rectangle, ingredients, this, this.game));
+            foodCrates.add(new FoodCrate(rectangle, ingredients, this.playScreen, this.game));
         }
+    }
+
+    public void dispose() {
+        this.map.dispose();
     }
 }
