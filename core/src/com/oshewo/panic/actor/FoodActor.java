@@ -253,9 +253,6 @@ public class FoodActor extends BaseActor {
 
         if (this.game.VERBOSE)
             System.out.println(5);
-        for (FoodActor foodActor : foodActors)
-            if (foodActor.chefToFollow == this.playScreen.getChefSelector())
-                return;
         // puts down food according to direction of chef which is what movement key was last pressed
         if (this.chefToFollow != -1 && this.chefToFollow == this.playScreen.getChefSelector()) {
             if (this.game.VERBOSE)
@@ -286,20 +283,16 @@ public class FoodActor extends BaseActor {
                 System.out.println(11);
             this.setX(this.playScreen.chefs[this.chefToFollow].getX() + offsetX);
             this.setY(this.playScreen.chefs[this.chefToFollow].getY() + offsetY);
+            this.playScreen.chefs[this.chefToFollow].isHolding = false;
             this.chefToFollow = -1;
         }
         // pickup food
         else {
             if (this.game.VERBOSE)
                 System.out.println(12);
-            if (this.chefToFollow == -1) {
+            if (this.chefToFollow == -1 && !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding) {
                 if (this.game.VERBOSE)
                     System.out.println(13);
-                this.chefToFollow = this.playScreen.getChefSelector();
-                this.playScreen.chefs[this.chefToFollow].isHolding = true;
-            } else if (!this.playScreen.chefs[this.chefToFollow].isHolding) {
-                if (this.game.VERBOSE)
-                    System.out.println(14);
                 this.chefToFollow = this.playScreen.getChefSelector();
                 this.playScreen.chefs[this.chefToFollow].isHolding = true;
             }
