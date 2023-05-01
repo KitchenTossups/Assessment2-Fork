@@ -17,6 +17,7 @@ public enum TiledAssets {
     MOZZARELLA("Mozzarella object layer"),
     PEPERONI("Pepperoni object layer"),
     OVEN("Oven object layer"),
+    TEXT("Text object layer"),
     NULL("");
     private final String layerName;
 
