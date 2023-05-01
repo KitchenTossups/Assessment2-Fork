@@ -177,7 +177,7 @@ public class PlayScreen extends BaseScreen {
                 this.cookingTimerMultiplier = 1;
                 this.timeUntilResetCookingMultiplier = -1;
                 this.powerUp = null;
-                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(45) + 30) * 1000;
+                this.timeUntilNextPowerUp = new Date().getTime() + (random.nextInt(30) + 45) * 1000;
             }
         }
         if (this.powerUp == null) {
@@ -185,8 +185,12 @@ public class PlayScreen extends BaseScreen {
                 PowerUps powerUp;
                 do {
                     powerUp = PowerUps.getRandomPowerUp();
-                } while (powerUp != PowerUps.EXTRA_LIFE || this.hud.getLives() >= 4);
+                    System.out.println(powerUp);
+                } while ((powerUp == PowerUps.EXTRA_LIFE && this.hud.getLives() == 4) || ((int) TimeUtils.timeSinceMillis(this.game.worldTimer) / 1000 > 180 && powerUp == PowerUps.CLEAR_NEXT_ORDER));
                 this.powerUp = new PowerUpActor(super.uiStage, this, powerUp);
+                if (this.game.VERBOSE) {
+                    System.out.println(this.powerUp);
+                }
             }
         } else if (!this.powerUp.listenerInit) {
             this.powerUp.listenerInit = true;
