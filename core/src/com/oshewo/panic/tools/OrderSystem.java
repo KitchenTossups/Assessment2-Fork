@@ -17,8 +17,9 @@ import static com.oshewo.panic.lists.Lists.customers;
  */
 public class OrderSystem {
 
-    private PiazzaPanic game;
+    private final PiazzaPanic game;
     private PlayScreen playScreen;
+    private final CustomerCreator customerCreator;
 
     /**
      * Instantiates a new Order system.
@@ -28,8 +29,8 @@ public class OrderSystem {
         this.playScreen = playScreen;
         this.game = game;
 
-        CustomerCreator customerCreator = new CustomerCreator();
-        customerCreator.start();
+        this.customerCreator = new CustomerCreator();
+        this.customerCreator.start();
     }
 
     /**
@@ -54,6 +55,13 @@ public class OrderSystem {
                     this.playScreen.hud.reduceLives();
                 }
             }
+            if (this.playScreen.hud.getLives() <= 0) {
+                this.customerCreator.kill();
+                this.game.RUNNING = false;
+                if (this.game.VERBOSE) {
+                    System.out.println("Fail!");
+                }
+            }
             for (int i = 0; i < Math.min(3, customers.size()); i++)
                 sb.append(customers.get(i).getOrder().getEndProduct().toString()).append("\n").append(customers.get(i).getOrder().getIngredients()).append("\n");
         } else
@@ -63,9 +71,15 @@ public class OrderSystem {
 
     private class CustomerCreator implements Runnable {
         private Thread t;
+        private boolean run = true;
 
         CustomerCreator() {
             if (game.VERBOSE) System.out.println("Starting CustomerCreator");
+        }
+
+        public void kill() {
+            run = false;
+            t.interrupt();
         }
 
         public void run() {
@@ -93,33 +107,38 @@ public class OrderSystem {
             switch (game.MODE) {
                 case SCENARIO:
                     for (int i = 0; i < customerNum; i++) {
-                        Customer customer = new Customer(generateOrder());
-                        customers.add(customer);
-                        if (game.VERBOSE) System.out.println(customer);
-                        if (i + 1 == customerNum)
-                            break;
-                        try {
-                            Thread.sleep(time * 1000);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                    break;
-                case ENDLESS:
-                    while (true)
-                        if (game.RUNNING) {
+                        if (this.run) {
                             Customer customer = new Customer(generateOrder());
                             customers.add(customer);
                             if (game.VERBOSE) System.out.println(customer);
+                            if (i + 1 == customerNum)
+                                break;
                             try {
                                 Thread.sleep(time * 1000);
                             } catch (Exception e) {
-                                e.printStackTrace();
-                                break;
+                                if (!this.run)
+                                    System.out.println("CustomerCreate ended!");
+                                else
+                                    e.printStackTrace();
                             }
                         } else
                             break;
+                    }
                     break;
+                case ENDLESS:
+                    while (this.run) {
+                        Customer customer = new Customer(generateOrder());
+                        customers.add(customer);
+                        if (game.VERBOSE) System.out.println(customer);
+                        try {
+                            Thread.sleep(time * 1000);
+                        } catch (Exception e) {
+                            if (!this.run)
+                                System.out.println("CustomerCreate ended!");
+                            else
+                                e.printStackTrace();
+                        }
+                    }
             }
             if (game.VERBOSE) System.out.println("Finished CustomerCreate");
         }
@@ -132,7 +151,7 @@ public class OrderSystem {
         }
     }
 
-    public void updateGameScreen(PiazzaPanic game) {
-        this.game = game;
+    public void updatePlayScreen(PlayScreen playScreen) {
+        this.playScreen = playScreen;
     }
 }
