@@ -116,7 +116,7 @@ public class PlayScreen extends BaseScreen {
 //            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
 //            time += 5;
 //        }
-        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(45) + 30) * 1000;
+        this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(30) + 180) * 1000;
     }
 
     /**
