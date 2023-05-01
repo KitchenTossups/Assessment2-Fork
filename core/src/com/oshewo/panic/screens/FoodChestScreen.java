@@ -7,10 +7,8 @@ import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import com.oshewo.panic.PiazzaPanic;
-import com.oshewo.panic.base.BaseActor;
-import com.oshewo.panic.base.BaseScreen;
-import com.oshewo.panic.enums.Ingredients;
-import com.oshewo.panic.enums.TiledAssets;
+import com.oshewo.panic.base.*;
+import com.oshewo.panic.enums.*;
 import com.oshewo.panic.stations.FoodCrate;
 
 import static com.oshewo.panic.lists.Lists.*;
