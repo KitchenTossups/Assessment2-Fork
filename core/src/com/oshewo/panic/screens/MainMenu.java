@@ -68,7 +68,7 @@ public class MainMenu extends BaseScreen {
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
                 //game.setActiveScreen(new SettingsScreen(game));
-                game.setActiveScreen(new FoodChestScreen(game));
+                game.setActiveScreen(new SettingsScreen(game));
             }
         });
 
