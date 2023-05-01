@@ -31,7 +31,6 @@ public class FoodChestScreen extends BaseScreen {
     }
 
 
-
     public void update(float dt) {
 
     }
