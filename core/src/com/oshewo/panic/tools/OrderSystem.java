@@ -82,7 +82,7 @@ public class OrderSystem {
                     customerNum = 5;
                     break;
                 case HARD:
-                    time = 5; // testing value only
+                    time = 30;
                     customerNum = 8;
                     break;
                 default:
