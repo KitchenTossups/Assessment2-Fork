@@ -82,4 +82,14 @@ public class PowerUpActor extends BaseActor {
         this.playScreen.cookingTimerMultiplier = 0.5F;
         playScreen.timeUntilResetCookingMultiplier = new Date().getTime() + 30 * 1000;
     }
+
+    @Override
+    public String toString() {
+        return "PowerUpActor{" +
+                "powerUpType=" + powerUpType +
+                ", playScreen=" + playScreen +
+                ", listenerInit=" + listenerInit +
+                ", timeUntilResetChefSpeed=" + timeUntilResetChefSpeed +
+                '}';
+    }
 }
