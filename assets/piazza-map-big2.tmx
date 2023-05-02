@@ -3,6 +3,7 @@
  <tileset firstgid="1" source="piazza_assets2.tsx"/>
  <tileset firstgid="101" source="Room2.tsx"/>
  <tileset firstgid="492" source="food-crate.tsx"/>
+ <tileset firstgid="495" source="food-crate.tsx"/>
  <layer id="2" name="Floor layer" width="16" height="9">
   <data encoding="csv">
 0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,
@@ -55,7 +56,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <layer id="16" name="Crate layer" width="16" height="9" offsetx="8" offsety="1.33333">
+ <layer id="16" name="Crate layer" width="16" height="9" offsetx="6" offsety="-13.6667">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -64,7 +65,7 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,492,493,494,0,0,0,0,0,0,
+0,0,0,0,0,0,0,495,496,497,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
