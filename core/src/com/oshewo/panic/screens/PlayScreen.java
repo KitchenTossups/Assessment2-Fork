@@ -282,10 +282,13 @@ public class PlayScreen extends BaseScreen {
                 } else {
                     if (this.game.VERBOSE)
                         System.out.println(2);
-                    for (FoodCrate crate : foodCrates) {
+                    for (FoodCrateBox crate : foodCrateBoxes) {
                         if (this.game.VERBOSE)
                             System.out.println(crate.toString());
-                        crate.onUse(this, super.uiStage);
+                        if (crate.checkForChef()) {
+                            this.game.setActiveScreen(new FoodChestScreen(this.game, this));
+                            break;
+                        }
                     }
                 }
             }
@@ -363,23 +366,27 @@ public class PlayScreen extends BaseScreen {
                 case SERVING_STATION:
                     InitialiseServiceStation(mapLayer);
                     break;
-                case LETTUCE:
-                    InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
-                    break;
-                case TOMATO:
-                    InitialiseFoodObject(mapLayer, Ingredients.TOMATO);
-                    break;
-                case ONION:
-                    InitialiseFoodObject(mapLayer, Ingredients.ONION);
-                    break;
-                case PATTY:
-                    InitialiseFoodObject(mapLayer, Ingredients.PATTY);
-                    break;
-                case BUNS:
-                    InitialiseFoodObject(mapLayer, Ingredients.BUN);
-                    break;
                 case OVEN:
                     InitialiseOvens(mapLayer);
+                    break;
+                case FOOD_CRATE:
+                    InitialiseFoodCrateObject(mapLayer);
+                    break;
+//                case LETTUCE:
+//                    InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
+//                    break;
+//                case TOMATO:
+//                    InitialiseFoodObject(mapLayer, Ingredients.TOMATO);
+//                    break;
+//                case ONION:
+//                    InitialiseFoodObject(mapLayer, Ingredients.ONION);
+//                    break;
+//                case PATTY:
+//                    InitialiseFoodObject(mapLayer, Ingredients.PATTY);
+//                    break;
+//                case BUNS:
+//                    InitialiseFoodObject(mapLayer, Ingredients.BUN);
+//                    break;
                 default:
                     break;
             }
@@ -424,10 +431,17 @@ public class PlayScreen extends BaseScreen {
         }
     }
 
-    private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
+//    private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
+//        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+//            Rectangle rectangle = object.getRectangle();
+//            foodCrates.add(new FoodCrate(rectangle, ingredients, this, this.game));
+//        }
+//    }
+
+    private void InitialiseFoodCrateObject(MapLayer mapLayer) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            foodCrates.add(new FoodCrate(rectangle, ingredients, this, this.game));
+            foodCrateBoxes.add(new FoodCrateBox(rectangle, this, this.game));
         }
     }
 
