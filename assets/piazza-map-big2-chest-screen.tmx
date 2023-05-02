@@ -29,7 +29,7 @@
 163,164,164,164,164,164,164,164,164,164,164,164,164,164,164,165
 </data>
  </layer>
- <layer id="17" name="Food layer" width="16" height="9">
+ <layer id="17" name="Food layer" width="16" height="9" offsetx="-1" offsety="26">
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -48,8 +48,8 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,494,499,500,495,493,0,0,0,0,0,0,
-0,0,0,0,0,498,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,498,499,500,495,493,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
@@ -64,20 +64,20 @@
    <text pixelsize="24" wrap="1" halign="center" valign="center">Click on any food item to pick it up</text>
   </object>
  </objectgroup>
- <objectgroup id="18" name="Tomato object layer">
+ <objectgroup id="18" name="Tomato object layer" offsetx="1.5" offsety="16.5">
   <object id="28" name="Tomato" x="400" y="200" width="80" height="100"/>
  </objectgroup>
  <objectgroup id="23" name="Cheese object layer"/>
- <objectgroup id="19" name="Lettuce object layer">
+ <objectgroup id="19" name="Lettuce object layer" offsetx="1.5" offsety="16.5">
   <object id="30" name="Lettuce" x="480.5" y="200" width="78" height="100"/>
  </objectgroup>
- <objectgroup id="20" name="Bun object layer">
+ <objectgroup id="20" name="Bun object layer" offsetx="1.5" offsety="16.5">
   <object id="31" name="Bun" x="561.136" y="199.818" width="78" height="100"/>
  </objectgroup>
- <objectgroup id="21" name="Onion object layer">
+ <objectgroup id="21" name="Onion object layer" offsetx="1.5" offsety="16.5">
   <object id="32" name="Onion" x="640.667" y="200" width="78" height="100"/>
  </objectgroup>
- <objectgroup id="22" name="Patty object layer">
+ <objectgroup id="22" name="Patty object layer" offsetx="1.5" offsety="16.5">
   <object id="33" name="Patty" x="720.667" y="200" width="78" height="100"/>
  </objectgroup>
  <objectgroup id="27" name="Pepperoni object layer">
@@ -89,13 +89,10 @@
  <objectgroup id="25" name="Cheddar object layer">
   <object id="38" name="Cheddar" x="481" y="319.667" width="78" height="80.6667"/>
  </objectgroup>
- <objectgroup id="26" name="Mozzarella object layer">
-  <object id="39" name="Mozzarella" x="400.667" y="319.667" width="78" height="80.6667"/>
- </objectgroup>
  <objectgroup id="31" name="Beans object layer">
   <object id="43" name="Beans" x="721.333" y="318.5" width="78" height="80.6667"/>
  </objectgroup>
  <objectgroup id="32" name="Potato object layer">
-  <object id="40" name="Potato" x="400.818" y="401.576" width="78" height="80.6667"/>
+  <object id="40" name="Potato" x="400.485" y="319.576" width="78" height="80.6667"/>
  </objectgroup>
 </map>
