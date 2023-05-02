@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="16" nextobjectid="31">
+<map version="1.9" tiledversion="1.9.2" orientation="orthogonal" renderorder="right-down" width="16" height="9" tilewidth="80" tileheight="80" infinite="0" nextlayerid="18" nextobjectid="31">
  <tileset firstgid="1" source="piazza_assets2.tsx"/>
  <tileset firstgid="101" source="Room2.tsx"/>
+ <tileset firstgid="492" source="food-crate.tsx"/>
  <layer id="2" name="Floor layer" width="16" height="9">
   <data encoding="csv">
 0,5,5,5,5,5,5,5,5,5,5,5,5,5,5,0,
@@ -48,9 +49,22 @@
 0,0,0,3221225497,0,52,0,52,0,0,51,0,51,0,0,0,
 0,0,0,3221225497,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,3221225497,0,2684354621,0,2684354621,0,0,2684354621,0,2684354621,0,0,0,
-0,0,0,3221225497,0,0,0,0,0,0,0,0,0,0,14,0,
-0,0,0,3221225497,0,62,0,63,0,0,65,0,0,0,24,0,
-0,0,0,0,0,72,0,73,0,0,75,0,76,0,0,0,
+0,0,0,3221225497,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,3221225497,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="16" name="Crate layer" width="16" height="9" offsetx="8" offsety="1.33333">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,492,493,494,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
@@ -70,7 +84,7 @@
   <object id="28" x="959.354" y="81.2898" width="80.2714" height="95.0185"/>
  </objectgroup>
  <objectgroup id="15" name="Pantry object layer">
-  <object id="30" name="Pantry" x="1080" y="430" width="120" height="89"/>
+  <object id="30" name="Pantry" x="566" y="504.667" width="239.667" height="137"/>
  </objectgroup>
  <objectgroup id="7" name="Chopping object layer">
   <object id="12" x="960.481" y="332.46" width="79.1277" height="55.6132"/>
@@ -82,17 +96,9 @@
   <object id="19" x="238.78" y="160.832" width="60.0042" height="398.972"/>
   <object id="20" x="240.698" y="399.885" width="3.83583" height="1.91791"/>
  </objectgroup>
- <objectgroup id="9" name="Lettuce object layer">
-  <object id="22" x="560.031" y="490.986" width="78.6344" height="105.485"/>
- </objectgroup>
- <objectgroup id="10" name="Tomato object layer">
-  <object id="23" x="398.926" y="491.945" width="79.5934" height="103.567"/>
- </objectgroup>
- <objectgroup id="11" name="Onion object layer">
-  <object id="24" x="797.852" y="490.027" width="80.5524" height="114.116"/>
- </objectgroup>
- <objectgroup id="12" name="Patty object layer">
-  <object id="25" x="959.916" y="491.945" width="79.5934" height="111.239"/>
- </objectgroup>
+ <objectgroup id="9" name="Lettuce object layer"/>
+ <objectgroup id="10" name="Tomato object layer"/>
+ <objectgroup id="11" name="Onion object layer"/>
+ <objectgroup id="12" name="Patty object layer"/>
  <objectgroup id="13" name="Bun object layer"/>
 </map>
