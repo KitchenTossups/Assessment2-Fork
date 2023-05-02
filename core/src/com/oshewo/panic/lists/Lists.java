@@ -1,5 +1,6 @@
 package com.oshewo.panic.lists;
 
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.oshewo.panic.actor.*;
 import com.oshewo.panic.base.*;
 import com.oshewo.panic.non_actor.Customer;
@@ -18,4 +19,5 @@ public class Lists {
     public static final List<StationTimer> timers = new ArrayList<>();
     public static final List<FoodActor> foodActors = new ArrayList<>();
     public static final List<Customer> customers = new ArrayList<>();
+    public static final HashMap<String, Label> attentionLabels = new HashMap<>();
 }
