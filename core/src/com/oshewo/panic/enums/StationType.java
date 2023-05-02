@@ -4,5 +4,6 @@ public enum StationType {
     CHOPPING_BOARD,
     STOVE,
     SERVING,
-    OVEN;
+    OVEN,
+    BIN;
 }

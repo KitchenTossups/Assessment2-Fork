@@ -19,6 +19,7 @@ public enum TiledAssets {
     FOOD_CRATE("Food crate object layer"),
     OVEN("Oven object layer"),
     TEXT("Text object layer"),
+    BIN("Bin object layer"),
     NULL("");
     private final String layerName;
 

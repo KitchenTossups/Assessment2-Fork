@@ -138,6 +138,8 @@ public class PlayScreen extends BaseScreen {
             choppingBoard.update(this);
         for (Station servingStation : servingStations)
             servingStation.update(this);
+        for (Station bin : bins)
+            bin.update(this);
         for (StationTimer timer : new ArrayList<>(timers)) {
             float percent = timer.getProgressPercent();
 //            if (timer.)
@@ -373,6 +375,8 @@ public class PlayScreen extends BaseScreen {
                 case FOOD_CRATE:
                     InitialiseFoodCrateObject(mapLayer);
                     break;
+                case BIN:
+                    InitialiseBinStation(mapLayer);
 //                case LETTUCE:
 //                    InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
 //                    break;
@@ -443,6 +447,13 @@ public class PlayScreen extends BaseScreen {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
             foodCrateBoxes.add(new FoodCrateBox(rectangle, this, this.game));
+        }
+    }
+
+    private void InitialiseBinStation(MapLayer mapLayer) {
+        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
+            Rectangle rectangle = object.getRectangle();
+            bins.add(new Station(StationType.BIN, rectangle, this, super.uiStage));
         }
     }
 
