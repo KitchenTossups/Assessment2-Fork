@@ -3,6 +3,7 @@ package com.oshewo.panic.stations;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.base.BaseActor;
 import com.oshewo.panic.enums.Ingredients;
 import com.oshewo.panic.screens.PlayScreen;
 
@@ -12,7 +13,7 @@ import com.oshewo.panic.screens.PlayScreen;
  *
  * @author Oshewo
  */
-public class FoodCrate {
+public class FoodCrate extends BaseActor {
 
     private final PiazzaPanic game;
     private PlayScreen playScreen;
@@ -25,11 +26,13 @@ public class FoodCrate {
      * @param bounds the bounds
      * @param ingredients   the ingredient
      */
-    public FoodCrate(Rectangle bounds, Ingredients ingredients, PlayScreen playScreen, PiazzaPanic game) {
+    public FoodCrate(Rectangle bounds, Stage s, Ingredients ingredients, PlayScreen playScreen, PiazzaPanic game) {
+        super(bounds.getX(), bounds.getY(), s);
         this.game = game;
         this.playScreen = playScreen;
         this.bounds = bounds;
         this.ingredients = ingredients;
+        super.setBounds(bounds.getX(), bounds.getY(), bounds.getWidth(), bounds.getHeight());
     }
 
     /**
