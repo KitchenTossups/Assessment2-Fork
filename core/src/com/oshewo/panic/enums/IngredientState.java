@@ -7,6 +7,8 @@ public enum IngredientState {
     NOT_APPLICABLE, // This is for ingredients that are not in need of preparation
     UNCUT,
     UNCUT_UNCOOKED,
+    UNCOOKED_UNCUT,
+    COOKED_UNCUT,
     CUT,
     UNCOOKED,
     HALF_COOKED,
