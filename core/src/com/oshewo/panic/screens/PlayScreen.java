@@ -140,6 +140,7 @@ public class PlayScreen extends BaseScreen {
             servingStation.update(this);
         for (StationTimer timer : new ArrayList<>(timers)) {
             float percent = timer.getProgressPercent();
+//            if (timer.)
             if (percent >= 1) {
                 foodActors.add(new FoodActor(timer.getHeldFoodX(), timer.getHeldFoodY(), super.uiStage, timer.getHeldFood(), this, this.game, -1));
                 timers.remove(timer);
@@ -286,7 +287,7 @@ public class PlayScreen extends BaseScreen {
                         if (this.game.VERBOSE)
                             System.out.println(crate.toString());
                         if (crate.checkForChef()) {
-                            this.game.setActiveScreen(new FoodChestScreen(this.game, this));
+                            this.game.setActiveScreen(new FoodChestScreen(this.game, this, super.uiStage));
                             break;
                         }
                     }

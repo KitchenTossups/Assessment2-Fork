@@ -15,6 +15,30 @@ public enum Ingredients {
     MOZZARELLA,
     PEPERONI;
 
+    public IngredientState getDefaultState() {
+        switch (this) {
+            case TOP_BUN:
+            case BOTTOM_BUN:
+            case BEANS:
+            case PIZZA_BASE:
+                return IngredientState.UNCOOKED;
+            case PATTY:
+                return IngredientState.UNCUT_UNCOOKED;
+            case CHEDDAR:
+            case MOZZARELLA:
+                return IngredientState.NOT_APPLICABLE;
+            case LETTUCE:
+            case TOMATO:
+            case ONION:
+            case PEPERONI:
+                return IngredientState.UNCUT;
+            case JACKET:
+//                return IngredientState.UNCOOKED_UNCUT;
+            default:
+                return null;
+        }
+    }
+
     @Override
     public String toString() {
         switch (this) {

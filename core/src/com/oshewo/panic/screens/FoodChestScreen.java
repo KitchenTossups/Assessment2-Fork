@@ -6,13 +6,18 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.*;
 import com.oshewo.panic.PiazzaPanic;
+import com.oshewo.panic.actor.FoodActor;
 import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.*;
+import com.oshewo.panic.non_actor.Food;
 import com.oshewo.panic.stations.FoodCrate;
 
-import static com.oshewo.panic.lists.Lists.*;
+import static com.oshewo.panic.lists.Lists.foodActors;
 
 public class FoodChestScreen extends BaseScreen {
     private final PiazzaPanic game;
@@ -20,13 +25,15 @@ public class FoodChestScreen extends BaseScreen {
     private final TiledMap map;
     private final OrthoCachedTiledMapRenderer renderer;
     private final OrthographicCamera gameCam;
-    private final Viewport gamePort;
+//    private final Viewport gamePort;
+    private final Stage playScreenStage;
 
-    public FoodChestScreen(PiazzaPanic game, PlayScreen playScreen) {
+    public FoodChestScreen(PiazzaPanic game, PlayScreen playScreen, Stage playScreenStage) {
         this.game = game;
         this.gameCam = new OrthographicCamera(this.game.V_WIDTH, this.game.V_HEIGHT);
-        this.gamePort = new FitViewport(this.game.V_WIDTH, this.game.V_HEIGHT, this.gameCam);
+//        this.gamePort = new FitViewport(this.game.V_WIDTH, this.game.V_HEIGHT, this.gameCam);
         this.playScreen = playScreen;
+        this.playScreenStage = playScreenStage;
 
         TmxMapLoader mapLoader = new TmxMapLoader();
         this.map = mapLoader.load("piazza-map-big2-chest-screen.tmx");
@@ -95,7 +102,15 @@ public class FoodChestScreen extends BaseScreen {
     private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            foodCrates.add(new FoodCrate(rectangle, ingredients, this.playScreen, this.game));
+            FoodCrate foodCrate = new FoodCrate(rectangle, super.uiStage, ingredients, playScreen, game);
+            foodCrate.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    foodActors.add(new FoodActor(0, 0, playScreenStage, new Food(ingredients, ingredients.getDefaultState()), playScreen, game, playScreen.getChefSelector()));
+                    game.setActiveScreen(playScreen);
+                }
+            });
+//            foodCrates.add(new FoodCrate(rectangle, ingredients, this.playScreen, this.game));
         }
     }
 

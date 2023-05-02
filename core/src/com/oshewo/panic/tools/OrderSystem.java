@@ -5,6 +5,7 @@ import com.oshewo.panic.enums.*;
 import com.oshewo.panic.non_actor.*;
 import com.oshewo.panic.screens.PlayScreen;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
@@ -20,6 +21,7 @@ public class OrderSystem {
     private final PiazzaPanic game;
     private PlayScreen playScreen;
     private final CustomerCreator customerCreator;
+    private final int timeCustomerLeaves;
 
     /**
      * Instantiates a new Order system.
@@ -31,6 +33,21 @@ public class OrderSystem {
 
         this.customerCreator = new CustomerCreator();
         this.customerCreator.start();
+
+        switch (game.DIFFICULTY) {
+            case EASY:
+                this.timeCustomerLeaves = 240;
+                break;
+            case MEDIUM:
+                this.timeCustomerLeaves = 210;
+                break;
+            case HARD:
+                this.timeCustomerLeaves = 180;
+                break;
+            default:
+                this.timeCustomerLeaves = -1;
+                System.out.println("Error difficulty");
+        }
     }
 
     /**
@@ -49,10 +66,11 @@ public class OrderSystem {
     public void update() {
         StringBuilder sb = new StringBuilder();
         if (customers.size() != 0) {
-            for (Customer customer : customers) {
-                if (((new Date().getTime()) - customer.getOrderPlaced()) / 1000 > 180 && !customer.isPenalty()) {
+            for (Customer customer : new ArrayList<>(customers)) {
+                if (((new Date().getTime()) - customer.getOrderPlaced()) / 1000 > this.timeCustomerLeaves && !customer.isPenalty()) {
                     customer.setPenalty();
                     this.playScreen.hud.reduceLives();
+                    customers.remove(customer);
                 }
             }
             if (this.playScreen.hud.getLives() <= 0) {

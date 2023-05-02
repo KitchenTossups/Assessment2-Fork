@@ -20,7 +20,7 @@ public class PiazzaPanic extends BaseGame {
     public GameMode MODE = GameMode.SCENARIO;
     public Difficulty DIFFICULTY = Difficulty.HARD;
 
-    PiazzaPanic(boolean verbose) {
+    public PiazzaPanic(boolean verbose) {
         this.VERBOSE = verbose;
     }
 
