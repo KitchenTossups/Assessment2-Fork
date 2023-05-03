@@ -9,15 +9,13 @@ import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
 
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.InputListener;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.*;
 
 import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.stations.*;
-import com.oshewo.panic.non_actor.*;
 import com.oshewo.panic.tools.*;
 import com.oshewo.panic.*;
 import com.oshewo.panic.scenes.*;
@@ -31,6 +29,7 @@ import static com.oshewo.panic.lists.Lists.*;
  * The Play screen is the screen featuring the actual game
  *
  * @author Oshewo, sl3416
+ * @author Liam Burnand
  */
 public class PlayScreen extends BaseScreen {
 
@@ -49,7 +48,7 @@ public class PlayScreen extends BaseScreen {
     public final ChefActor[] chefs;
     private int chefSelector = 0, lastMove, binnedItems = 0;
 
-    private boolean tabPressed = false;
+    private boolean tabPressed = false, inPauseScreen = false;
 
     // Order
     private final OrderSystem orderSystem;
@@ -61,6 +60,8 @@ public class PlayScreen extends BaseScreen {
     private final Random random = new Random();
     public float movementMultiplier = 1, choppingTimerMultiplier = 1, cookingTimerMultiplier = 1;
 
+    private final HashMap<Long, Long> timesInPause = new HashMap<>();
+
     /**
      * Instantiates a new Play screen.
      *
@@ -71,11 +72,9 @@ public class PlayScreen extends BaseScreen {
 
         this.game = game;
 
-        // HUD
         this.hud = new Hud(0, 0, super.uiStage, this.game);
         orderHud = new OrderHud(0, 80, super.uiStage);
 
-        // game, camera and map setup
         this.gameCam = new OrthographicCamera(this.game.V_WIDTH, this.game.V_HEIGHT);
         this.gamePort = new FitViewport(this.game.V_WIDTH, this.game.V_HEIGHT, this.gameCam);
         TmxMapLoader mapLoader = new TmxMapLoader();
@@ -94,33 +93,20 @@ public class PlayScreen extends BaseScreen {
         this.chefs[1] = new ChefActor(450, 200, super.uiStage, this.game, 1);
         if (this.game.MODE == GameMode.ENDLESS) this.chefs[2] = new ChefActor(500, 200, super.uiStage, this.game, 2);
 
-        // order
         this.orderSystem = new OrderSystem(this, this.game);
-        foodActors.add(new FoodActor(500, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
-        foodActors.add(new FoodActor(600, 250, super.uiStage, new Food(Ingredients.PATTY, IngredientState.UNCUT_UNCOOKED), this, this.game, -1));
-//        timers.add(new Timer(500, 300, 40, 10, super.uiStage, 15));
-//        timers.add(new Timer(700, 300, 40, 10, super.uiStage, 20));
-//        int time = 10;
-//        for (Station s : stoves) {
-//            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
-//            time += 5;
-//        }
-//        for (Station s : choppingBoards) {
-//            timers.add(new StationTimer(s.getBounds().getX() + (s.getBounds().getWidth() - 40) / 2, s.getBounds().getY() + s.getBounds().getHeight() + 5, 40, 10, super.uiStage, time));
-//            time += 5;
-//        }
         this.timeUntilNextPowerUp = new Date().getTime() + (this.random.nextInt(30) + 180) * 1000;
     }
 
     /**
-     * Updates positions of chefs, timer hud, food and stations
+     * Update screen method, used by libgdx
+     *
+     * @param dt deltaTime
      */
     public void update(float dt) {
         this.gameCam.update();
         this.renderer.setView(this.gameCam);
         this.renderer.render();
 
-        // updates according to user input
         handleInput();
 
         for (FoodActor foodActor : new ArrayList<>(foodActors))
@@ -140,7 +126,7 @@ public class PlayScreen extends BaseScreen {
 
         this.orderSystem.update();
 
-        this.hud.update();
+        this.hud.update(this);
 
         powerUpHandler();
     }
@@ -205,18 +191,6 @@ public class PlayScreen extends BaseScreen {
      * Handle input of picking up food that is nearest
      */
     public void handleInput() {
-//        Food nearestFood = this.chefs[this.chefSelector].nearestFood(game.PICKUP_RADIUS);
-        // pickup item
-//        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-//            if (nearestFood != null) {
-//                nearestFood.onUse();
-//            } else {
-//                for (FoodCrate crate : crateArray) {
-//                    crate.onUse(this);
-//                }
-//            }
-//        }
-
         try {
             if (Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
                 float oldY = this.chefs[this.chefSelector].getY();
@@ -294,13 +268,12 @@ public class PlayScreen extends BaseScreen {
                     }
                 }
             }
-//                this.stationProximity();
-//            if (this.customers.size() == 0) {
-//                System.out.println("FINISHED");
-//                System.out.println("This game lasted " + (new Date().getTime() - startTime) / 1000 + " seconds");
-//                dispose();
-//                this.game.setActiveScreen(new EndScreen(this.width, this.height, getBinnedItems(), this.game.labelStyle, startTime));
-//            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+                if (this.game.VERBOSE)
+                    System.out.println("ESC");
+                this.inPauseScreen = true;
+                this.game.setActiveScreen(new PauseScreen(this.game, this));
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -376,21 +349,7 @@ public class PlayScreen extends BaseScreen {
                     break;
                 case BIN:
                     InitialiseBinStation(mapLayer);
-//                case LETTUCE:
-//                    InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
-//                    break;
-//                case TOMATO:
-//                    InitialiseFoodObject(mapLayer, Ingredients.TOMATO);
-//                    break;
-//                case ONION:
-//                    InitialiseFoodObject(mapLayer, Ingredients.ONION);
-//                    break;
-//                case PATTY:
-//                    InitialiseFoodObject(mapLayer, Ingredients.PATTY);
-//                    break;
-//                case BUNS:
-//                    InitialiseFoodObject(mapLayer, Ingredients.BUN);
-//                    break;
+                    break;
                 default:
                     break;
             }
@@ -435,13 +394,6 @@ public class PlayScreen extends BaseScreen {
         }
     }
 
-//    private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
-//        for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
-//            Rectangle rectangle = object.getRectangle();
-//            foodCrates.add(new FoodCrate(rectangle, ingredients, this, this.game));
-//        }
-//    }
-
     private void InitialiseFoodCrateObject(MapLayer mapLayer) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
@@ -485,10 +437,75 @@ public class PlayScreen extends BaseScreen {
         return this.binnedItems;
     }
 
+    public long getTimeUntilNextPowerUp() {
+        return timeUntilNextPowerUp;
+    }
+
+    public long getTimeUntilResetChefSpeed() {
+        return timeUntilResetChefSpeed;
+    }
+
+    public long getTimeUntilResetCookingMultiplier() {
+        return timeUntilResetCookingMultiplier;
+    }
+
+    public long getTimeUntilResetChoppingMultiplier() {
+        return timeUntilResetChoppingMultiplier;
+    }
+
+    public PowerUpActor getPowerUp() {
+        return powerUp;
+    }
+
+    public float getMovementMultiplier() {
+        return movementMultiplier;
+    }
+
+    public float getChoppingTimerMultiplier() {
+        return choppingTimerMultiplier;
+    }
+
     /**
-     * Resizes screen accordingly
+     * Returns the cooking multiplier
      *
-     * @param width  width
+     * @return cookingTimeMultiplier
+     */
+    public float getCookingTimerMultiplier() {
+        return cookingTimerMultiplier;
+    }
+
+    /**
+     * Submits the duration the game was paused for
+     *
+     * @param timeInPause time in pause
+     */
+    public void submitPauseTime(long timeInPause) {
+        this.timesInPause.put(new Date().getTime(), timeInPause);
+        this.inPauseScreen = false;
+    }
+
+    /**
+     * Returns if the game is paused
+     *
+     * @return boolean pause
+     */
+    public boolean isInPauseScreen() {
+        return inPauseScreen;
+    }
+
+    /**
+     * Returns the hash map of the times the game was paused
+     *
+     * @return Map<long, Long> timesInPause
+     */
+    public Map<Long, Long> getTimesInPause() {
+        return this.timesInPause;
+    }
+
+    /**
+     * Resizing code for the window
+     *
+     * @param width width
      * @param height height
      */
     public void resizing(int width, int height) {
@@ -496,7 +513,7 @@ public class PlayScreen extends BaseScreen {
     }
 
     /**
-     * Disposes of resources in screen
+     * Disposal of the screen
      */
     public void disposing() {
         this.map.dispose();

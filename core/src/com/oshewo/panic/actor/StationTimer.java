@@ -15,6 +15,9 @@ import com.oshewo.panic.non_actor.Food;
 import com.oshewo.panic.screens.PlayScreen;
 
 import java.util.Date;
+import java.util.Map;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.oshewo.panic.lists.Lists.*;
 
@@ -52,6 +55,9 @@ public class StationTimer extends BaseActor {
             case HALF_COOKED:
                 this.heldFood.setState(IngredientState.COOKED);
                 break;
+            case HALF_COOKED_UNCUT:
+                this.heldFood.setState(IngredientState.COOKED_UNCUT);
+                break;
             case UNPREPARED:
                 this.heldFood.setState(IngredientState.PREPARED);
                 break;
@@ -77,15 +83,15 @@ public class StationTimer extends BaseActor {
 
             Label.LabelStyle style = new Label.LabelStyle(bitmap, Color.WHITE);
             attentionLabels.put(stationId, new Label("Attention Required!", style));
-//            attentionLabels.get(stationId).setVisible(false);
+            attentionLabels.get(stationId).setVisible(false);
             attentionLabels.get(stationId).setPosition(x, y);
             s.addActor(attentionLabels.get(stationId));
         }
     }
 
     public void update(Stage s, PlayScreen playScreen, PiazzaPanic game) {
-        float percent = getPercentage();
-        if (!interactionRequired && getPercentage() >= 1) {
+        float percent = getPercentage(playScreen.getTimesInPause());
+        if (!interactionRequired && getPercentage(playScreen.getTimesInPause()) >= 1) {
             System.out.println(1);
             foodActors.add(new FoodActor(this.foodX, this.foodY, s, this.heldFood, playScreen, game, -1));
             this.delete();
@@ -131,18 +137,25 @@ public class StationTimer extends BaseActor {
         }
     }
 
-    private float getPercentage() {
+    private float getPercentage(Map<Long, Long> timesInPause) {
+//        long time = TimeUtils.timeSinceMillis(this.timeStarted);
+        AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong());
+        timesInPause.forEach((key, value) -> {
+            if (this.timeStarted < key) {
+                atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value));
+            }
+        });
         if (this.timeSinceHalfwayInteractionRequired == -1)
-            return (float) TimeUtils.timeSinceMillis(this.timeStarted) / (this.duration * 1000);
+            return (float) TimeUtils.timeSinceMillis(this.timeStarted) - atomicTime.get().get() / (this.duration * 1000);
         else if (this.timeDeductionFromHalf != -1) {
-            return (TimeUtils.timeSinceMillis(this.timeStarted) - this.timeDeductionFromHalf) / (this.duration * 1000);
+            return (TimeUtils.timeSinceMillis(this.timeStarted) - this.timeDeductionFromHalf - atomicTime.get().get()) / (this.duration * 1000);
         }
-        return (float) (TimeUtils.timeSinceMillis(this.timeStarted) - TimeUtils.timeSinceMillis(this.timeSinceHalfwayInteractionRequired)) / (this.duration * 1000);
+        return (float) (TimeUtils.timeSinceMillis(this.timeStarted) - TimeUtils.timeSinceMillis(this.timeSinceHalfwayInteractionRequired) - atomicTime.get().get()) / (this.duration * 1000);
     }
 
     public void interacted(Stage s, PlayScreen playScreen, PiazzaPanic game) {
         System.out.println(10);
-        if ((getPercentage() >= 0.5 && getPercentage() < 1 && !this.halfwayInteraction) && this.interactionRequired) {
+        if ((getPercentage(playScreen.getTimesInPause()) >= 0.5 && getPercentage(playScreen.getTimesInPause()) < 1 && !this.halfwayInteraction) && this.interactionRequired) {
             System.out.println(11);
             this.timerSub.setVisible(true);
             this.setVisible(true);
@@ -150,7 +163,7 @@ public class StationTimer extends BaseActor {
             this.halfwayInteraction = true;
             this.timeDeductionFromHalf = TimeUtils.timeSinceMillis(this.timeSinceHalfwayInteractionRequired);
             attentionLabels.get(this.stationId).setVisible(false);
-        } else if (getPercentage() >= 1 && !this.finalInteraction && this.halfwayInteraction) {
+        } else if (getPercentage(playScreen.getTimesInPause()) >= 1 && !this.finalInteraction && this.halfwayInteraction) {
             System.out.println(12);
             this.finalInteraction = true;
             foodActors.add(new FoodActor(this.foodX, this.foodY, s, this.heldFood, playScreen, game, playScreen.getChefSelector()));
@@ -180,6 +193,20 @@ public class StationTimer extends BaseActor {
 
     public boolean isInteractionRequired() {
         return interactionRequired;
+    }
+
+    public String getSaveConfig(Map<Long, Long> timesInPause) {
+        long timeSinceHalf = TimeUtils.timeSinceMillis(this.timeSinceHalfwayInteractionRequired), timeSinceStart = TimeUtils.timeSinceMillis(this.timeStarted);
+        AtomicReference<AtomicLong> atomicTimeSinceHalf = new AtomicReference<>(new AtomicLong()), atomicTimeSinceStarted = new AtomicReference<>(new AtomicLong());
+        timesInPause.forEach((key, value) -> {
+            if (timeSinceHalf < key) {
+                atomicTimeSinceHalf.updateAndGet((v) -> new AtomicLong(v.get() + value));
+            }
+            if (timeSinceStart < key) {
+                atomicTimeSinceStarted.updateAndGet((v) -> new AtomicLong(v.get() + value));
+            }
+        });
+        return String.format("%f~%f~%f~%f~%s~%s~%b~%b~%b~%d~%d~%f~%s", super.getX(), super.getY(), this.foodX, this.foodY, this.heldFood.getItem().getString(), this.heldFood.getState().getString(), this.interactionRequired, this.interactionNeeded, this.halfwayInteraction, TimeUtils.timeSinceMillis(timeSinceStart) - atomicTimeSinceStarted.get().get(), TimeUtils.timeSinceMillis(timeSinceHalf) - atomicTimeSinceHalf.get().get(), getPercentage(timesInPause), this.stationId);
     }
 
     @Override

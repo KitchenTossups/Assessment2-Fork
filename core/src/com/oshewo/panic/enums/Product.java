@@ -21,6 +21,33 @@ public enum Product {
         return directions[RANDOM.nextInt(directions.length)];
     }
 
+    public String getString() {
+        switch (this) {
+            case BURGER:
+                return "BURGER";
+            case CHEESEBURGER:
+                return "CHEESEBURGER";
+            case DOUBLE_CHEESEBURGER:
+                return "DOUBLE_CHEESEBURGER";
+            case SALAD:
+                return "SALAD";
+            case JACKET_PLAIN:
+                return "JACKET_PLAIN";
+            case JACKET_CHEESE:
+                return "JACKET_CHEESE";
+            case JACKET_BEANS:
+                return "JACKET_BEANS";
+            case JACKET_CHEESE_BEANS:
+                return "JACKET_CHEESE_BEANS";
+            case PIZZA_MARGARITA:
+                return "PIZZA_MARGARITA";
+            case PIZZA_PEPERONI:
+                return "PIZZA_PEPERONI";
+            default:
+                return null;
+        }
+    }
+
     @Override
     public String toString() {
         switch (this) {

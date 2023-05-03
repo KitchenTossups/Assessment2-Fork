@@ -11,6 +11,10 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.BaseActor;
 import com.oshewo.panic.non_actor.Customer;
+import com.oshewo.panic.screens.PlayScreen;
+
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.oshewo.panic.lists.Lists.customers;
 
@@ -83,16 +87,26 @@ public class Hud extends BaseActor {
     /**
      * Updates time and score as the game progresses
      */
-    public void update() {
+    public void update(PlayScreen playScreen) {
         if (customers.size() > 0) {
             this.orderLabel.setVisible(true);
             this.orderTimeLabel.setVisible(true);
             long oldest = Long.MAX_VALUE;
             for (Customer customer : customers) {
-                oldest = Math.min(oldest, customer.getOrderPlaced());
+                AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong());
+                playScreen.getTimesInPause().forEach((key, value) -> {
+                    if (customer.getOrderPlaced() < key) {
+                        atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value));
+                    }
+                });
+                oldest = Math.min(oldest, customer.getOrderPlaced() + atomicTime.get().get());
             }
             this.orderTimeLabel.setText(String.format("%02d", TimeUtils.timeSinceMillis(oldest) / 1000));
-            this.game.worldTimer = (int) TimeUtils.timeSinceMillis(this.startTime) / 1000;
+            AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong());
+            playScreen.getTimesInPause().forEach((key, value) -> {
+                atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value));
+            });
+            this.game.worldTimer = (int) (TimeUtils.timeSinceMillis(this.startTime) - atomicTime.get().get()) / 1000;
             this.countupLabel.setText(String.format("%03d", this.game.worldTimer));
             this.livesLabel.setText(String.format("%01d", this.lives));
         } else {
@@ -109,5 +123,11 @@ public class Hud extends BaseActor {
         this.lives--;
     }
 
-    public void increaseLives() {this.lives++;}
+    public void increaseLives() {
+        this.lives++;
+    }
+
+    public long getStartTime() {
+        return startTime;
+    }
 }
