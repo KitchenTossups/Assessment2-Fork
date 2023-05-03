@@ -8,12 +8,12 @@ import com.oshewo.panic.screens.PlayScreen;
 
 import java.util.Date;
 
-public class PowerUpActor extends BaseActor {
+public class PowerUpActor extends BaseActor {       // Initialises PowerUpActor
     PowerUps powerUpType;
     PlayScreen playScreen;
     public boolean listenerInit = false;
 
-    public PowerUpActor(Stage s, PlayScreen playScreen, PowerUps powerUpType) {
+    public PowerUpActor(Stage s, PlayScreen playScreen, PowerUps powerUpType) {     // Sets the base icons and functionality of each power-up
         super(700, 340, s);
         this.powerUpType = powerUpType;
         this.playScreen = playScreen;
@@ -38,7 +38,7 @@ public class PowerUpActor extends BaseActor {
 
     }
 
-    public void activate() {
+    public void activate() {        // Activates the power-ups when collected by chef
         switch (this.powerUpType) {
             case EXTRA_LIFE:
                 this.activateExtraLife();
@@ -59,26 +59,26 @@ public class PowerUpActor extends BaseActor {
         }
     }
 
-    private void activateIncreaseChefSpeed() {
+    private void activateIncreaseChefSpeed() {      // Increases chefs speed when collected
         this.playScreen.movementMultiplier = 1.5F;
         this.playScreen.timeUntilResetChefSpeed = new Date().getTime() + 30 * 1000;
     }
 
-    private void activateClearNextOrder() {
+    private void activateClearNextOrder() {         // Clears next order when collected
         Lists.customers.remove(0);
         this.playScreen.incrementOrderCompleted();
     }
 
     private void activateExtraLife() {
         playScreen.hud.increaseLives();
-    }
+    }  // Increases lives when collected
 
-    private void activateDecreaseChoppingTime() {
+    private void activateDecreaseChoppingTime() {           // Decreases how long chopping ingredients takes when collected
         this.playScreen.choppingTimerMultiplier = 0.5F;
         this.playScreen.timeUntilResetChoppingMultiplier = new Date().getTime() + 30 * 1000;
     }
 
-    private void activateDecreaseCookingTime() {
+    private void activateDecreaseCookingTime() {        //Decreases how long it takes to cook ingredients when collected
         this.playScreen.cookingTimerMultiplier = 0.5F;
         this.playScreen.timeUntilResetCookingMultiplier = new Date().getTime() + 30 * 1000;
     }

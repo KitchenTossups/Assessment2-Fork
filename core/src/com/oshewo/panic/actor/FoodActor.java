@@ -206,7 +206,7 @@ public class FoodActor extends BaseActor {
     /**
      * Updates which foods are being carried by the chef and sets the texture according to the food being carried
      */
-    public void update(PlayScreen playScreen) {
+    public void update(PlayScreen playScreen) {         // Called whenever frames are refreshed and updates anything during runtime for FoodActor
         updatePlayScreen(playScreen);
         if (this.chefToFollow != -1) {
             this.setX(this.playScreen.chefs[this.chefToFollow].getX() + this.playScreen.chefs[this.chefToFollow].getWidth() / 4);

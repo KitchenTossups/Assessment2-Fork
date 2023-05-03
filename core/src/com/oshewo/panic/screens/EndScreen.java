@@ -11,7 +11,7 @@ import com.badlogic.gdx.utils.Align;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.*;
 
-public class EndScreen extends BaseScreen {
+public class EndScreen extends BaseScreen {     // Either fail or win, EndScreen shows score and then exit button
 
     private static final int buttonWidth = 125, buttonHeight = 50;
     private final PiazzaPanic game;

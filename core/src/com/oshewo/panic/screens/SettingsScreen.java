@@ -13,7 +13,7 @@ import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.Difficulty;
 import com.oshewo.panic.enums.GameMode;
 
-public class SettingsScreen extends BaseScreen {
+public class SettingsScreen extends BaseScreen {   // Contains settings and ways to adjust them
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;

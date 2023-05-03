@@ -13,7 +13,7 @@ import com.oshewo.panic.enums.Ingredients;
  *
  * @author Oshewo
  */
-public class FoodCrate extends BaseActor {
+public class FoodCrate extends BaseActor {      // Hold the ingredients for recipes
 
 //    private final PiazzaPanic game;
 //    private PlayScreen playScreen;

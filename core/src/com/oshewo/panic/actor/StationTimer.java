@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import static com.oshewo.panic.lists.Lists.*;
 
-public class StationTimer extends BaseActor {
+public class StationTimer extends BaseActor {       //Initialises all timers
 
     private final long timeStarted;
     private final TimerSub timerSub;
@@ -35,7 +35,7 @@ public class StationTimer extends BaseActor {
     private float timeDeductionFromHalf = -1;
 
     public StationTimer(float x, float y, int width, int height, String stationId, Food heldFood, float foodX, float foodY, Stage s, float seconds, boolean interactionRequired) {
-        super(x, y, s);
+        super(x, y, s);                     // Sets how long it takes for each cooking step to take
         this.stationId = stationId;
         this.duration = seconds;
         this.timeStarted = new Date().getTime();
@@ -89,7 +89,7 @@ public class StationTimer extends BaseActor {
         }
     }
 
-    public void update(Stage s, PlayScreen playScreen, PiazzaPanic game) {
+    public void update(Stage s, PlayScreen playScreen, PiazzaPanic game) {   // // Called whenever frames are refreshed and updates anything during runtime for StationTimer
         float percent = getPercentage(playScreen.getTimesInPause());
         if (!interactionRequired && getPercentage(playScreen.getTimesInPause()) >= 1) {
             foodActors.add(new FoodActor(this.foodX, this.foodY, s, this.heldFood, playScreen, game, -1));

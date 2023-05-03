@@ -23,7 +23,7 @@ import static com.oshewo.panic.lists.Lists.customers;
  *
  * @author Oshewo
  */
-public class Hud extends BaseActor {
+public class Hud extends BaseActor {        //Used to show features of the game such as time and score and lives left
 
     private final PiazzaPanic game;
 

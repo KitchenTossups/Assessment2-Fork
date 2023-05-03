@@ -17,7 +17,7 @@ import static com.oshewo.panic.lists.Lists.*;
  *
  * @author Oshewo
  */
-public class Station {
+public class Station {             // Initialises the stations
 
     private PlayScreen playScreen;
     private final StationType type;

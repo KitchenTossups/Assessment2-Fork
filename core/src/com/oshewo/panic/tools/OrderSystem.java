@@ -19,7 +19,7 @@ import static com.oshewo.panic.lists.Lists.customers;
  *
  * @author sl3416, Oshewo
  */
-public class OrderSystem {
+public class OrderSystem {      // Initialises order process
 
     private final PiazzaPanic game;
     private final PlayScreen playScreen;

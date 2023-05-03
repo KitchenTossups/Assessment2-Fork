@@ -21,7 +21,7 @@ import java.util.concurrent.atomic.*;
 
 import static com.oshewo.panic.lists.Lists.*;
 
-public class PauseScreen extends BaseScreen {
+public class PauseScreen extends BaseScreen {  // Stops gameplay when button is pressed
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;

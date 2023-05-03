@@ -5,7 +5,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import java.util.*;
 import java.util.concurrent.atomic.*;
 
-public class Customer {
+public class Customer {         // Sets out how customers will behave and what happens when they leave
 
     private final Recipe order;
     private final long orderPlaced;

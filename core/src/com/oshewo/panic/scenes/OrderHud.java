@@ -14,7 +14,7 @@ import com.oshewo.panic.base.BaseActor;
  *
  * @author sl3416
  */
-public class OrderHud extends BaseActor {
+public class OrderHud extends BaseActor {   //Uses orders placed by customers to instruct user what to make and how
 
     Label label;
 

@@ -1,6 +1,6 @@
 package com.oshewo.panic.enums;
 
-public enum Ingredients {
+public enum Ingredients {       //Initialises base ingredient enums
     LETTUCE,
     TOMATO,
     ONION,

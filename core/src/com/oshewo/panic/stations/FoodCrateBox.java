@@ -4,7 +4,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.screens.PlayScreen;
 
-public class FoodCrateBox {
+public class FoodCrateBox {     //Initialises food crate
 
     private final PiazzaPanic game;
     private final PlayScreen playScreen;
