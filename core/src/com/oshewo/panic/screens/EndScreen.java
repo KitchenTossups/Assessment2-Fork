@@ -23,9 +23,11 @@ public class EndScreen extends BaseScreen {
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;
-    private final Label finalOutcomeLabel, difficultyLabel;
+    private final Label finalOutcomeLabel, difficultyLabel, completedOrdersLabel, binnedItemsLabel;
+    private final PiazzaPanic game;
 
     public EndScreen(PiazzaPanic game, boolean success, int completedOrders, int binnedItems) {
+        this.game = game;
         BaseActor background = new BaseActor(0, 0, this.mainStage);
         background.loadTexture("piazza_panic_main_menu_background.png");
         background.setSize(game.V_WIDTH, game.V_HEIGHT);
@@ -62,34 +64,14 @@ public class EndScreen extends BaseScreen {
         this.finalOutcomeLabel = new Label(String.format("You have %s!", success ? "SUCCEEDED" : "FAILED"), style2);
         this.finalOutcomeLabel.setAlignment(Align.center);
 
-        Label modeChangeLabel = new Label("CHANGE GAME MODE", style1);
-        modeChangeLabel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (game.MODE == GameMode.SCENARIO)
-                    game.MODE = GameMode.ENDLESS;
-                else
-                    game.MODE = GameMode.SCENARIO;
-                finalOutcomeLabel.setText(String.format("The current game mode is: %s\nPress the button below to change it;", game.MODE));
-            }
-        });
-
-        this.difficultyLabel = new Label(String.format("The current game difficulty is: %s\nPress the button below to change it;", game.DIFFICULTY), style1);
+        this.difficultyLabel = new Label(String.format("Difficulty: " + game.DIFFICULTY), style1);
         this.difficultyLabel.setAlignment(Align.center);
 
-        Label difficultyChangeLabel = new Label("CHANGE GAME DIFFICULTY", style1);
-        difficultyChangeLabel.addListener(new ClickListener() {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                if (game.DIFFICULTY == Difficulty.EASY)
-                    game.DIFFICULTY = Difficulty.MEDIUM;
-                else if (game.DIFFICULTY == Difficulty.MEDIUM)
-                    game.DIFFICULTY = Difficulty.HARD;
-                else
-                    game.DIFFICULTY = Difficulty.EASY;
-                difficultyLabel.setText(String.format("The current game difficulty is: %s\nPress the button below to change it;", game.DIFFICULTY));
-            }
-        });
+        this.completedOrdersLabel = new Label(String.format("Completed orders: " + completedOrders), style1);
+        this.completedOrdersLabel.setAlignment(Align.center);
+
+        this.binnedItemsLabel = new Label(String.format("Binned items: " + binnedItems), style1);
+        this.binnedItemsLabel.setAlignment(Align.center);
 
         TextButton.TextButtonStyle button = new TextButton.TextButtonStyle();
         button.font = game.labelStyle[0].font;
@@ -104,12 +86,11 @@ public class EndScreen extends BaseScreen {
         this.uiTable.row().height(50);
         this.uiTable.add(this.finalOutcomeLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
-        this.uiTable.add(modeChangeLabel).center().expandX().pad(10);
-        this.uiTable.row().height(50);
         this.uiTable.add(this.difficultyLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
-        this.uiTable.add(difficultyChangeLabel).center().expandX().pad(10);
+        this.uiTable.add(this.completedOrdersLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
+        this.uiTable.add(this.binnedItemsLabel).center().expandX().pad(10);
         this.uiTable.add(buttonExit).center().size(buttonWidth, buttonHeight).pad(10);
 
         buttonExit.addListener(new ClickListener() {
@@ -122,7 +103,10 @@ public class EndScreen extends BaseScreen {
     }
 
     public void update(float dt) {
-
+        if (Gdx.input.isTouched()) {
+            this.dispose();
+            this.game.setActiveScreen(new MainMenu(this.game));
+        }
     }
 
     public void resizing(int width, int height) {
