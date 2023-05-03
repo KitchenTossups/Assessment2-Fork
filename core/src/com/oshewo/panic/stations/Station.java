@@ -17,24 +17,19 @@ import static com.oshewo.panic.lists.Lists.*;
  *
  * @author Oshewo
  */
-public class Station {
+public class Station {             // Initialises the stations
 
-//    private final PiazzaPanic game;
     private PlayScreen playScreen;
     private final StationType type;
     private final Rectangle bounds;
     private final String id;
-//    private Ingredients ingredients;
-//    private Food food = null;
-//    private StationTimer timer;
     private final Stage s;
-
 
     /**
      * Instantiates a new Station.
      *
-     * @param stationType   the station type
-     * @param bounds the bounds
+     * @param stationType the station type
+     * @param bounds      the bounds
      */
     public Station(StationType stationType, Rectangle bounds, PlayScreen playScreen, Stage s) {
         this.type = stationType;
@@ -49,25 +44,7 @@ public class Station {
      */
     public void update(PlayScreen playScreen) {
         updatePlayScreen(playScreen);
-//        List<Food> foodOnServing = new ArrayList<>();
-//        for (Food food : foods) {
-//            if (food.isNotCarried()) {
-//                if (this.bounds.overlaps(food.getBoundaryRectangle())) {
-//                    foodOnServing.add(food);
-//                }
-//            }
-//        }
-//        if (this.ingredients == null) {
-//        if (foodId < 0) {
-//        if (false) {
-            checkForFood();
-//        } else if (timer.isComplete()) {
-//            output();
-//            this.item = null;
-//            timerArray.remove(timer);
-//        } else {
-//            showProgress();
-//        }
+        checkForFood();
     }
 
     /**
@@ -91,8 +68,8 @@ public class Station {
         switch (this.type) {
             case CHOPPING_BOARD:
                 for (FoodActor foodActor : foodOnStation) {
-                    if (foodActor.getFood().getState() == IngredientState.UNCUT || foodActor.getFood().getState() == IngredientState.UNCUT_UNCOOKED) {
-                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.choppingTimerMultiplier));
+                    if (foodActor.getFood().getState() == IngredientState.UNCUT || foodActor.getFood().getState() == IngredientState.UNCUT_UNCOOKED || foodActor.getFood().getState() == IngredientState.COOKED_UNCUT) {
+                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.choppingTimerMultiplier, false));
                         foodActors.remove(foodActor);
                         foodActor.remove();
                         break;
@@ -102,28 +79,54 @@ public class Station {
             case STOVE:
                 for (FoodActor foodActor : foodOnStation) {
                     if (foodActor.getFood().getState() == IngredientState.UNCOOKED || foodActor.getFood().getState() == IngredientState.HALF_COOKED) {
-                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.cookingTimerMultiplier));
-                        foodActors.remove(foodActor);
-                        foodActor.remove();
-                        break;
+                        if (stoveFood(foodActor.getFood())) {
+                            timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.cookingTimerMultiplier, true));
+                            foodActors.remove(foodActor);
+                            foodActor.remove();
+                            break;
+                        }
+                    }
+                }
+                break;
+            case OVEN:
+                for (FoodActor foodActor : foodOnStation) {
+                    if (foodActor.getFood().getState() == IngredientState.UNCOOKED || foodActor.getFood().getState() == IngredientState.HALF_COOKED) {
+                        if (ovenFood(foodActor.getFood())) {
+                            timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.cookingTimerMultiplier, true));
+                            foodActors.remove(foodActor);
+                            foodActor.remove();
+                            break;
+                        }
                     }
                 }
                 break;
             case SERVING:
                 int i = 0;
+//                System.out.println(0);
                 for (Customer customer : new ArrayList<>(customers)) {
+//                    System.out.println(1);
                     if (i >= 3) break;
-                    if (customer.getOrder().getIngredientsRaw().size() > foodOnStation.size())
+//                    System.out.println(2);
+                    if (customer.getOrder().getIngredientsRaw().size() > foodOnStation.size()) {
+//                        System.out.println(3);
                         continue;
+                    }
+//                    System.out.println(4);
+//                    System.out.println(foodOnStation);
+//                    System.out.println(customer.getOrder());
                     if (customer.getOrder().satisfied(foodOnStation)) {
+//                        System.out.println(5);
                         customers.remove(customer);
                         for (Food food : customer.getOrder().getIngredientsRaw())
                             for (FoodActor foodActor : new ArrayList<>(foodOnStation)) {
+//                                System.out.println(6);
                                 Food food1 = foodActor.getFood();
-                                if (food.equals(food1)) {
+                                if (food.toString().equals(food1.toString())) {
+//                                    System.out.println(7);
                                     foodOnStation.remove(foodActor);
                                     foodActors.remove(foodActor);
                                     foodActor.remove();
+                                    this.playScreen.incrementOrderCompleted();
                                     break;
                                 }
                             }
@@ -133,105 +136,61 @@ public class Station {
                     i++;
                 }
                 break;
+            case BIN:
+                for (FoodActor foodActor : foodOnStation) {
+                    foodActors.remove(foodActor);
+                    foodActor.remove();
+                    this.playScreen.incrementBinnedItems();
+                    break;
+                }
+                break;
             default:
                 System.out.println("Invalid station type - Station.checkForFood()");
         }
-
-
-
-
-
-
-//        for (FoodActor foodActor : new ArrayList<>(foodActors)) {
-//            if (this.bounds.contains(foodActor.getX(), foodActor.getY()) && foodActor.isNotCarried()) {
-//                if (foodActor.getFood().getState() == IngredientState.UNCUT && this.type == StationType.CHOPPING_BOARD) {
-//                    foodActors.remove(foodActor);
-////                    this.food = foodActor;
-//                    timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15));
-//                } else if (foodActor.getFood().getState() == IngredientState.UNCOOKED && this.type == StationType.STOVE) {
-//                    foodActors.remove(foodActor);
-//                    timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15));
-////                } else if (this.type == StationType.SERVING) {
-////                    int i = 0;
-////                    for (Customer customer : new ArrayList<>(customers)) {
-////                        if (i >= 3) break;
-////                        if (customer.getOrder().satisfied(foodActor)) {
-////                            customers.remove(customer);
-////                            foodActors.remove(foodActor);
-////                            submitOrder();
-////                            break;
-////                        }
-////                        i++;
-////                    }
-////                } else {
-////                    this.ingredients = null;
-//                }
-//            }
-//        }
     }
 
-//    /**
-//     * Submit order which finishes current order and restarts hud timer
-//     */
-//    public void submitOrder() {
-//        this.playScreen.incrementOrderCompleted();
-//    }
+    private boolean stoveFood(Food food) {
+        switch (food.getItem()) {
+            case PATTY:
+            case BEANS:
+                switch (food.getState()) {
+                    case UNCOOKED:
+                    case HALF_COOKED:
+                        return true;
+                    default:
+                        return false;
+                }
+            default:
+                return false;
+        }
+    }
 
-//    /**
-//     * Outputs finished food and the correct texture of cooked food.
-//     */
-//    public void output() {
-//        String texture = "";
-//        if (this.type == StationType.CHOPPING_BOARD) {
-//            texture = choppingOutput();
-//        } else if (this.type == StationType.STOVE) {
-//            texture = cookingOutput();
-//        } else {
-//            return;
-//        }
-//        Food gen = new Food(bounds.getX() - 10, bounds.getY() - 10, , null, null, playScreen, game);
-//        Food gen = new Food(new Texture(texture), foodId);
-//        gen.setX(bounds.getX() - 10);
-//        gen.setY(bounds.getY() - 10);
-//    }
+    private boolean ovenFood(Food food) {
+        switch (food.getItem()) {
+            case BUN:
+            case PIZZA_BASE:
+            case JACKET:
+                switch (food.getState()) {
+                    case UNCOOKED:
+                    case HALF_COOKED:
+                        return true;
+                    default:
+                        return false;
+                }
+            default:
+                return false;
+        }
+    }
 
-//    /**
-//     * Returns correct string for the png depending on ID of the foods which can be chopped
-//     *
-//     * @return the string for the png of the food
-//     */
-//    public String choppingOutput() {
-//        if (foodId == 1) {
-//            return "lettuce_chopped.png";
-//        } else if (foodId == 2) {
-//            return "tomato_chopped.png";
-//        } else if (foodId == 3) {
-//            return "onion_chopped.png";
-//        } else if (foodId == 4) {
-//            return "patty.png";
-//        }
-//        return null;
-//    }
+    public String getId() {
+        return id;
+    }
 
-//    /**
-//     * Returns correct string for the png depending on ID of the foods which can be cooked
-//     *
-//     * @return the string for the png of the food
-//     */
-//    public String cookingOutput() {
-//        if (this.ingredients == Ingredients.TOP_BUN) {
-//            return "top_bun_toasted.png";
-//        } else if (this.ingredients == Ingredients.PATTY) {
-//            return "patty_cooked.png";
-//        }
-//        return null;
-//    }
+    public Rectangle getBounds() {
+        return bounds;
+    }
 
     public void updatePlayScreen(PlayScreen playScreen) {
         this.playScreen = playScreen;
     }
-
-//    public Rectangle getBounds() {
-//        return this.bounds;
-//    }
 }

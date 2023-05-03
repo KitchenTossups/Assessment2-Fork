@@ -67,5 +67,4 @@ project(":core") {
         api "com.github.tommyettinger:jbump:1.0.1"
         api "com.esotericsoftware.spine:spine-libgdx:3.8.55.1"
     }
-
 }

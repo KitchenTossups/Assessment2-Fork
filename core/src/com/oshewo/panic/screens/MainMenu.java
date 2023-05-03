@@ -1,11 +1,16 @@
 package com.oshewo.panic.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton.TextButtonStyle;
+import com.badlogic.gdx.utils.Align;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.*;
 
@@ -14,7 +19,7 @@ import com.oshewo.panic.base.*;
  *
  * @author sl3416
  */
-public class MainMenu extends BaseScreen {
+public class MainMenu extends BaseScreen {   //Start-up menu, can select gamemode and difficukty
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;
@@ -71,6 +76,36 @@ public class MainMenu extends BaseScreen {
             }
         });
 
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraftia-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameters.size = 20;
+        fontParameters.color = Color.WHITE;
+        fontParameters.borderColor = Color.BLACK;
+        fontParameters.borderStraight = true;
+        fontParameters.borderWidth = 2;
+        fontParameters.minFilter = Texture.TextureFilter.Linear;
+        fontParameters.magFilter = Texture.TextureFilter.Linear;
+
+        BitmapFont bitmap = fontGenerator.generateFont(fontParameters);
+
+        bitmap.getData().setScale(1, 1f);
+
+        Label.LabelStyle style = new Label.LabelStyle(bitmap, null);
+
+        Label label = new Label("How to Play", style);
+
+        label.setAlignment(Align.center);
+
+        label.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                game.setActiveScreen(new HowToPlayScreen(game));
+            }
+        });
+
+        this.uiTable.row().height(100);
+        this.uiTable.add(label).center().size(buttonWidth, buttonHeight).pad(10);
+
         TextButtonStyle button2 = new TextButtonStyle();
         button2.font = game.labelStyle[1].font;
         button2.up = skin.getDrawable("exit_button_inactive");
@@ -89,14 +124,28 @@ public class MainMenu extends BaseScreen {
         });
     }
 
+    /**
+     * Update screen method, used by libgdx
+     *
+     * @param dt deltaTime
+     */
     public void update(float dt) {
 
     }
 
+    /**
+     * Resizing code for the window
+     *
+     * @param width width
+     * @param height height
+     */
     public void resizing(int width, int height) {
 
     }
 
+    /**
+     * Disposal of the screen
+     */
     public void disposing() {
 
     }

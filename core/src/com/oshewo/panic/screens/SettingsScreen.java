@@ -13,7 +13,7 @@ import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.Difficulty;
 import com.oshewo.panic.enums.GameMode;
 
-public class SettingsScreen extends BaseScreen {
+public class SettingsScreen extends BaseScreen {   // Contains settings and ways to adjust them
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;
@@ -105,14 +105,28 @@ public class SettingsScreen extends BaseScreen {
         });
     }
 
+    /**
+     * Update screen method, used by libgdx
+     *
+     * @param dt deltaTime
+     */
     public void update(float dt) {
 
     }
 
+    /**
+     * Resizing code for the window
+     *
+     * @param width width
+     * @param height height
+     */
     public void resizing(int width, int height) {
 
     }
 
+    /**
+     * Disposal of the screen
+     */
     public void disposing() {
 
     }

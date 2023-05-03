@@ -27,12 +27,17 @@ task debug(dependsOn: classes, type: JavaExec) {
     workingDir = project.assetsDir
     ignoreExitValue = true
     debug = true
+    project.logger.debug(classpath as String)
+    project.logger.debug(main as String)
+    project.logger.debug(workingDir as String)
 }
 
 task dist(type: Jar) {
+    apply plugin: 'java'
     duplicatesStrategy(DuplicatesStrategy.EXCLUDE)
     manifest {
-        attributes 'Main-Class': project.mainClassName
+        logger.debug(project.mainClassName as String)
+        attributes 'Main-Class': 'com.oshewo.panic.DesktopLauncher'
     }
     dependsOn configurations.runtimeClasspath
     from {

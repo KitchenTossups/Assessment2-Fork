@@ -35,9 +35,9 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,392,393,393,393,398,393,393,393,394,0,
 0,0,0,0,402,403,403,403,408,403,403,403,404,0,
-0,0,0,0,412,0,0,0,418,0,0,0,414,0,
-0,0,0,0,412,0,0,0,418,0,0,0,414,0,
-0,0,0,0,412,0,0,0,418,0,0,0,414,0,
+0,0,0,0,412,0,0,0,3221225881,0,0,0,414,0,
+0,0,0,0,412,0,0,0,419,0,0,0,414,0,
+0,0,0,0,412,0,0,0,409,0,0,0,414,0,
 0,0,0,0,412,0,0,0,418,0,0,0,414,0,
 0,0,0,0,422,423,423,423,428,423,423,423,424,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,
@@ -58,27 +58,27 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0
 </data>
  </layer>
- <objectgroup id="11" name="walls" visible="0">
+ <objectgroup id="11" name="walls">
   <object id="33" x="126.5" y="40.5" width="288" height="29.25"/>
   <object id="34" x="128" y="64" width="25" height="161"/>
   <object id="35" x="128" y="224" width="288" height="32"/>
   <object id="37" x="390.25" y="64" width="27.5" height="165"/>
-  <object id="38" x="260.955" y="64.3182" width="22.0909" height="99.3333"/>
+  <object id="38" x="260.955" y="64.3182" width="22.0909" height="63.7607"/>
   <object id="39" x="260.818" y="160.682" width="22.5" height="64.5"/>
  </objectgroup>
- <objectgroup id="12" name="stoves" visible="0">
+ <objectgroup id="12" name="stoves">
   <object id="9" name="stoves" x="164.667" y="38.9584" width="22.3333" height="32.3541"/>
   <object id="11" name="stoves" x="228.5" y="40.1666" width="23" height="31.3333"/>
   <object id="12" name="stoves" x="291.833" y="39.5001" width="23" height="33.3333"/>
   <object id="13" name="stoves" x="356.167" y="39.8334" width="23" height="32.3333"/>
  </objectgroup>
- <objectgroup id="15" name="chopping_board" visible="0">
+ <objectgroup id="15" name="chopping_board">
   <object id="21" name="chopping_board" x="260.625" y="161.75" width="21.7917" height="30.75"/>
   <object id="22" name="chopping_board" x="260.166" y="98.8747" width="22.8333" height="28.8333"/>
   <object id="23" name="chopping_board" x="389.167" y="98.292" width="28.3333" height="31.3333"/>
   <object id="24" name="chopping_board" x="392.25" y="161.667" width="22.6667" height="31.3333"/>
  </objectgroup>
- <objectgroup id="21" name="serving_station" visible="0">
+ <objectgroup id="21" name="serving_station">
   <object id="25" name="serving_station" x="131" y="67" width="19.5" height="156"/>
  </objectgroup>
  <objectgroup id="17" name="lettuce">

@@ -1,6 +1,6 @@
 package com.oshewo.panic.enums;
 
-public enum TiledAssets {
+public enum TiledAssets {       //Sets the individual layers of the .tmx map file and lays them out into usable java layers
 
     WALLS("Wall object layer"),
     STOVES("Stove object layer"),
@@ -10,7 +10,16 @@ public enum TiledAssets {
     TOMATO("Tomato object layer"),
     ONION("Onion object layer"),
     PATTY("Patty object layer"),
-    BUNS("Buns object layer"),
+    BUN("Bun object layer"),
+    JACKET("Potato object layer"),
+    BEANS("Beans object layer"),
+    PIZZA_BASE("Pizza base object layer"),
+    PEPERONI("Pepperoni object layer"),
+    FOOD_CRATE("Food crate object layer"),
+    CHEDDAR("Cheddar object layer"),
+    OVEN("Oven object layer"),
+    TEXT("Text object layer"),
+    BIN("Bin object layer"),
     NULL("");
     private final String layerName;
 

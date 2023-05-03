@@ -1,27 +1,70 @@
 package com.oshewo.panic.enums;
 
-public enum Ingredients {
+public enum Ingredients {       //Initialises base ingredient enums
     LETTUCE,
     TOMATO,
     ONION,
     PATTY,
     CHEDDAR,
-    BOTTOM_BUN,
-    TOP_BUN,
     BUN,
     JACKET,
     BEANS,
     PIZZA_BASE,
-    MOZZARELLA,
-    PEPERONI;
+    PEPPERONI;
+
+    public IngredientState getDefaultState() {
+        switch (this) {
+            case BUN:
+            case BEANS:
+            case PIZZA_BASE:
+            case JACKET:
+                return IngredientState.UNCOOKED;
+            case PATTY:
+                return IngredientState.UNCUT_UNCOOKED;
+            case CHEDDAR:
+            case LETTUCE:
+            case TOMATO:
+            case ONION:
+            case PEPPERONI:
+                return IngredientState.UNCUT;
+//                return IngredientState.UNCOOKED_UNCUT;
+            default:
+                return null;
+        }
+    }
+
+    public String getString() {
+        switch (this) {
+            case BUN:
+                return "BUN";
+            case JACKET:
+                return "JACKET";
+            case BEANS:
+                return "BEANS";
+            case PATTY:
+                return "PATTY";
+            case ONION:
+                return "ONION";
+            case TOMATO:
+                return "TOMATO";
+            case CHEDDAR:
+                return "CHEDDAR";
+            case LETTUCE:
+                return "LETTUCE";
+            case PEPPERONI:
+                return "PEPPERONI";
+            case PIZZA_BASE:
+                return "PIZZA_BASE";
+            default:
+                return null;
+        }
+    }
 
     @Override
     public String toString() {
         switch (this) {
-            case TOP_BUN:
-                return "Top Bun";
-            case BOTTOM_BUN:
-                return "Bottom Bun";
+            case BUN:
+                return "Bun";
             case PATTY:
                 return "Patty";
             case CHEDDAR:
@@ -36,10 +79,8 @@ public enum Ingredients {
                 return "Beans";
             case JACKET:
                 return "Jacket";
-            case PEPERONI:
-                return "Peperoni";
-            case MOZZARELLA:
-                return "Mozzarella";
+            case PEPPERONI:
+                return "Pepperoni";
             case PIZZA_BASE:
                 return "Pizza Base";
             default:
