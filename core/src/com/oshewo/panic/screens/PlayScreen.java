@@ -47,8 +47,7 @@ public class PlayScreen extends BaseScreen {
 
     // Chef
     public final ChefActor[] chefs;
-    private int chefSelector = 0;
-    private int lastMove;
+    private int chefSelector = 0, lastMove, binnedItems = 0;
 
     private boolean tabPressed = false;
 
@@ -57,14 +56,10 @@ public class PlayScreen extends BaseScreen {
     private int ordersCompleted = 0;
 
     private long timeUntilNextPowerUp;
+    public long timeUntilResetChefSpeed = -1, timeUntilResetCookingMultiplier = -1, timeUntilResetChoppingMultiplier = -1;
     private PowerUpActor powerUp;
     private final Random random = new Random();
-    public float movementMultiplier = 1;
-    public long timeUntilResetChefSpeed = -1;
-    public float choppingTimerMultiplier = 1;
-    public long timeUntilResetChoppingMultiplier;
-    public float cookingTimerMultiplier = 1;
-    public long timeUntilResetCookingMultiplier;
+    public float movementMultiplier = 1, choppingTimerMultiplier = 1, cookingTimerMultiplier = 1;
 
     /**
      * Instantiates a new Play screen.
@@ -459,6 +454,18 @@ public class PlayScreen extends BaseScreen {
 
     public void incrementOrderCompleted() {
         this.ordersCompleted++;
+    }
+
+    public void incrementBinnedItems() {
+        this.binnedItems++;
+    }
+
+    public int getOrdersCompleted() {
+        return this.ordersCompleted;
+    }
+
+    public int getBinnedItems() {
+        return this.binnedItems;
     }
 
     /**
