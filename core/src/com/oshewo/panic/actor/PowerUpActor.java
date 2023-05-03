@@ -14,12 +14,12 @@ public class PowerUpActor extends BaseActor {
     public boolean listenerInit = false;
     private long timeUntilResetChefSpeed;
 
-    public PowerUpActor(Stage s, PlayScreen playScreen, PowerUps powerUpType){
+    public PowerUpActor(Stage s, PlayScreen playScreen, PowerUps powerUpType) {
         super(700, 340, s);
         this.powerUpType = powerUpType;
         this.playScreen = playScreen;
 
-        switch (powerUpType){
+        switch (powerUpType) {
             case EXTRA_LIFE:
                 loadTexture("heart.png", 40, 40);
                 break;
@@ -60,25 +60,26 @@ public class PowerUpActor extends BaseActor {
         }
     }
 
-    private void activateIncreaseChefSpeed(){
+    private void activateIncreaseChefSpeed() {
         playScreen.movementMultiplier = 1.5F;
         playScreen.timeUntilResetChefSpeed = new Date().getTime() + 30 * 1000;
     }
 
-    private void activateClearNextOrder(){
+    private void activateClearNextOrder() {
         Lists.customers.remove(0);
         this.playScreen.incrementOrderCompleted();
     }
-    private void activateExtraLife(){
+
+    private void activateExtraLife() {
         playScreen.hud.increaseLives();
     }
 
-    private void activateDecreaseChoppingTime(){
+    private void activateDecreaseChoppingTime() {
         this.playScreen.choppingTimerMultiplier = 0.5F;
         playScreen.timeUntilResetChoppingMultiplier = new Date().getTime() + 30 * 1000;
     }
 
-    private void activateDecreaseCookingTime(){
+    private void activateDecreaseCookingTime() {
         this.playScreen.cookingTimerMultiplier = 0.5F;
         playScreen.timeUntilResetCookingMultiplier = new Date().getTime() + 30 * 1000;
     }
