@@ -72,23 +72,23 @@ public class Recipe {       // Constructs recipes based on fully prepared ingred
         List<Food> foods = new ArrayList<>();
         switch (this.endProduct) {
             case CHEESEBURGER:
-                foods.add(new Food(Ingredients.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.BUN, IngredientState.COOKED));
                 foods.add(new Food(Ingredients.PATTY, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.NOT_APPLICABLE));
-                foods.add(new Food(Ingredients.TOP_BUN, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.CUT));
+//                foods.add(new Food(Ingredients.TOP_BUN, IngredientState.COOKED));
                 break;
             case DOUBLE_CHEESEBURGER:
-                foods.add(new Food(Ingredients.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.BUN, IngredientState.COOKED));
                 foods.add(new Food(Ingredients.PATTY, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.CUT));
                 foods.add(new Food(Ingredients.PATTY, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.NOT_APPLICABLE));
-                foods.add(new Food(Ingredients.TOP_BUN, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.CUT));
+//                foods.add(new Food(Ingredients.TOP_BUN, IngredientState.COOKED));
                 break;
             case BURGER:
-                foods.add(new Food(Ingredients.BOTTOM_BUN, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.BUN, IngredientState.COOKED));
                 foods.add(new Food(Ingredients.PATTY, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.TOP_BUN, IngredientState.NOT_APPLICABLE));
+//                foods.add(new Food(Ingredients.TOP_BUN, IngredientState.COOKED));
                 break;
             case SALAD:
                 foods.add(new Food(Ingredients.LETTUCE, IngredientState.CUT));
@@ -104,16 +104,16 @@ public class Recipe {       // Constructs recipes based on fully prepared ingred
                 break;
             case JACKET_CHEESE:
                 foods.add(new Food(Ingredients.JACKET, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.CUT));
                 break;
             case JACKET_CHEESE_BEANS:
                 foods.add(new Food(Ingredients.JACKET, IngredientState.COOKED));
                 foods.add(new Food(Ingredients.BEANS, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.NOT_APPLICABLE));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.CUT));
                 break;
             case PIZZA_MARGARITA:
                 foods.add(new Food(Ingredients.PIZZA_BASE, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.PREPARED));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.CUT));
                 break;
             case PIZZA_PEPERONI:
                 foods.add(new Food(Ingredients.PIZZA_BASE, IngredientState.COOKED));

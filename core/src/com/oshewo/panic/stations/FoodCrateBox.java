@@ -25,4 +25,13 @@ public class FoodCrateBox {     //Initialises food crate
         return this.bounds.contains(this.playScreen.chefs[this.playScreen.getChefSelector()].getX() + this.playScreen.chefs[this.playScreen.getChefSelector()].getWidth() / 2, this.playScreen.chefs[this.playScreen.getChefSelector()].getY()) &&
                 !this.playScreen.chefs[this.playScreen.getChefSelector()].isHolding;
     }
+
+    @Override
+    public String toString() {
+        return "FoodCrateBox{" +
+                "game=" + game +
+                ", playScreen=" + playScreen +
+                ", bounds=" + bounds +
+                '}';
+    }
 }

@@ -12,7 +12,6 @@ public class PowerUpActor extends BaseActor {       // Initialises PowerUpActor
     PowerUps powerUpType;
     PlayScreen playScreen;
     public boolean listenerInit = false;
-    private long timeUntilResetChefSpeed;
 
     public PowerUpActor(Stage s, PlayScreen playScreen, PowerUps powerUpType) {     // Sets the base icons and functionality of each power-up
         super(700, 340, s);
@@ -61,8 +60,8 @@ public class PowerUpActor extends BaseActor {       // Initialises PowerUpActor
     }
 
     private void activateIncreaseChefSpeed() {      // Increases chefs speed when collected
-        playScreen.movementMultiplier = 1.5F;
-        playScreen.timeUntilResetChefSpeed = new Date().getTime() + 30 * 1000;
+        this.playScreen.movementMultiplier = 1.5F;
+        this.playScreen.timeUntilResetChefSpeed = new Date().getTime() + 30 * 1000;
     }
 
     private void activateClearNextOrder() {         // Clears next order when collected
@@ -76,21 +75,24 @@ public class PowerUpActor extends BaseActor {       // Initialises PowerUpActor
 
     private void activateDecreaseChoppingTime() {           // Decreases how long chopping ingredients takes when collected
         this.playScreen.choppingTimerMultiplier = 0.5F;
-        playScreen.timeUntilResetChoppingMultiplier = new Date().getTime() + 30 * 1000;
+        this.playScreen.timeUntilResetChoppingMultiplier = new Date().getTime() + 30 * 1000;
     }
 
     private void activateDecreaseCookingTime() {        //Decreases how long it takes to cook ingredients when collected
         this.playScreen.cookingTimerMultiplier = 0.5F;
-        playScreen.timeUntilResetCookingMultiplier = new Date().getTime() + 30 * 1000;
+        this.playScreen.timeUntilResetCookingMultiplier = new Date().getTime() + 30 * 1000;
+    }
+
+    public PowerUps getPowerUpType() {
+        return this.powerUpType;
     }
 
     @Override
     public String toString() {
         return "PowerUpActor{" +
-                "powerUpType=" + powerUpType +
-                ", playScreen=" + playScreen +
-                ", listenerInit=" + listenerInit +
-                ", timeUntilResetChefSpeed=" + timeUntilResetChefSpeed +
+                "powerUpType=" + this.powerUpType +
+                ", playScreen=" + this.playScreen +
+                ", listenerInit=" + this.listenerInit +
                 '}';
     }
 }

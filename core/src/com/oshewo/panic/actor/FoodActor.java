@@ -32,38 +32,7 @@ public class FoodActor extends BaseActor {
     // what is being held by the chef
     private int chefToFollow = -1;
 
-//    /**
-//     * Instantiates a new Food. Sets ID and whether it is choppable or grillable.
-//     *
-//     * @param texture    the texture for the food
-//     * @param food the ingredient
-//     */
-//    public FoodActor(float x, float y, Stage s, String texture, Food food, PlayScreen playScreen, PiazzaPanic game) {
-//        super(x, y, s);
-//        this.playScreen = playScreen;
-//        this.game = game;
-//        this.food = food;
-//        this.loadTexture(texture, 40, 40);
-//    }
-
-//    public FoodActor(float x, float y, Stage s, String texture, Food food, PlayScreen playScreen, PiazzaPanic game, int following) {
-//        super(x, y, s);
-//        this.playScreen = playScreen;
-//        this.game = game;
-//        this.food = food;
-//        this.loadTexture(texture, 40, 40);
-//        this.chefToFollow = following;
-//    }
-
-//    public FoodActor(float x, float y, Stage s, Texture texture, Food ingredients, PlayScreen playScreen, PiazzaPanic game) {
-//        super(x, y, s);
-//        this.playScreen = playScreen;
-//        this.game = game;
-//        this.food = ingredients;
-////        foods.add(this);
-//    }
-
-    public FoodActor(float x, float y, Stage s, Food food, PlayScreen playScreen, PiazzaPanic game, int following) {    // Initialises all the ingredients for each recipe, while also including each state it can be in
+    public FoodActor(float x, float y, Stage s, Food food, PlayScreen playScreen, PiazzaPanic game, int following) {
         super(x, y, s);
         this.playScreen = playScreen;
         this.game = game;
@@ -90,17 +59,23 @@ public class FoodActor extends BaseActor {
         Texture texture1;
 
         switch (food.getItem()) {
-            case TOP_BUN:
+//            case TOP_BUN:
+//                if (food.getState() != IngredientState.NOT_APPLICABLE)
+//                    remove();
+//                else
+//                    image = "images/TopBun.png";
+//                break;
+//            case BOTTOM_BUN:
+//                if (food.getState() != IngredientState.NOT_APPLICABLE)
+//                    remove();
+//                else
+//                    image = "images/BottomBun.png";
+//                break;
+            case BUN:
                 if (food.getState() != IngredientState.NOT_APPLICABLE)
                     remove();
                 else
-                    image = "images/TopBun.png";
-                break;
-            case BOTTOM_BUN:
-                if (food.getState() != IngredientState.NOT_APPLICABLE)
-                    remove();
-                else
-                    image = "images/BottomBun.png";
+                    image = "bun.png";
                 break;
             case PATTY:
                 bypass = true;
@@ -221,7 +196,7 @@ public class FoodActor extends BaseActor {
                 for (FoodActor foodActor : foodActor1) {
                     foodActors.remove(foodActor);
                 }
-            } else if (ingredientsList.size() == 2 && ingredientsList.contains(Ingredients.TOP_BUN) && ingredientsList.contains(Ingredients.PATTY)) {
+            } else if (ingredientsList.size() == 2 && ingredientsList.contains(Ingredients.BUN) && ingredientsList.contains(Ingredients.PATTY)) {
 //                Food gen = new Food(new Texture("burger.png"), Item.BURGER);
                 FoodActor gen = null;
                 gen.setX(this.getPosition().x);
@@ -340,6 +315,10 @@ public class FoodActor extends BaseActor {
     public void act(float deltaTime) {
         super.act(deltaTime);
         setAnimationPaused(pause[0]);
+    }
+
+    public String getSaveConfig() {
+        return String.format("%f~%f~%d~%s~%s", super.getX(), super.getY(), this.chefToFollow, this.food.getItem().getString(), this.food.getState().getString());
     }
 
     @Override

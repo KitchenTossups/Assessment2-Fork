@@ -1,32 +1,31 @@
 package com.oshewo.panic.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.*;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.*;
+import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
 import com.oshewo.panic.PiazzaPanic;
-import com.oshewo.panic.base.BaseActor;
-import com.oshewo.panic.base.BaseScreen;
-import com.oshewo.panic.enums.Difficulty;
-import com.oshewo.panic.enums.GameMode;
+import com.oshewo.panic.base.*;
 
 public class EndScreen extends BaseScreen {     // Either fail or win, EndScreen shows score and then exit button
 
-    private static final int buttonWidth = 125;
-    private static final int buttonHeight = 50;
-    private final Label finalOutcomeLabel, difficultyLabel, completedOrdersLabel, binnedItemsLabel;
+    private static final int buttonWidth = 125, buttonHeight = 50;
     private final PiazzaPanic game;
 
-    public EndScreen(PiazzaPanic game, boolean success, int completedOrders, int binnedItems) {
+    /**
+     * Constructor function
+     *
+     * @param game PiazzaPanic
+     * @param success success
+     * @param duration duration
+     * @param completedOrders completed orders
+     * @param binnedItems binned items
+     */
+    public EndScreen(PiazzaPanic game, boolean success, long duration, int completedOrders, int binnedItems) {
         this.game = game;
         BaseActor background = new BaseActor(0, 0, this.mainStage);
         background.loadTexture("piazza_panic_main_menu_background.png");
@@ -61,17 +60,23 @@ public class EndScreen extends BaseScreen {     // Either fail or win, EndScreen
 
         Label.LabelStyle style1 = new Label.LabelStyle(bitmap1, null), style2 = new Label.LabelStyle(bitmap2, null);
 
-        this.finalOutcomeLabel = new Label(String.format("You have %s!", success ? "SUCCEEDED" : "FAILED"), style2);
-        this.finalOutcomeLabel.setAlignment(Align.center);
+        Label finalOutcomeLabel = new Label(String.format("You have %s!", success ? "SUCCEEDED" : "FAILED"), style2);
+        finalOutcomeLabel.setAlignment(Align.center);
 
-        this.difficultyLabel = new Label(String.format("Difficulty: " + game.DIFFICULTY), style1);
-        this.difficultyLabel.setAlignment(Align.center);
+        Label durationLabel = new Label(String.format("This game took %d seconds", duration), style1);
+        durationLabel.setAlignment(Align.center);
 
-        this.completedOrdersLabel = new Label(String.format("Completed orders: " + completedOrders), style1);
-        this.completedOrdersLabel.setAlignment(Align.center);
+        Label modeLabel = new Label(String.format("Mode: %s", game.MODE), style1);
+        modeLabel.setAlignment(Align.center);
 
-        this.binnedItemsLabel = new Label(String.format("Binned items: " + binnedItems), style1);
-        this.binnedItemsLabel.setAlignment(Align.center);
+        Label difficultyLabel = new Label(String.format("Difficulty: %s", game.DIFFICULTY), style1);
+        difficultyLabel.setAlignment(Align.center);
+
+        Label completedOrdersLabel = new Label(String.format("Completed orders: %d", completedOrders), style1);
+        completedOrdersLabel.setAlignment(Align.center);
+
+        Label binnedItemsLabel = new Label(String.format("Binned items: %d", binnedItems), style1);
+        binnedItemsLabel.setAlignment(Align.center);
 
         TextButton.TextButtonStyle button = new TextButton.TextButtonStyle();
         button.font = game.labelStyle[0].font;
@@ -84,24 +89,33 @@ public class EndScreen extends BaseScreen {     // Either fail or win, EndScreen
         this.uiTable.row().height(300);
         this.uiTable.add(new Actor()); // Program will add a space if there is something here, even if it's empty
         this.uiTable.row().height(50);
-        this.uiTable.add(this.finalOutcomeLabel).center().expandX().pad(10);
+        this.uiTable.add(finalOutcomeLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
-        this.uiTable.add(this.difficultyLabel).center().expandX().pad(10);
+        this.uiTable.add(durationLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
-        this.uiTable.add(this.completedOrdersLabel).center().expandX().pad(10);
+        this.uiTable.add(modeLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
-        this.uiTable.add(this.binnedItemsLabel).center().expandX().pad(10);
+        this.uiTable.add(difficultyLabel).center().expandX().pad(10);
+        this.uiTable.row().height(50);
+        this.uiTable.add(completedOrdersLabel).center().expandX().pad(10);
+        this.uiTable.row().height(50);
+        this.uiTable.add(binnedItemsLabel).center().expandX().pad(10);
+        this.uiTable.row().height(50);
         this.uiTable.add(buttonExit).center().size(buttonWidth, buttonHeight).pad(10);
 
         buttonExit.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                dispose();
-                game.setActiveScreen(new MainMenu(game));
+                System.exit(0);
             }
         });
     }
 
+    /**
+     * Update screen method, used by libgdx
+     *
+     * @param dt deltaTime
+     */
     public void update(float dt) {
         if (Gdx.input.isTouched()) {
             this.dispose();
@@ -109,10 +123,19 @@ public class EndScreen extends BaseScreen {     // Either fail or win, EndScreen
         }
     }
 
+    /**
+     * Resizing code for the window
+     *
+     * @param width width
+     * @param height height
+     */
     public void resizing(int width, int height) {
 
     }
 
+    /**
+     * Disposal of the screen
+     */
     public void disposing() {
 
     }

@@ -10,6 +10,8 @@ public enum TiledAssets {       //Sets the individual layers of the .tmx map fil
     TOMATO("Tomato object layer"),
     ONION("Onion object layer"),
     PATTY("Patty object layer"),
+//    TOP_BUN("Top Bun object layer"),
+//    BOTTOM_BUN("Bottom Bun object layer"),
     BUNS("Buns object layer"),
     JACKET("Potato object layer"),
     BEANS("Beans object layer"),

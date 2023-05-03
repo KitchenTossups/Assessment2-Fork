@@ -1,5 +1,6 @@
 package com.oshewo.panic.tools;
 
+import com.badlogic.gdx.utils.TimeUtils;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.non_actor.*;
@@ -7,6 +8,8 @@ import com.oshewo.panic.screens.*;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.concurrent.atomic.AtomicLong;
+import java.util.concurrent.atomic.AtomicReference;
 
 import static com.oshewo.panic.screens.PlayScreen.orderHud;
 import static com.oshewo.panic.lists.Lists.customers;
@@ -19,7 +22,7 @@ import static com.oshewo.panic.lists.Lists.customers;
 public class OrderSystem {      // Initialises order process
 
     private final PiazzaPanic game;
-    private PlayScreen playScreen;
+    private final PlayScreen playScreen;
     private final CustomerCreator customerCreator;
     private final int timeCustomerLeaves;
 
@@ -67,7 +70,14 @@ public class OrderSystem {      // Initialises order process
         StringBuilder sb = new StringBuilder();
         if (customers.size() != 0) {
             for (Customer customer : new ArrayList<>(customers)) {
-                if (((new Date().getTime()) - customer.getOrderPlaced()) / 1000 > this.timeCustomerLeaves && !customer.isPenalty()) {
+                AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong());
+                this.playScreen.getTimesInPause().forEach((key, value) -> {
+                    if (customer.getOrderPlaced() < key) {
+                        atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value));
+                    }
+                });
+                long time = TimeUtils.timeSinceMillis(customer.getOrderPlaced()) - atomicTime.get().get();
+                if (time / 1000 > this.timeCustomerLeaves && !customer.isPenalty()) {
                     customer.setPenalty();
                     this.playScreen.hud.reduceLives();
                     customers.remove(customer);
@@ -79,12 +89,23 @@ public class OrderSystem {      // Initialises order process
                 if (this.game.VERBOSE) {
                     System.out.println("Fail!");
                 }
-                this.game.setActiveScreen(new EndScreen(this.game, false, this.playScreen.getOrdersCompleted(), this.playScreen.getBinnedItems()));
+                AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong());
+                this.playScreen.getTimesInPause().forEach((key, value) -> atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value)));
+                this.game.setActiveScreen(new EndScreen(this.game, false, (TimeUtils.timeSinceMillis(this.playScreen.hud.getStartTime()) - atomicTime.get().get()) / 1000, this.playScreen.getOrdersCompleted(), this.playScreen.getBinnedItems()));
             }
             for (int i = 0; i < Math.min(3, customers.size()); i++)
                 sb.append(customers.get(i).getOrder().getEndProduct().toString()).append("\n").append(customers.get(i).getOrder().getIngredients()).append("\n");
-        } else
-            sb.append("CONGRATULATIONS!").append("\n").append("    ").append("You've completed").append("\n").append("    ").append("level 1!");
+        } else if (this.playScreen.getOrdersCompleted() >= 3) {
+            long time = 0;
+            AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong(time));
+            this.playScreen.getTimesInPause().forEach((key, value) -> atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value)));
+            this.game.setActiveScreen(new EndScreen(this.game, true, (TimeUtils.timeSinceMillis(this.playScreen.hud.getStartTime()) - atomicTime.get().get()) / 1000, this.playScreen.getOrdersCompleted(), this.playScreen.getBinnedItems()));
+        } else {
+            long time = 0;
+            AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong(time));
+            this.playScreen.getTimesInPause().forEach((key, value) -> atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value)));
+            this.game.setActiveScreen(new EndScreen(this.game, false, (TimeUtils.timeSinceMillis(this.playScreen.hud.getStartTime()) - atomicTime.get().get()) / 1000, this.playScreen.getOrdersCompleted(), this.playScreen.getBinnedItems()));
+        }
         orderHud.getLabel().setText(sb.toString());
     }
 
@@ -140,6 +161,8 @@ public class OrderSystem {      // Initialises order process
                                 else
                                     e.printStackTrace();
                             }
+                            while (playScreen.isInPauseScreen()) {
+                            }
                         } else
                             break;
                     }
@@ -157,6 +180,8 @@ public class OrderSystem {      // Initialises order process
                             else
                                 e.printStackTrace();
                         }
+                        while (playScreen.isInPauseScreen()) {
+                        }
                     }
             }
             if (game.VERBOSE) System.out.println("Finished CustomerCreate");
@@ -168,9 +193,5 @@ public class OrderSystem {      // Initialises order process
                 this.t.start();
             }
         }
-    }
-
-    public void updatePlayScreen(PlayScreen playScreen) {
-        this.playScreen = playScreen;
     }
 }

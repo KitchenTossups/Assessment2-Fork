@@ -6,8 +6,8 @@ public enum Ingredients {       //Initialises base ingredient enums
     ONION,
     PATTY,
     CHEDDAR,
-    BOTTOM_BUN,
-    TOP_BUN,
+//    BOTTOM_BUN,
+//    TOP_BUN,
     BUN,
     JACKET,
     BEANS,
@@ -16,22 +16,49 @@ public enum Ingredients {       //Initialises base ingredient enums
 
     public IngredientState getDefaultState() {
         switch (this) {
-            case TOP_BUN:
-            case BOTTOM_BUN:
+//            case TOP_BUN:
+//            case BOTTOM_BUN:
+            case BUN:
             case BEANS:
             case PIZZA_BASE:
                 return IngredientState.UNCOOKED;
             case PATTY:
                 return IngredientState.UNCUT_UNCOOKED;
             case CHEDDAR:
-                return IngredientState.NOT_APPLICABLE;
             case LETTUCE:
             case TOMATO:
             case ONION:
             case PEPERONI:
                 return IngredientState.UNCUT;
             case JACKET:
-//                return IngredientState.UNCOOKED_UNCUT;
+                return IngredientState.UNCOOKED_UNCUT;
+            default:
+                return null;
+        }
+    }
+
+    public String getString() {
+        switch (this) {
+            case BUN:
+                return "BUN";
+            case JACKET:
+                return "JACKET";
+            case BEANS:
+                return "BEANS";
+            case PATTY:
+                return "PATTY";
+            case ONION:
+                return "ONION";
+            case TOMATO:
+                return "TOMATO";
+            case CHEDDAR:
+                return "CHEDDAR";
+            case LETTUCE:
+                return "LETTUCE";
+            case PEPERONI:
+                return "PEPERONI";
+            case PIZZA_BASE:
+                return "PIZZA_BASE";
             default:
                 return null;
         }
@@ -40,10 +67,12 @@ public enum Ingredients {       //Initialises base ingredient enums
     @Override
     public String toString() {
         switch (this) {
-            case TOP_BUN:
-                return "Top Bun";
-            case BOTTOM_BUN:
-                return "Bottom Bun";
+//            case TOP_BUN:
+//                return "Top Bun";
+//            case BOTTOM_BUN:
+//                return "Bottom Bun";
+            case BUN:
+                return "Bun";
             case PATTY:
                 return "Patty";
             case CHEDDAR:

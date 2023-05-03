@@ -1,9 +1,8 @@
 package com.oshewo.panic.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapLayer;
@@ -11,13 +10,10 @@ import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.scenes.scene2d.Actor;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
-import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.*;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Align;
-import com.badlogic.gdx.utils.viewport.*;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.actor.FoodActor;
 import com.oshewo.panic.base.*;
@@ -33,10 +29,15 @@ public class FoodChestScreen extends BaseScreen { //Displays Foods ket in the ch
     private final TiledMap map;
     private final OrthoCachedTiledMapRenderer renderer;
     private final OrthographicCamera gameCam;
-//    private final Viewport gamePort;
     private final Stage playScreenStage;
-    private final Label titleLabel;
 
+    /**
+     * Constructor function
+     *
+     * @param game PiazzaPanic
+     * @param playScreen PlayScreen
+     * @param playScreenStage PlayScreenStage
+     */
     public FoodChestScreen(PiazzaPanic game, PlayScreen playScreen, Stage playScreenStage) {
         this.game = game;
         this.gameCam = new OrthographicCamera(this.game.V_WIDTH, this.game.V_HEIGHT);
@@ -68,36 +69,48 @@ public class FoodChestScreen extends BaseScreen { //Displays Foods ket in the ch
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, null);
 
-        this.titleLabel = new Label(String.format("Food Chest\n(click any food item to pick it up)"), style);
-        this.titleLabel.setAlignment(Align.center);
+        Label titleLabel = new Label("Food Chest\n(Click any food item to pick it up)", style);
+        titleLabel.setAlignment(Align.center);
 
         this.uiTable.pad(50);
         this.uiTable.row().height(300);
         this.uiTable.add(new Actor()); // Program will add a space if there is something here, even if it's empty
         this.uiTable.row().height(50);
-        this.uiTable.add(this.titleLabel).center().expandX().pad(10);
+        this.uiTable.add(titleLabel).center().expandX().pad(10);
         this.uiTable.row().height(50);
     }
 
+    /**
+     * Update screen method, used by libgdx
+     *
+     * @param dt deltaTime
+     */
     public void update(float dt) {
         this.gameCam.update();
         this.renderer.setView(this.gameCam);
         this.renderer.render();
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE)) {
+            if (this.game.VERBOSE)
+                System.out.println("ESC");
+            this.game.setActiveScreen(this.playScreen);
+        }
     }
-
+    /**
+     * Resizing code for the window
+     *
+     * @param width width
+     * @param height height
+     */
     public void resizing(int width, int height) {
 
     }
 
-    public void disposing() {
-
-    }
-
+    /**
+     * World creator creates the object layers from the tmx
+     */
     private void WorldCreator() {
         for (MapLayer mapLayer : this.map.getLayers()) {
             switch (TiledAssets.getValueOf(mapLayer.getName())) {
-                case TEXT:
-                    break;
                 case LETTUCE:
                     InitialiseFoodObject(mapLayer, Ingredients.LETTUCE);
                     break;
@@ -131,10 +144,16 @@ public class FoodChestScreen extends BaseScreen { //Displays Foods ket in the ch
         }
     }
 
+    /**
+     * Initialisation of the food object
+     *
+     * @param mapLayer map layer
+     * @param ingredients ingredients
+     */
     private void InitialiseFoodObject(MapLayer mapLayer, Ingredients ingredients) {
         for (RectangleMapObject object : mapLayer.getObjects().getByType(RectangleMapObject.class)) {
             Rectangle rectangle = object.getRectangle();
-            FoodCrate foodCrate = new FoodCrate(rectangle, super.uiStage, ingredients, playScreen, game);
+            FoodCrate foodCrate = new FoodCrate(rectangle, super.uiStage, ingredients);
             foodCrate.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
@@ -142,11 +161,13 @@ public class FoodChestScreen extends BaseScreen { //Displays Foods ket in the ch
                     game.setActiveScreen(playScreen);
                 }
             });
-//            foodCrates.add(new FoodCrate(rectangle, ingredients, this.playScreen, this.game));
         }
     }
 
-    public void dispose() {
+    /**
+     * Disposal of the screen
+     */
+    public void disposing() {
         this.map.dispose();
     }
 }

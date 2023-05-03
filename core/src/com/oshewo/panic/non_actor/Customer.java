@@ -1,6 +1,9 @@
 package com.oshewo.panic.non_actor;
 
-import java.util.Date;
+import com.badlogic.gdx.utils.TimeUtils;
+
+import java.util.*;
+import java.util.concurrent.atomic.*;
 
 public class Customer {         // Sets out how customers will behave and what happens when they leave
 
@@ -27,6 +30,17 @@ public class Customer {         // Sets out how customers will behave and what h
 
     public void setPenalty() {
         this.penalty = true;
+    }
+
+    public String getSaveConfig(Map<Long, Long> timesInPause) {
+        long time = TimeUtils.timeSinceMillis(this.orderPlaced);
+        AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong(time));
+        timesInPause.forEach((key, value) -> {
+            if (this.orderPlaced < key) {
+                atomicTime.updateAndGet((v) -> new AtomicLong(v.get() - value));
+            }
+        });
+        return String.format("%s~%d~%b", this.order.getEndProduct().getString(), atomicTime.get().get(), this.penalty);
     }
 
     @Override
