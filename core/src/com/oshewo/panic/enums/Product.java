@@ -12,7 +12,7 @@ public enum Product {
     JACKET_BEANS,
     JACKET_CHEESE_BEANS,
     PIZZA_MARGARITA,
-    PIZZA_PEPERONI;
+    PIZZA_PEPPERONI;
 
     private static final Random RANDOM = new Random();
 
@@ -41,8 +41,8 @@ public enum Product {
                 return "JACKET_CHEESE_BEANS";
             case PIZZA_MARGARITA:
                 return "PIZZA_MARGARITA";
-            case PIZZA_PEPERONI:
-                return "PIZZA_PEPERONI";
+            case PIZZA_PEPPERONI:
+                return "PIZZA_PEPPERONI";
             default:
                 return null;
         }
@@ -69,8 +69,8 @@ public enum Product {
                 return "Cheese and Beans Jacket Potato";
             case PIZZA_MARGARITA:
                 return "Margarita Pizza";
-            case PIZZA_PEPERONI:
-                return "Peperoni Pizza";
+            case PIZZA_PEPPERONI:
+                return "Pepperoni Pizza";
             default:
                 return null;
         }

@@ -88,19 +88,19 @@ public class EndScreen extends BaseScreen {
         this.uiTable.pad(50);
         this.uiTable.row().height(300);
         this.uiTable.add(new Actor()); // Program will add a space if there is something here, even if it's empty
-        this.uiTable.row().height(50);
+        this.uiTable.row().height(30);
         this.uiTable.add(finalOutcomeLabel).center().expandX().pad(10);
-        this.uiTable.row().height(50);
+        this.uiTable.row().height(30);
         this.uiTable.add(durationLabel).center().expandX().pad(10);
-        this.uiTable.row().height(50);
+        this.uiTable.row().height(30);
         this.uiTable.add(modeLabel).center().expandX().pad(10);
-        this.uiTable.row().height(50);
+        this.uiTable.row().height(30);
         this.uiTable.add(difficultyLabel).center().expandX().pad(10);
-        this.uiTable.row().height(50);
+        this.uiTable.row().height(30);
         this.uiTable.add(completedOrdersLabel).center().expandX().pad(10);
-        this.uiTable.row().height(50);
+        this.uiTable.row().height(30);
         this.uiTable.add(binnedItemsLabel).center().expandX().pad(10);
-        this.uiTable.row().height(50);
+        this.uiTable.row().height(30);
         this.uiTable.add(buttonExit).center().size(buttonWidth, buttonHeight).pad(10);
 
         buttonExit.addListener(new ClickListener() {
@@ -117,10 +117,7 @@ public class EndScreen extends BaseScreen {
      * @param dt deltaTime
      */
     public void update(float dt) {
-        if (Gdx.input.isTouched()) {
-            this.dispose();
-            this.game.setActiveScreen(new MainMenu(this.game));
-        }
+
     }
 
     /**

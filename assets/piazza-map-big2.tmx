@@ -94,12 +94,12 @@
   <object id="5" x="402.762" y="334.676" width="633.87" height="50.8247"/>
  </objectgroup>
  <objectgroup id="6" name="Stove object layer">
-  <object id="6" x="400.422" y="80.1796" width="79.742" height="94.1946"/>
-  <object id="7" x="560.428" y="80.3039" width="79.8825" height="93.9516"/>
+  <object id="6" x="400.422" y="80.1796" width="79.742" height="155.623"/>
+  <object id="7" x="560.428" y="80.3039" width="79.8825" height="158.237"/>
  </objectgroup>
  <objectgroup id="14" name="Oven object layer">
-  <object id="27" x="798.795" y="81.4222" width="80.6928" height="94.2864"/>
-  <object id="28" x="959.354" y="81.2898" width="80.2714" height="95.0185"/>
+  <object id="27" x="798.795" y="81.4222" width="80.6928" height="160.001"/>
+  <object id="28" x="959.354" y="81.2898" width="80.2714" height="159.304"/>
  </objectgroup>
  <objectgroup id="15" name="Food crate object layer">
   <object id="30" name="Food crate" x="566" y="504.667" width="239.667" height="137"/>

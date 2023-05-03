@@ -113,6 +113,8 @@ public class PlayScreen extends BaseScreen {
             foodActor.update(this);
         for (Station stove : stoves)
             stove.update(this);
+        for (Station oven : ovens)
+            oven.update(this);
         for (Station choppingBoard : choppingBoards)
             choppingBoard.update(this);
         for (Station servingStation : servingStations)
@@ -239,16 +241,31 @@ public class PlayScreen extends BaseScreen {
                 FoodActor nearestFoodActor = this.chefs[this.chefSelector].nearestFood(48);
                 if (this.game.VERBOSE)
                     System.out.println(nearestFoodActor);
-                for (StationTimer timer : timers) {
+                System.out.println(0);
+                for (StationTimer timer : new ArrayList<>(timers)) {
+                    System.out.println(1);
                     if (timer.isInteractionRequired()) {
-                        for (Station station : stoves)
-                            if (timer.getStationId().equals(station.getId()))
-                                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(station.getBounds()))
+                        System.out.println(2);
+                        for (Station station : stoves) {
+                            System.out.println(3);
+                            if (timer.getStationId().equals(station.getId())) {
+                                System.out.println(4);
+                                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(station.getBounds())) {
+                                    System.out.println(5);
                                     timer.interacted(super.uiStage, this, this.game);
-                        for (Station station : ovens)
-                            if (timer.getStationId().equals(station.getId()))
-                                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(station.getBounds()))
+                                }
+                            }
+                        }
+                        for (Station station : ovens) {
+                            System.out.println(6);
+                            if (timer.getStationId().equals(station.getId())) {
+                                System.out.println(7);
+                                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(station.getBounds())) {
+                                    System.out.println(8);
                                     timer.interacted(super.uiStage, this, this.game);
+                                }
+                            }
+                        }
                     }
                 }
                 if (nearestFoodActor != null) {

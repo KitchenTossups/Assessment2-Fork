@@ -7,7 +7,7 @@ public enum IngredientState {
     NOT_APPLICABLE, // This is for ingredients that are not in need of preparation
     UNCUT,
     UNCUT_UNCOOKED,
-    UNCOOKED_UNCUT,
+//    UNCOOKED_UNCUT,
     COOKED_UNCUT,
     CUT,
     UNCOOKED,
@@ -24,8 +24,8 @@ public enum IngredientState {
                 return "HALF_COOKED_UNCUT";
             case UNCOOKED:
                 return "UNCOOKED";
-            case UNCOOKED_UNCUT:
-                return "UNCOOKED_UNCUT";
+//            case UNCOOKED_UNCUT:
+//                return "UNCOOKED_UNCUT";
             case UNCUT:
                 return "UNCUT";
             case UNPREPARED:

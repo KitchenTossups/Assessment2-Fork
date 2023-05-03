@@ -23,42 +23,35 @@ public class Recipe {
     }
 
     public boolean satisfied(List<FoodActor> list) {
+//        System.out.println(10);
         if (list.size() < this.foods.size())
             return false;
-//        List<Food> foundFoodList = new ArrayList<>();
-//        for (FoodActor foodActor : new ArrayList<>(list)) {
-//            Food food = foodActor.getFood();
-//            if (this.foods.contains(food)) {
-//                list.remove(foodActor);
-//                foundFoodList.add(foodActor.getFood());
-//            }
-//        }
+
+//        System.out.println(20);
 
         for (Food food : this.foods) {
+//            System.out.println(30);
             boolean found = false;
             for (FoodActor foodActor : new ArrayList<>(list)) {
+//                System.out.println(40);
                 Food food1 = foodActor.getFood();
-                if (food.equals(food1)) {
+//                System.out.println(food1);
+//                System.out.println(food);
+                if (food.toString().equals(food1.toString())) {
+//                    System.out.println(50);
                     list.remove(foodActor);
+                    foodActor.remove();
                     found = true;
                     break;
                 }
             }
+//            System.out.println(60);
             if (!found)
                 return false;
+//            System.out.println(70);
         }
+//        System.out.println(80);
         return true;
-
-
-
-
-//        if (food.getCurrentIngredients().size() != this.foods.size())
-//            return false;
-//        for (int i = 0; i < this.foods.size(); i++)
-//            if (this.foods.get(i).notMatches(food.getCurrentIngredients().get(i)))
-//                return false;
-//        return true;
-//        return false;
     }
 
     public String getIngredients() {
@@ -115,10 +108,10 @@ public class Recipe {
                 foods.add(new Food(Ingredients.PIZZA_BASE, IngredientState.COOKED));
                 foods.add(new Food(Ingredients.CHEDDAR, IngredientState.CUT));
                 break;
-            case PIZZA_PEPERONI:
+            case PIZZA_PEPPERONI:
                 foods.add(new Food(Ingredients.PIZZA_BASE, IngredientState.COOKED));
                 foods.add(new Food(Ingredients.CHEDDAR, IngredientState.PREPARED));
-                foods.add(new Food(Ingredients.PEPERONI, IngredientState.CUT));
+                foods.add(new Food(Ingredients.PEPPERONI, IngredientState.CUT));
                 break;
         }
         return foods;

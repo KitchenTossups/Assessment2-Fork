@@ -6,21 +6,18 @@ public enum Ingredients {
     ONION,
     PATTY,
     CHEDDAR,
-//    BOTTOM_BUN,
-//    TOP_BUN,
     BUN,
     JACKET,
     BEANS,
     PIZZA_BASE,
-    PEPERONI;
+    PEPPERONI;
 
     public IngredientState getDefaultState() {
         switch (this) {
-//            case TOP_BUN:
-//            case BOTTOM_BUN:
             case BUN:
             case BEANS:
             case PIZZA_BASE:
+            case JACKET:
                 return IngredientState.UNCOOKED;
             case PATTY:
                 return IngredientState.UNCUT_UNCOOKED;
@@ -28,10 +25,9 @@ public enum Ingredients {
             case LETTUCE:
             case TOMATO:
             case ONION:
-            case PEPERONI:
+            case PEPPERONI:
                 return IngredientState.UNCUT;
-            case JACKET:
-                return IngredientState.UNCOOKED_UNCUT;
+//                return IngredientState.UNCOOKED_UNCUT;
             default:
                 return null;
         }
@@ -55,8 +51,8 @@ public enum Ingredients {
                 return "CHEDDAR";
             case LETTUCE:
                 return "LETTUCE";
-            case PEPERONI:
-                return "PEPERONI";
+            case PEPPERONI:
+                return "PEPPERONI";
             case PIZZA_BASE:
                 return "PIZZA_BASE";
             default:
@@ -67,10 +63,6 @@ public enum Ingredients {
     @Override
     public String toString() {
         switch (this) {
-//            case TOP_BUN:
-//                return "Top Bun";
-//            case BOTTOM_BUN:
-//                return "Bottom Bun";
             case BUN:
                 return "Bun";
             case PATTY:
@@ -87,8 +79,8 @@ public enum Ingredients {
                 return "Beans";
             case JACKET:
                 return "Jacket";
-            case PEPERONI:
-                return "Peperoni";
+            case PEPPERONI:
+                return "Pepperoni";
             case PIZZA_BASE:
                 return "Pizza Base";
             default:
