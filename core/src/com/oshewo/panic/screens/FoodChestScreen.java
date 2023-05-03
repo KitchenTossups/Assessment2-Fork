@@ -1,14 +1,22 @@
 package com.oshewo.panic.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.maps.MapLayer;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.*;
 import com.badlogic.gdx.maps.tiled.renderers.OrthoCachedTiledMapRenderer;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 import com.badlogic.gdx.utils.viewport.*;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.actor.FoodActor;
@@ -27,6 +35,7 @@ public class FoodChestScreen extends BaseScreen {
     private final OrthographicCamera gameCam;
 //    private final Viewport gamePort;
     private final Stage playScreenStage;
+    private final Label titleLabel;
 
     public FoodChestScreen(PiazzaPanic game, PlayScreen playScreen, Stage playScreenStage) {
         this.game = game;
@@ -42,6 +51,32 @@ public class FoodChestScreen extends BaseScreen {
         this.gameCam.position.set((this.game.V_WIDTH / 2), (this.game.V_HEIGHT / 2), 0); // 0,0 is apparently in the centre of the screen maybe...
 
         WorldCreator();
+
+        FreeTypeFontGenerator fontGenerator = new FreeTypeFontGenerator(Gdx.files.internal("Minecraftia-Regular.ttf"));
+        FreeTypeFontGenerator.FreeTypeFontParameter fontParameters = new FreeTypeFontGenerator.FreeTypeFontParameter();
+        fontParameters.size = 20;
+        fontParameters.color = Color.WHITE;
+        fontParameters.borderColor = Color.BLACK;
+        fontParameters.borderStraight = true;
+        fontParameters.borderWidth = 2;
+        fontParameters.minFilter = Texture.TextureFilter.Linear;
+        fontParameters.magFilter = Texture.TextureFilter.Linear;
+
+        BitmapFont bitmap = fontGenerator.generateFont(fontParameters);
+
+        bitmap.getData().setScale(1, 1f);
+
+        Label.LabelStyle style = new Label.LabelStyle(bitmap, null);
+
+        this.titleLabel = new Label(String.format("Food Chest\n(Click any food item to pick it up"), style);
+        this.titleLabel.setAlignment(Align.center);
+
+        this.uiTable.pad(50);
+        this.uiTable.row().height(300);
+        this.uiTable.add(new Actor()); // Program will add a space if there is something here, even if it's empty
+        this.uiTable.row().height(50);
+        this.uiTable.add(this.titleLabel).center().expandX().pad(10);
+        this.uiTable.row().height(50);
     }
 
     public void update(float dt) {
