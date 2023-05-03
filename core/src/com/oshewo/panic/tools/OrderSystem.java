@@ -3,7 +3,7 @@ package com.oshewo.panic.tools;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.enums.*;
 import com.oshewo.panic.non_actor.*;
-import com.oshewo.panic.screens.PlayScreen;
+import com.oshewo.panic.screens.*;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -79,6 +79,7 @@ public class OrderSystem {
                 if (this.game.VERBOSE) {
                     System.out.println("Fail!");
                 }
+                this.game.setActiveScreen(new EndScreen(this.game, false, this.playScreen.getOrdersCompleted(), this.playScreen.getBinnedItems()));
             }
             for (int i = 0; i < Math.min(3, customers.size()); i++)
                 sb.append(customers.get(i).getOrder().getEndProduct().toString()).append("\n").append(customers.get(i).getOrder().getIngredients()).append("\n");
