@@ -1,6 +1,6 @@
 package com.oshewo.panic.enums;
 
-public enum TiledAssets {
+public enum TiledAssets {       //Sets the individual layers of the .tmx map file and lays them out into usable java layers
 
     WALLS("Wall object layer"),
     STOVES("Stove object layer"),

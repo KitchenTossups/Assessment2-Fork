@@ -63,7 +63,7 @@ public class FoodActor extends BaseActor {
 ////        foods.add(this);
 //    }
 
-    public FoodActor(float x, float y, Stage s, Food food, PlayScreen playScreen, PiazzaPanic game, int following) {
+    public FoodActor(float x, float y, Stage s, Food food, PlayScreen playScreen, PiazzaPanic game, int following) {    // Initialises all the ingredients for each recipe, while also including each state it can be in
         super(x, y, s);
         this.playScreen = playScreen;
         this.game = game;
@@ -194,7 +194,7 @@ public class FoodActor extends BaseActor {
     /**
      * Updates which foods are being carried by the chef and sets the texture according to the food being carried
      */
-    public void update(PlayScreen playScreen) {
+    public void update(PlayScreen playScreen) {         // Called whenever frames are refreshed and updates anything during runtime for FoodActor
         updatePlayScreen(playScreen);
         if (this.chefToFollow != -1) {
             this.setX(this.playScreen.chefs[this.chefToFollow].getX() + this.playScreen.chefs[this.chefToFollow].getWidth() / 4);

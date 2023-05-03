@@ -2,7 +2,7 @@ package com.oshewo.panic.enums;
 
 import java.util.Random;
 
-public enum Product {
+public enum Product {       //Initialises base items avaliable to be served *when completed*
     BURGER,
     CHEESEBURGER,
     DOUBLE_CHEESEBURGER,

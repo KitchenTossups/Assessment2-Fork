@@ -19,7 +19,7 @@ import com.oshewo.panic.base.*;
  *
  * @author sl3416
  */
-public class MainMenu extends BaseScreen {
+public class MainMenu extends BaseScreen {   //Start-up menu, can select gamemode and difficukty
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;

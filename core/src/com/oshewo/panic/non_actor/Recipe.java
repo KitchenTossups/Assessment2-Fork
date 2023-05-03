@@ -5,7 +5,7 @@ import com.oshewo.panic.actor.FoodActor;
 
 import java.util.*;
 
-public class Recipe {
+public class Recipe {       // Constructs recipes based on fully prepared ingredients.
     private final Product endProduct;
     private final List<Food> foods;
 

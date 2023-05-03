@@ -27,7 +27,7 @@ import com.oshewo.panic.stations.FoodCrate;
 
 import static com.oshewo.panic.lists.Lists.foodActors;
 
-public class FoodChestScreen extends BaseScreen {
+public class FoodChestScreen extends BaseScreen { //Displays Foods ket in the chest
     private final PiazzaPanic game;
     private final PlayScreen playScreen;
     private final TiledMap map;

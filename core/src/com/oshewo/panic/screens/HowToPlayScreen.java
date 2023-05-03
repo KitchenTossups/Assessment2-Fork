@@ -4,7 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.*;
 
-public class HowToPlayScreen extends BaseScreen {
+public class HowToPlayScreen extends BaseScreen {  // Instruction screen
 
     private final PiazzaPanic game;
 

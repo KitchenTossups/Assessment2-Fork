@@ -19,7 +19,7 @@ import com.oshewo.panic.base.BaseScreen;
 import com.oshewo.panic.enums.Difficulty;
 import com.oshewo.panic.enums.GameMode;
 
-public class EndScreen extends BaseScreen {
+public class EndScreen extends BaseScreen {     // Either fail or win, EndScreen shows score and then exit button
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;

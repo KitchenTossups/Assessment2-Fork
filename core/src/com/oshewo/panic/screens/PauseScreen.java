@@ -12,7 +12,7 @@ import com.oshewo.panic.PiazzaPanic;
 import com.oshewo.panic.base.*;
 import com.oshewo.panic.enums.*;
 
-public class PauseScreen extends BaseScreen {
+public class PauseScreen extends BaseScreen {  // Stops gameplay when button is pressed
 
     private static final int buttonWidth = 125;
     private static final int buttonHeight = 50;

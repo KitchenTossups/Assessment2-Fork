@@ -2,7 +2,7 @@ package com.oshewo.panic.non_actor;
 
 import java.util.Date;
 
-public class Customer {
+public class Customer {         // Sets out how customers will behave and what happens when they leave
 
     private final Recipe order;
     private final long orderPlaced;

@@ -2,7 +2,7 @@ package com.oshewo.panic.non_actor;
 
 import com.oshewo.panic.enums.*;
 
-public class Food {
+public class Food {         // Sets how food behaves as ingredients and interacts to get to states
 
     private final Ingredients ingredients;
     private IngredientState state;

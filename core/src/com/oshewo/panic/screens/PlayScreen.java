@@ -32,7 +32,7 @@ import static com.oshewo.panic.lists.Lists.*;
  *
  * @author Oshewo, sl3416
  */
-public class PlayScreen extends BaseScreen {
+public class PlayScreen extends BaseScreen {   // Contains game in the screen
 
     // sets up world and map for the game
     private final PiazzaPanic game;
