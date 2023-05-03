@@ -68,7 +68,7 @@ public class FoodChestScreen extends BaseScreen {
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, null);
 
-        this.titleLabel = new Label(String.format("Food Chest\n(Click any food item to pick it up"), style);
+        this.titleLabel = new Label(String.format("Food Chest\n(click any food item to pick it up)"), style);
         this.titleLabel.setAlignment(Align.center);
 
         this.uiTable.pad(50);
