@@ -261,6 +261,18 @@ public class PlayScreen extends BaseScreen {
                 FoodActor nearestFoodActor = this.chefs[this.chefSelector].nearestFood(48);
                 if (this.game.VERBOSE)
                     System.out.println(nearestFoodActor);
+                for (StationTimer timer : timers) {
+                    if (timer.isInteractionRequired()) {
+                        for (Station station : stoves)
+                            if (timer.getStationId().equals(station.getId()))
+                                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(station.getBounds()))
+                                    timer.interacted(super.uiStage, this, this.game);
+                        for (Station station : ovens)
+                            if (timer.getStationId().equals(station.getId()))
+                                if (this.chefs[this.chefSelector].getBoundaryRectangle().overlaps(station.getBounds()))
+                                    timer.interacted(super.uiStage, this, this.game);
+                    }
+                }
                 if (nearestFoodActor != null) {
                     if (this.game.VERBOSE)
                         System.out.println(1);
