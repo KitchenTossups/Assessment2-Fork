@@ -40,7 +40,6 @@ public class PlayScreen extends BaseScreen {
     private final Viewport gamePort;
     private final TiledMap map;
     private final OrthoCachedTiledMapRenderer renderer;
-    private final Difficulty difficulty;
 
     // Hud
     public Hud hud;
@@ -74,7 +73,6 @@ public class PlayScreen extends BaseScreen {
      */
     public PlayScreen(PiazzaPanic game) {
         super();
-        this.difficulty = game.DIFFICULTY;
 
         this.game = game;
 
