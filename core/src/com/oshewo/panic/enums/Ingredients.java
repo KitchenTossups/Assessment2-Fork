@@ -12,7 +12,6 @@ public enum Ingredients {
     JACKET,
     BEANS,
     PIZZA_BASE,
-    MOZZARELLA,
     PEPERONI;
 
     public IngredientState getDefaultState() {
@@ -25,7 +24,6 @@ public enum Ingredients {
             case PATTY:
                 return IngredientState.UNCUT_UNCOOKED;
             case CHEDDAR:
-            case MOZZARELLA:
                 return IngredientState.NOT_APPLICABLE;
             case LETTUCE:
             case TOMATO:
@@ -62,8 +60,6 @@ public enum Ingredients {
                 return "Jacket";
             case PEPERONI:
                 return "Peperoni";
-            case MOZZARELLA:
-                return "Mozzarella";
             case PIZZA_BASE:
                 return "Pizza Base";
             default:

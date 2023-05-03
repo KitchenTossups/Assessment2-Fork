@@ -145,6 +145,13 @@ public class Station {
                     i++;
                 }
                 break;
+            case BIN:
+                for (FoodActor foodActor : foodOnStation) {
+                    foodActors.remove(foodActor);
+                    foodActor.remove();
+                    break;
+                }
+                break;
             default:
                 System.out.println("Invalid station type - Station.checkForFood()");
         }

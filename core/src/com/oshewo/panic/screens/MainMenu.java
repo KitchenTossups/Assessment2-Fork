@@ -72,7 +72,6 @@ public class MainMenu extends BaseScreen {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 dispose();
-                //game.setActiveScreen(new SettingsScreen(game));
                 game.setActiveScreen(new SettingsScreen(game));
             }
         });

@@ -113,11 +113,11 @@ public class Recipe {
                 break;
             case PIZZA_MARGARITA:
                 foods.add(new Food(Ingredients.PIZZA_BASE, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.MOZZARELLA, IngredientState.PREPARED));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.PREPARED));
                 break;
             case PIZZA_PEPERONI:
                 foods.add(new Food(Ingredients.PIZZA_BASE, IngredientState.COOKED));
-                foods.add(new Food(Ingredients.MOZZARELLA, IngredientState.PREPARED));
+                foods.add(new Food(Ingredients.CHEDDAR, IngredientState.PREPARED));
                 foods.add(new Food(Ingredients.PEPERONI, IngredientState.CUT));
                 break;
         }
