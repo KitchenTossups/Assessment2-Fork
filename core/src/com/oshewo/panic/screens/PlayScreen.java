@@ -131,16 +131,8 @@ public class PlayScreen extends BaseScreen {
             choppingBoard.update(this);
         for (Station servingStation : servingStations)
             servingStation.update(this);
-        for (StationTimer timer : new ArrayList<>(timers)) {
-            float percent = timer.getProgressPercent();
-//            if (timer.)
-            if (percent >= 1) {
-                foodActors.add(new FoodActor(timer.getHeldFoodX(), timer.getHeldFoodY(), super.uiStage, timer.getHeldFood(), this, this.game, -1));
-                timers.remove(timer);
-                timer.delete();
-            } else
-                timer.setInnerWidth(36 * percent);
-        }
+        for (StationTimer timer : new ArrayList<>(timers))
+            timer.update(super.uiStage, this, this.game);
 
         this.orderSystem.update();
 
