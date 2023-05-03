@@ -42,7 +42,7 @@ public class PauseScreen extends BaseScreen {
 
         Label.LabelStyle style = new Label.LabelStyle(bitmap, null);
 
-        this.modeLabel = new Label(String.format("The current game mode is: %s\nPress the button below to change it;", game.MODE), style);
+        this.modeLabel = new Label("You are currently paused", style);
         this.modeLabel.setAlignment(Align.center);
 
         Label modeChangeLabel = new Label("CHANGE GAME MODE", style);
