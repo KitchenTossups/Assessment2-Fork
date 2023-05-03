@@ -94,7 +94,7 @@ public class PauseScreen extends BaseScreen {  // Stops gameplay when button is 
 
     private void saveGame() {
         Preferences preferences = Gdx.app.getPreferences("game_save");
-        AtomicReference<AtomicLong> atomicTime = new AtomicReference<>();
+        AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong());
         playScreen.getTimesInPause().forEach((key, value) -> atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value)));
         preferences.putLong("game_duration", TimeUtils.timeSinceMillis(this.playScreen.hud.getStartTime()) - atomicTime.get().get());
         preferences.putInteger("completed_orders", this.playScreen.getOrdersCompleted());

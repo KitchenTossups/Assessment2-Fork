@@ -100,11 +100,6 @@ public class OrderSystem {      // Initialises order process
             AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong(time));
             this.playScreen.getTimesInPause().forEach((key, value) -> atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value)));
             this.game.setActiveScreen(new EndScreen(this.game, true, (TimeUtils.timeSinceMillis(this.playScreen.hud.getStartTime()) - atomicTime.get().get()) / 1000, this.playScreen.getOrdersCompleted(), this.playScreen.getBinnedItems()));
-        } else {
-            long time = 0;
-            AtomicReference<AtomicLong> atomicTime = new AtomicReference<>(new AtomicLong(time));
-            this.playScreen.getTimesInPause().forEach((key, value) -> atomicTime.updateAndGet((v) -> new AtomicLong(v.get() + value)));
-            this.game.setActiveScreen(new EndScreen(this.game, false, (TimeUtils.timeSinceMillis(this.playScreen.hud.getStartTime()) - atomicTime.get().get()) / 1000, this.playScreen.getOrdersCompleted(), this.playScreen.getBinnedItems()));
         }
         orderHud.getLabel().setText(sb.toString());
     }
