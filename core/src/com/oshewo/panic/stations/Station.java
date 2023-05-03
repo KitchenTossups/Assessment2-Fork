@@ -92,7 +92,8 @@ public class Station {
             case CHOPPING_BOARD:
                 for (FoodActor foodActor : foodOnStation) {
                     if (foodActor.getFood().getState() == IngredientState.UNCUT || foodActor.getFood().getState() == IngredientState.UNCUT_UNCOOKED) {
-//                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.choppingTimerMultiplier));
+                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.choppingTimerMultiplier, false));
+//                        System.out.println(timers);
                         foodActors.remove(foodActor);
                         foodActor.remove();
                         break;
@@ -102,7 +103,17 @@ public class Station {
             case STOVE:
                 for (FoodActor foodActor : foodOnStation) {
                     if (foodActor.getFood().getState() == IngredientState.UNCOOKED || foodActor.getFood().getState() == IngredientState.HALF_COOKED) {
-//                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.cookingTimerMultiplier));
+                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.cookingTimerMultiplier, true));
+                        foodActors.remove(foodActor);
+                        foodActor.remove();
+                        break;
+                    }
+                }
+                break;
+            case OVEN:
+                for (FoodActor foodActor : foodOnStation) {
+                    if (foodActor.getFood().getState() == IngredientState.UNCOOKED || foodActor.getFood().getState() == IngredientState.HALF_COOKED) {
+                        timers.add(new StationTimer(this.bounds.getX() + (this.bounds.getWidth() - 40) / 2, this.bounds.getY() + this.bounds.getHeight() + 5, 40, 10, this.id, foodActor.getFood(), foodActor.getX(), foodActor.getY(), this.s, 15 * this.playScreen.cookingTimerMultiplier, true));
                         foodActors.remove(foodActor);
                         foodActor.remove();
                         break;
@@ -124,6 +135,7 @@ public class Station {
                                     foodOnStation.remove(foodActor);
                                     foodActors.remove(foodActor);
                                     foodActor.remove();
+                                    this.playScreen.incrementOrderCompleted();
                                     break;
                                 }
                             }
@@ -226,6 +238,15 @@ public class Station {
 //        }
 //        return null;
 //    }
+
+
+    public String getId() {
+        return id;
+    }
+
+    public Rectangle getBounds() {
+        return bounds;
+    }
 
     public void updatePlayScreen(PlayScreen playScreen) {
         this.playScreen = playScreen;
